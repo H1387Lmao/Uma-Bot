@@ -1,0 +1,17 @@
+[project]
+name = "umabot"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+    "py-cord",
+    "pynacl",
+    "rapidfuzz",
+    "requests",
+    "sqlitedict",
+    "uicord",
+    "yt-dlp",
+]
+
+[tool.uv.sources]
+py-cord = { git = "https://github.com/Pycord-Development/Pycord.git" }
+uicord = { git = "https://github.com/H1387Lmao/UICord.git" }

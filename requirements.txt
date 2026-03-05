@@ -1,0 +1,7 @@
+requests
+git+https://github.com/Pycord-Development/Pycord.git
+git+https://github.com/H1387Lmao/UICord.git
+sqlitedict
+PyNaCl
+rapidfuzz
+yt_dlp
