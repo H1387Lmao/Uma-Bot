@@ -1,11 +1,12 @@
 from uicord import *
 from .translations import *
 from .pages import page_buttons
+from .state import view_state
 import discord as dsc
 
 def prof(data, uid, ulang="English"):
-    TR_TITLE  = tr(ulang, 5)
-    TR_BUTTON = tr(ulang, 6)
+    TR_TITLE  = tr(ulang, 0)
+    TR_BUTTON = tr(ulang, 1)
     options = []
     for lang in SUPPORTED_LANGS:
         options.append(
@@ -62,12 +63,28 @@ def prof(data, uid, ulang="English"):
         )
     )
 
-def home(prof, uid, page=2, **kwargs):
-    page_title = Text(f"## **{tr(prof["lang"], page)}**!\n-# Under construction")
+def home(prof, uid, page=0, **kwargs):
+    page_title = Text(f"## **{tr(prof["lang"], page+MAIN_PAGE_OFF)}**")
+    buttons = []
+    for translation in TRANSLATIONS[BUTTON_OFF:]:
+        buttons.append(Button(
+            translation.get(prof["lang"], translation['English'])
+        ))
+    elements = []
+    match page:
+        case 0:
+            buttons = buttons[:4]
+        case 1:
+            buttons = buttons[4:]
+        case _:
+            buttons = []
+    if buttons:
+        elements.append(ActionRow(*buttons))
     return View(
         Container(
             page_title,
-            *page_buttons(home, MAXPAGES=4)
+            *elements,
+            *page_buttons(home, MAXPAGES=2)
         ),
         owner=uid
     )

@@ -1,12 +1,13 @@
 from discord.ext import bridge, commands
 import discord
-from .disct import *
 from uicord import *
-
+from pathlib import Path
+import json, sys
+from .views.state import view_state
 
 PREFIXES = [
-    "uma ",
-    "umamusume "
+    "devuma ",
+    "dev "
 ]
 
 Developers = [
@@ -29,8 +30,18 @@ class Uma(bridge.Bot):
             chunk_guilds_at_startup=True,
             case_insensitive=True
         )
+
+        
     async def on_ready(self):
         print("Ready as", self.user)
+        
+        emojis = await self.fetch_emojis()
+        self.em = {v.name: v for v in emojis}
+
+        print("Fetched Emojis | Count:", len(self.em))
+
+        view_state.emojis = self.em
+   
     def cmd(self, **kwargs):
         dev = kwargs.pop("dev", False)
         def decorator(func):

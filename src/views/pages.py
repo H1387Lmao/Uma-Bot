@@ -1,12 +1,12 @@
 import inspect
 from uicord import Button, ActionRow, Separator, interaction
+from .state import view_state
 
 #⤫△○◎
 
 def page_buttons(PARENT, *, MAXPAGES=0, BACK=None):
     frame = inspect.currentframe().f_back
     args = frame.f_locals.copy()  # copy to avoid mutation
-    print(args)
     page = args.get('page', 0)
 
     components = []
@@ -39,14 +39,15 @@ def page_buttons(PARENT, *, MAXPAGES=0, BACK=None):
 
     # BACK BUTTON (optional)
     if BACK:
-        back_btn = Button("⤾")
+        back_em = view_state.emojis['ui_back']
+        back_btn = Button(emoji=back_em, label=None)
 
         @interaction(back_btn)
         async def _back(ctx):
             # call BACK function with same arguments
             await ctx.response.edit_message(view=BACK(**args))
 
-        components.insert(back_btn)
+        components.insert(0, back_btn)
     components.extend([left, right])
 
     return [Separator(), ActionRow(*components)]
