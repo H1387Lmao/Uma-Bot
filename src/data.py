@@ -1,5 +1,5 @@
 from .skills import *
-
+from .views.state import view_state
 MAX_STATS=1600
 
 def get_rank_score(d):
@@ -162,7 +162,7 @@ class UmaData:
         self.ult = ult
         self.unobtainable = unobtainable
 
-        print("not released: ", self.name) if self.unobtainable else 0
+        view_state.logger.print(f"[light cyan]Unreleased: [gold]{self.name}[reset]" ) if self.unobtainable else 0
 
 DEF_STATS = (87,98,85,89,80)
 

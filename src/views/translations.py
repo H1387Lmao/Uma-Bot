@@ -10,17 +10,22 @@ TRANSLATIONS = {
         {"English": "Back", "Español": "Atrás"},
     ],
     "page.titles": [
-        {"English": "Welcome Back Trainer!", "Español": "¡Bienvenido entrenador!"},
-        {"English": "Club",                  "Español": "Clubes"},
-        {"English": "Settings",              "Español": "Configuración"},
+        {"English": "Welcome Back Trainer!", "Español": "¡Bienvenido entrenador!",
+            "_emoji": "Tazuna"},
+        {"English": "Club",                  "Español": "Clubes",
+            "_emoji": "ui_club"},
+        {"English": "Settings",              "Español": "Configuración",
+            "_emoji": "settings_icon"},
     ],
     "page.main.btns": [
-        {"English": "Storage",      "Español": "Almacenaje"},
+        {"English": "Storage",      "Español": "Almacenaje",
+            "_emoji": "ui_inventory"},
         {"English": "Career",       "Español": "Carrera"},
         {"English": "Scouting",     "Español": "Gacha",
             "_emoji": "ui_scouting"
         },
-        {"English": "Daily Races",  "Español": "Carreras Diarias"},
+        {"English": "Daily Races",  "Español": "Carreras Diarias",
+            "_emoji": "ui_race"},
     ],
     "page.club.btns": [
         {"English": "Your Club",    "Español": "Tu Club"},
@@ -48,6 +53,12 @@ TRANSLATIONS = {
         # {0} = emoji string
         {"English": "-# Finished rolling!\n**{0}**",
          "Español": "-# ¡Terminaste de tirar!\n**{0}**"},
+    ],
+    "page.storage.titles": [
+        {"English": "Umamusume"},
+        {"English": "Support Cards", "Español": "Cartas de Apoyo"},
+        {"English": "Items"},
+        {"English": "Badges", "Español": "Medalla"}
     ],
     "cmd.start": [
         {"English": "start", "Español": "iniciar"},

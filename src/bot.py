@@ -35,12 +35,12 @@ class Uma(bridge.Bot):
 
         
     async def on_ready(self):
-        print("Ready as", self.user)
+        view_state.logger.print(f"[light purple]Ready as {self.user}[reset]")
         
         emojis = await self.fetch_emojis()
         self.em = {v.name: v for v in emojis}
 
-        print("Fetched Emojis | Count:", len(self.em))
+        view_state.logger.print(f"[light purple]Fetched Emojis | Count: {len(self.em)}[reset]")
 
         view_state.emojis = self.em
 
@@ -61,17 +61,17 @@ class Uma(bridge.Bot):
                     return
                 return await func(ctx, *args, **kwargs)
             _name = kwargs.get("name") or func.__name__
-            print("adding command: ", _name)
+            view_state.logger.print(f"[light yellow]Adding: {_name}[reset]")
 
             aliases=[]
             for lang in SUPPORTED_LANGS:
                 name = tr(f"cmd.{_name}", 0, lang)
                 if name == _name:
-                    print(f"skipped translation [{lang}]: {name}")
+                    view_state.logger.print(f"[dark grey]skipped translation [{lang}]: {name}[reset]")
                     continue
                 if '[' not in name:
                     aliases.append(name)
-                    print(f"added translation [{lang}]: {name}")
+                    view_state.logger.print(f"[light green]added translation [{lang}]: {name}[reset]")
             kwargs['aliases'] = aliases
             if not dev:
                 self.bridge_command(**kwargs)(func)

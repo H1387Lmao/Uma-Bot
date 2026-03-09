@@ -1,0 +1,33 @@
+# storage.py
+from uicord import *
+from .translations import translator, tr
+from .pages import pagination_buttons
+from .state import view_state
+
+def storage(parent, prof, uid, page=0):
+    # Umamusume
+    # Support Cards
+    # Items
+    # Badges
+
+    title = tr("page.storage.titles", page, prof)
+    
+    parent_factory = lambda page: storage(parent, prof, uid, page=page)
+    back_factory = lambda: parent(prof, uid)
+    nav_buttons = pagination_buttons(
+        parent_factory=parent_factory,
+        max_pages=3,
+        lang=prof["lang"],
+        current_page=page,
+        loop=True,
+        back_factory=back_factory
+    )
+
+    return View(
+        Container(
+            Text(title),
+            *nav_buttons
+        ), owner=uid
+    )
+
+view_state.views.storage = storage

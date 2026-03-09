@@ -1,5 +1,6 @@
 from enum import IntEnum
 import random
+from .views.state import view_state
 
 class TRACK_TYPE(IntEnum):
     Turf = 0
@@ -436,4 +437,4 @@ MC_ULT=Skill(
 
 MOST_EXPENSIVE_SKILLS=sorted(SKILLS, key=lambda skill: skill.price, reverse=True)
 
-print(MOST_EXPENSIVE_SKILLS, len(SKILLS))
+view_state.logger.print(f"[light blue]Skill Count: {len(SKILLS)}[reset]")
