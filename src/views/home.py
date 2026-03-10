@@ -39,7 +39,6 @@ def prof(data, uid, ulang="English"):
     @interaction(start_btn)
     async def _ok(ctx):
         profile = data.setdefault(str(ctx.user.id), {
-            "lang":         ulang,
             "name":         ctx.user.display_name,
             "inventory":    {
                 "umas":     {},
@@ -52,6 +51,9 @@ def prof(data, uid, ulang="English"):
             "club":         None,
             "stats":        {"fans": 0, "exp": 0, "tp": 100, "carats": 1500},
             "inboxes_read": [],
+            "settings": {
+                "lang":         ulang,
+            }
         })
         print(f"Created profile for {ctx.user}")
         await ctx.response.edit_message(
@@ -67,14 +69,14 @@ def prof(data, uid, ulang="English"):
     )
 
 def home(prof, uid, page=0):
-    lang = prof["lang"]
+    lang = prof["settings"]["lang"]
 
     title = f"{tr('page.titles', page, lang)}"
     emoji = tr('page.titles', page, '_emoji')
 
     bot = view_state.bot
 
-    page_title = Text(f"## **{title}{bot.get_em(emoji)}**")
+    page_title = Text(f"## **{title}**")
     
     main_btns = [
         {
@@ -88,6 +90,17 @@ def home(prof, uid, page=0):
             "emoji": tr("page.club.btns", i, "_emoji")
         } for i in range(len(TRANSLATIONS["page.club.btns"]))
     ]
+    options = [
+        {
+            "name": tr("page.settings.options", i, lang),
+            "id": tr("page.settings.options", i, "_id"),
+            "default": tr("page.settings.options", i, "_default"),
+            "value": tr("page.settings.options", i, "_values"),
+            "type": tr("page.settings.options", i, "_type")
+
+        } for i in range(len(TRANSLATIONS["page.club.btns"]))
+    ]
+    elements = []
     
     match page:
         case 0:
@@ -106,10 +119,58 @@ def home(prof, uid, page=0):
                 )
         case 1:
             buttons = [Button(d['label'], emoji=bot.get_em(d['emoji'], "❔")) for d in club_btns]
-        case _:
+        case 2:
             buttons = []
+            current_row=[]
+            for element in options:
+                name     = element["name"]
+                id       = element["id"]
+                values   = element["value"]
+                default  = prof["settings"].setdefault(
+                    id, element["default"]
+                )
+                if len(current_row)==5:
+                    elements.append(ActionRow(
+                        *current_row
+                    ))
+                match element["type"]:
+                    case "toggle":
+                        tg = Toggle(name, default=default)
+                        @interaction(tg)
+                        async def _int(ctx, id=id, tg=tg, name=name):
+                            prof["settings"][id] = tg.active
+                            await ctx.response.edit_message(
+                                view=home(prof, uid, page)
+                            )
+                        current_row.append(
+                            tg
+                        )
+                    case "choices":
+                        options = [
+                            discord.SelectOption(label=value, default=default==value)
+                            for value in values
+                        ]
+                        choices = Choices(
+                            options=options
+                        )
+                        @interaction(choices)
+                        async def _int(ctx,
+                            id=id,
+                            choices=choices
+                        ):
+                            prof["settings"][id]=choices.picked
+                            await ctx.response.edit_message(
+                                view=home(prof, uid, page)
+                            )
+                        elements.extend([
+                            Text(f"## **{name}**"),
+                            ActionRow(choices)
+                        ])
+            if current_row:
+                elements.append(ActionRow(
+                    *current_row
+                ))
     
-    elements = []
     if buttons:
         elements.append(ActionRow(*buttons))
 
@@ -123,7 +184,12 @@ def home(prof, uid, page=0):
 
     return View(
         Container(
-            page_title,
+            Section(
+                page_title,
+                accessory=Thumbnail(
+                    url=bot.get_em_url(emoji)
+                )
+            ),
             *elements,
             *nav_buttons,
         ),

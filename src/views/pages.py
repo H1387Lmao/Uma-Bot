@@ -12,11 +12,15 @@ def error(prof, uid, label, back_button=None, back_view_factory=None):
     if back_button:
         components.append(back_button)
     elif back_view_factory:
-        components.append(_create_back_button(prof['lang'], back_view_factory))
+        components.append(_create_back_button(prof["settings"]['lang'], back_view_factory))
 
-    content = Container(Text(f"## **{title}**\n-4 {description}"))
+    title=Text(f"## **{title}**\n-# {description}")
     if components:
-        content = Container(content, ActionRow(*components))
+        content = Container(title, ActionRow(*components))
+    else:
+        content = Container(
+            title
+        )
 
     return View(content, owner=uid)
 

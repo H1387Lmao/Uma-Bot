@@ -47,6 +47,9 @@ class Uma(bridge.Bot):
     def get_em(self, emoji_name, default=None):
         return view_state.emojis.get(emoji_name, default)
 
+    def get_em_url(self, emoji_name):
+        return self.get_em(emoji_name).url
+
     def get_uma(self, uma_name):
         return view_state.emojis.get(
             uma_name.replace(" ", "_").lower(),
