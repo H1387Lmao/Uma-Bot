@@ -49,6 +49,7 @@ async def view_one(ctx, prof, uma, uid):
         )
     back = _back_button(prof["settings"]["lang"], lambda: gacha(prof, uid))
     add_uma_to_prof(prof, uma)
+    prof["stats"]["carats"]-=150
 
     rollx1 = Button(
         tr("page.gacha.spin_labels", 0, prof),
@@ -58,7 +59,7 @@ async def view_one(ctx, prof, uma, uid):
 
     @interaction(rollx1)
     async def _roll(i):
-        new_uma = await roll()
+        new_uma = await roll(prof)
         if new_uma:
             add_uma_to_prof(prof, new_uma)
             uma_display = f"{new_uma.name}{view_state.bot.get_uma(new_uma.name)}"

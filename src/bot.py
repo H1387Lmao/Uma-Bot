@@ -33,6 +33,8 @@ class Uma(bridge.Bot):
         )
         view_state.bot = self
 
+        self.cached_randoms={} #needed by career
+
         
     async def on_ready(self):
         view_state.logger.print(f"[light purple]Ready as {self.user}[reset]")
@@ -48,7 +50,8 @@ class Uma(bridge.Bot):
         return view_state.emojis.get(emoji_name, default)
 
     def get_em_url(self, emoji_name):
-        return self.get_em(emoji_name).url
+        em = self.get_em(emoji_name)
+        return em.url if em else None
 
     def get_uma(self, uma_name):
         return view_state.emojis.get(

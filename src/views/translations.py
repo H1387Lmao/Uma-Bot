@@ -29,8 +29,8 @@ TRANSLATIONS = {
             "_emoji": "ui_race"},
     ],
     "page.club.btns": [
-        {"English": "Your Club",    "Español": "Tu Club"},
-        {"English": "Find Clubs",   "Español": "Buscar Club"},
+        {"English": "Your Club",    "Español": "Tu Club", "_emoji": "ui_club"},
+        {"English": "Find Clubs",   "Español": "Buscar Club", "_emoji": "ui_search"},
     ],
     "page.settings.options": [
         {"English": "Triangle Gacha", 
@@ -81,6 +81,162 @@ TRANSLATIONS = {
         {"English": "Insufficient!",                    "Español": "¡Insuficiente!"},
         {"English": "You don't have enough carats!",    "Español": "¡No tienes suficientes carats!"},
     ],
+    "stats.speed":   [{"English": "Speed",   "Español": "Velocidad"}],
+    "stats.stamina": [{"English": "Stamina", "Español": "Resistencia"}],
+    "stats.power":   [{"English": "Power",   "Español": "Potencia"}],
+    "stats.guts":    [{"English": "Guts",    "Español": "Coraje"}],
+    "stats.wit":     [{"English": "Wit",     "Español": "Ingenio"}],
+
+    "training.header": [
+        {"English": "{0}{1}⚡ {2}/100"}
+    ],
+    "career.header": [
+        {"English": "## {0} **{1}**\n⚡ **{2}**  |  📅 **{3}Y {4}M {5}**",
+         "Español": "## {0} **{1}**\n⚡ **{2}**  |  📅 **Año {3} Mes {4} {5}**"}
+    ],
+    "career.half.early": [{"English": "EARLY", "Español": "INICIO"}],
+    "career.half.late":  [{"English": "LATE",  "Español": "FIN"}],
+
+    "training.skill_info": [
+
+        {"English": "Skill Points: {0}  |  Skills: {1}",
+         "Español": "Puntos de habilidad: {0}  |  Habilidades: {1}"},
+    ],
+    "training.skill_pts_label": [
+        {"English": "Skill Points", "Español": "Puntos de habilidad"},
+    ],
+    "training.train_button": [
+        {"English": "Train {0}", "Español": "Entrenar {0}"},
+    ],
+    "training.schedule": [
+        {"English": "📅 Schedule a Race", "Español": "📅 Programar carrera"},
+    ],
+
+    "career.btn.train":            [{"English": "Train",           "Español": "Entrenar"}],
+    "career.btn.rest":             [{"English": "Rest",            "Español": "Descansar"}],
+    "career.btn.recreate":         [{"English": "Recreate",        "Español": "Recreo"}],
+    "career.btn.infirmary":        [{"English": "Infirmary",       "Español": "Enfermería"}],
+    "career.btn.race":             [{"English": "Race",            "Español": "Carrera"}],
+    "career.btn.skills":           [{"English": "Skills",          "Español": "Habilidades"}],
+    "career.btn.complete":         [{"English": "Complete Career", "Español": "Completar carrera"}],
+    "career.btn.complete_confirm": [{"English": "Are you sure?",   "Español": "¿Estás seguro?"}],
+    "career.btn.end":              [{"English": "End Career",      "Español": "Finalizar carrera"}],
+
+    "career.goal.next":  [{"English": "Next Goal", "Español": "Próximo objetivo"}],
+    "career.turns":      [{"English": "turns",     "Español": "turnos"}],
+    "career.conditions": [{"English": "Conditions", "Español": "Condiciones"}],
+    "career.over.title": [{"English": "Career Over", "Español": "Carrera terminada"}],
+
+    "career.select.title": [
+        {"English": "### Choose Your Uma", "Español": "### Elige tu Uma"},
+    ],
+    "career.select.start": [
+        {"English": "Start Career! 🏁", "Español": "¡Iniciar carrera! 🏁"},
+    ],
+
+    "career.complete.title": [
+        {"English": "🏆 Career Complete – {0}!", "Español": "🏆 ¡Carrera completada – {0}!"},
+    ],
+    "career.complete.stats": [
+        {"English": "Fans: {0}  |  Goals: {1}/{2}",
+         "Español": "Fans: {0}  |  Objetivos: {1}/{2}"},
+    ],
+    "career.complete.view": [
+        {"English": "View Summary", "Español": "Ver resumen"},
+    ],
+    "career.summary.fans": [
+        {"English": "Total Fans", "Español": "Fans totales"},
+    ],
+
+    "career.skillpoints.label": [
+        {"English": "Skill Points",
+         "Español": "Puntos de Habilidad"
+        },
+    ],
+
+    "race.schedule.title": [
+        {"English": "### Schedule a Race", "Español": "### Programar una carrera"},
+    ],
+    "race.schedule.queued": [
+        {"English": "Queued", "Español": "En cola"},
+    ],
+
+    "skills.none": [
+        {"English": "No skills yet!", "Español": "¡Sin habilidades aún!"},
+    ],
+
+    "goal.ura": [
+        {"English": "Win the {0}.", "Español": "Gana la {0}."},
+    ],
+    "goal.debut": [
+        {"English": "Win your debut race.",     "Español": "Gana tu carrera de debut."},
+    ],
+    "goal.fans": [
+        {"English": "Accumulate {0} fans.",     "Español": "Acumula {0} fans."},
+    ],
+    "goal.req.participate": [{"English": "Participate in {0}",  "Español": "Participar en {0}"}],
+    "goal.req.top5":        [{"English": "Finish top 5 in {0}", "Español": "Terminar en el top 5 de {0}"}],
+    "goal.req.top3":        [{"English": "Finish top 3 in {0}", "Español": "Terminar en el top 3 de {0}"}],
+    "goal.req.win":         [{"English": "Win {0}",             "Español": "Ganar {0}"}],
+
+    "errors.career.no_uma": [
+        {"English": "Can't Start Career",           "Español": "No se puede iniciar la carrera"},
+        {"English": "You don't have an Uma yet — roll first!",
+         "Español": "¡Aún no tienes una Uma, tira primero!"},
+    ],
+    "errors.career.ended": [
+        {"English": "Career Ended!",               "Español": "¡Carrera terminada!"},
+        {"English": "Your career is complete. Your fans have been saved.",
+         "Español": "Tu carrera ha terminado. Tus fans han sido guardados."},
+    ],
+    "errors.training.fail.low_energy": [
+        {"English": "Training Failed",             "Español": "Entrenamiento fallido"},
+        {"English": "Not enough energy! Mood worsened.",
+         "Español": "¡No hay suficiente energía! El ánimo empeoró."},
+    ],
+    "errors.training.fail.random_failure": [
+        {"English": "Training Failed",             "Español": "Entrenamiento fallido"},
+        {"English": "Training slipped up this time. Mood dropped.",
+         "Español": "El entrenamiento falló esta vez. El ánimo bajó."},
+    ],
+    "errors.training.fail.skipped_by_condition": [
+        {"English": "Training Skipped",            "Español": "Entrenamiento omitido"},
+        {"English": "A condition forced training to be skipped.",
+         "Español": "Una condición hizo que se omitiera el entrenamiento."},
+    ],
+    "errors.training.fail.game_over": [
+        {"English": "Career Over",                 "Español": "Carrera terminada"},
+        {"English": "The career has ended — no more training.",
+         "Español": "La carrera ha terminado — no más entrenamiento."},
+    ],
+    "errors.race.none": [
+        {"English": "No Races Available",          "Español": "Sin carreras disponibles"},
+        {"English": "No races match your current month or fan count.",
+         "Español": "Ninguna carrera coincide con tu mes actual o fans."},
+    ],
+    "errors.skills.no_sp": [
+        {"English": "Purchase Failed",             "Español": "Compra fallida"},
+        {"English": "Not enough skill points!",    "Español": "¡No tienes suficientes puntos de habilidad!"},
+    ],
+
+    "condition.PracticePoor":       [{"English": "Practice Poor",     "Español": "Mala Práctica"}],
+    "condition.Migraine":           [{"English": "Migraine",          "Español": "Migraña"}],
+    "condition.NightOwl":           [{"English": "Night Owl",         "Español": "Noctámbulo"}],
+    "condition.DrySkin":            [{"English": "Dry Skin",          "Español": "Piel Seca"}],
+    "condition.SlowMetabolism":     [{"English": "Slow Metabolism",   "Español": "Metabolismo Lento"}],
+    "condition.Slacker":            [{"English": "Slacker",           "Español": "Vago"}],
+    "condition.UnderTheWeather":    [{"English": "Under the Weather", "Español": "Indispuesto"}],
+    "condition.NotReady":           [{"English": "Not Ready",         "Español": "No Preparado"}],
+    "condition.LackOfFocus":        [{"English": "Lack of Focus",     "Español": "Falta de Foco"}],
+    "condition.Overtired":          [{"English": "Overtired",         "Español": "Exceso de cansancio"}],
+    "condition.Charming":           [{"English": "Charming",          "Español": "Encantador"}],
+    "condition.FastLearner":        [{"English": "Fast Learner",      "Español": "Aprendiz Rápido"}],
+    "condition.PracticePerfect_○":  [{"English": "Practice Perfect", "Español": "Práctica Perfecta"}],
+    "condition.PracticePerfect_◎":  [{"English": "Practice Perfect+", "Español": "Práctica Perfecta+"}],
+    "condition.HotTopic":           [{"English": "Hot Topic",         "Español": "Tendencia"}],
+    "condition.ShiningBrightly":    [{"English": "Shining Brightly",  "Español": "Brillando Intensamente"}],
+    "condition.Sharpener":          [{"English": "Sharpener",         "Español": "Afilador"}],
+    "condition.NaturalTalent":      [{"English": "Natural Talent",    "Español": "Talento Natural"}],
 }
 
 

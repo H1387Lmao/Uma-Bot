@@ -130,15 +130,21 @@ class Skill:
     def affect(self, target, e, type="self"):
         stam = e.get("stm", 0)
         spd = e.get("spd", 0)
+        pwr = e.get("pwr", 0)
+        gut = e.get("gut", 0)
+        wit = e.get("wit", 0)
         vel = e.get("vel", 0)
-        accel=e.get("accel", 0)
+        accel = e.get("accel", 0)
         late = e.get("late_start_chance", 0)
 
-        target.spd+=spd
-        target.stm+=stam
-        target.vel+=vel
-        target.ACCEL_RATE+=accel
-        target.late_chance-=late
+        target.spd += spd
+        target.stm += stam
+        target.pwr += pwr
+        target.gut += gut
+        target.wit += wit
+        target.vel += vel
+        target.ACCEL_RATE += (accel / 1000) # Normalize accel boost
+        target.late_chance -= late
         if isinstance(self.type, dict):
             target.effects.append(self.type[type])
         else:
@@ -436,5 +442,9 @@ MC_ULT=Skill(
 )
 
 MOST_EXPENSIVE_SKILLS=sorted(SKILLS, key=lambda skill: skill.price, reverse=True)
+
+SKILLS_BY_NAME = {s.name: s for s in SKILLS}
+SKILLS_BY_NAME[PEERLESS_HEROINE.name] = PEERLESS_HEROINE
+SKILLS_BY_NAME[MC_ULT.name] = MC_ULT
 
 view_state.logger.print(f"[light blue]Skill Count: {len(SKILLS)}[reset]")

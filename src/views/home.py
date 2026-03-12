@@ -4,6 +4,7 @@ from .translations import translator, tr, SUPPORTED_LANGS, TRANSLATIONS
 from .pages import pagination_buttons
 from .gacha import gacha
 from .storage import storage
+from .career import career_select, career
 from .state import view_state
 import discord as dsc
 import signal, sys, atexit
@@ -98,7 +99,7 @@ def home(prof, uid, page=0):
             "value": tr("page.settings.options", i, "_values"),
             "type": tr("page.settings.options", i, "_type")
 
-        } for i in range(len(TRANSLATIONS["page.club.btns"]))
+        } for i in range(len(TRANSLATIONS["page.settings.options"]))
     ]
     elements = []
     
@@ -109,13 +110,18 @@ def home(prof, uid, page=0):
             @interaction(buttons[2])
             async def _scout(ctx):
                 await ctx.response.edit_message(
-                    view=gacha(prof, uid)   # fixed: removed extraneous 'home' argument
+                    view=gacha(prof, uid)
                 )
 
             @interaction(buttons[0])
             async def _storage(ctx):
                 await ctx.response.edit_message(
                     view=storage(home, prof, uid)
+                )
+            @interaction(buttons[1])
+            async def _career(ctx):
+                await ctx.response.edit_message(
+                    view=career_select(prof, uid)
                 )
         case 1:
             buttons = [Button(d['label'], emoji=bot.get_em(d['emoji'], "❔")) for d in club_btns]
@@ -146,12 +152,12 @@ def home(prof, uid, page=0):
                             tg
                         )
                     case "choices":
-                        options = [
-                            discord.SelectOption(label=value, default=default==value)
+                        choices_options = [
+                            dsc.SelectOption(label=value, default=default==value)
                             for value in values
                         ]
                         choices = Choices(
-                            options=options
+                            options=choices_options
                         )
                         @interaction(choices)
                         async def _int(ctx,
@@ -182,12 +188,13 @@ def home(prof, uid, page=0):
         current_page=page,
     )
 
+    thumb_url = bot.get_em_url(emoji) or "https://gametora.com/images/404.png"
     return View(
         Container(
             Section(
                 page_title,
                 accessory=Thumbnail(
-                    url=bot.get_em_url(emoji)
+                    url=thumb_url
                 )
             ),
             *elements,
