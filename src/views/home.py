@@ -18,7 +18,7 @@ TITLE_HOME  = 0
 TITLE_CLUB  = 1
 TITLE_SETTINGS = 2
 
-def prof(data, uid, ulang="English"):
+def prof(data, uid: int, ulang="English"):
     tr_title  = tr("settings.lang", 0, ulang)
     tr_button = tr("settings.lang", 1, ulang)
 
@@ -176,7 +176,7 @@ def home(prof, uid, page=0):
                 elements.append(ActionRow(
                     *current_row
                 ))
-    
+
     if buttons:
         elements.append(ActionRow(*buttons))
 

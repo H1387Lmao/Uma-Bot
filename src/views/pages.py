@@ -46,3 +46,5 @@ def _create_back_button(lang, view_factory):
     @interaction(button)
     async def _back(ctx): await ctx.response.edit_message(view=view_factory())
     return button
+
+_back_button = _create_back_button #macro

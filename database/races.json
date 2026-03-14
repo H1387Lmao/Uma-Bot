@@ -1,0 +1,772 @@
+[
+  {
+    "id": 1,
+    "name": "Chukyo Junior Stakes",
+    "track": "Chukyo",
+    "grade": "Pre-OP",
+    "terrain": "Turf",
+    "distance_type": "Short",
+    "distance_meters": 1200,
+    "schedule": "Junior Class June First Half"
+  },
+  {
+    "id": 2,
+    "name": "Cosmo Dream Race",
+    "track": "Nakayama",
+    "grade": "OP",
+    "terrain": "Turf",
+    "distance_type": "Short",
+    "distance_meters": 1200,
+    "schedule": "Junior Class June Second Half"
+  },
+  {
+    "id": 3,
+    "name": "Lily Cup",
+    "track": "Tokyo",
+    "grade": "OP",
+    "terrain": "Turf",
+    "distance_type": "Short",
+    "distance_meters": 1400,
+    "schedule": "Junior Class July First Half"
+  },
+  {
+    "id": 4,
+    "name": "Junior Stakes",
+    "track": "Tokyo",
+    "grade": "OP",
+    "terrain": "Turf",
+    "distance_type": "Mile",
+    "distance_meters": 1600,
+    "schedule": "Junior Class July Second Half"
+  },
+  {
+    "id": 5,
+    "name": "Sapporo 2-Year Stakes",
+    "track": "Sapporo",
+    "grade": "G3",
+    "terrain": "Turf",
+    "distance_type": "Short",
+    "distance_meters": 1200,
+    "schedule": "Junior Class August Second Half"
+  },
+  {
+    "id": 6,
+    "name": "Niigata 2-Year Stakes",
+    "track": "Niigata",
+    "grade": "G3",
+    "terrain": "Turf",
+    "distance_type": "Short",
+    "distance_meters": 1200,
+    "schedule": "Junior Class September Second Half"
+  },
+  {
+    "id": 7,
+    "name": "Pegasus Jumbo Stakes",
+    "track": "Nakayama",
+    "grade": "OP",
+    "terrain": "Turf",
+    "distance_type": "Medium",
+    "distance_meters": 2000,
+    "schedule": "Junior Class October Second Half"
+  },
+  {
+    "id": 8,
+    "name": "Chukyo 2-Year Stakes",
+    "track": "Chukyo",
+    "grade": "OP",
+    "terrain": "Dirt",
+    "distance_type": "Short",
+    "distance_meters": 1400,
+    "schedule": "Junior Class November First Half"
+  },
+  {
+    "id": 9,
+    "name": "Kokura 2-Year Stakes",
+    "track": "Kokura",
+    "grade": "G3",
+    "terrain": "Turf",
+    "distance_type": "Mile",
+    "distance_meters": 1700,
+    "schedule": "Junior Class November First Half"
+  },
+  {
+    "id": 10,
+    "name": "Tokyo 2-Year Stakes",
+    "track": "Tokyo",
+    "grade": "G2",
+    "terrain": "Turf",
+    "distance_type": "Mile",
+    "distance_meters": 1800,
+    "schedule": "Junior Class November Second Half"
+  },
+  {
+    "id": 11,
+    "name": "Kyoto 2-Year Stakes",
+    "track": "Kyoto",
+    "grade": "G3",
+    "terrain": "Turf",
+    "distance_type": "Medium",
+    "distance_meters": 2000,
+    "schedule": "Junior Class November Second Half"
+  },
+  {
+    "id": 12,
+    "name": "Hanshin Juvenile Fillies",
+    "track": "Hanshin",
+    "grade": "G1",
+    "terrain": "Turf",
+    "distance_type": "Mile",
+    "distance_meters": 1600,
+    "schedule": "Junior Class December First Half"
+  },
+  {
+    "id": 13,
+    "name": "Asahi Hai Futurity Stakes",
+    "track": "Hanshin",
+    "grade": "G1",
+    "terrain": "Turf",
+    "distance_type": "Mile",
+    "distance_meters": 1600,
+    "schedule": "Junior Class December Second Half"
+  },
+  {
+    "id": 14,
+    "name": "Hopeful Stakes",
+    "track": "Nakayama",
+    "grade": "G1",
+    "terrain": "Turf",
+    "distance_type": "Medium",
+    "distance_meters": 2000,
+    "schedule": "Junior Class December Second Half"
+  },
+  {
+    "id": 15,
+    "name": "Shinzan Kinen",
+    "track": "Kyoto",
+    "grade": "G3",
+    "terrain": "Turf",
+    "distance_type": "Mile",
+    "distance_meters": 1600,
+    "schedule": "Classic Class January Second Half"
+  },
+  {
+    "id": 16,
+    "name": "Kinkakuji Stakes",
+    "track": "Kyoto",
+    "grade": "G3",
+    "terrain": "Turf",
+    "distance_type": "Short",
+    "distance_meters": 1400,
+    "schedule": "Classic Class January Second Half"
+  },
+  {
+    "id": 17,
+    "name": "Himeyama Stakes",
+    "track": "Hanshin",
+    "grade": "G3",
+    "terrain": "Turf",
+    "distance_type": "Medium",
+    "distance_meters": 2000,
+    "schedule": "Classic Class February Second Half"
+  },
+  {
+    "id": 18,
+    "name": "Keihin Hai",
+    "track": "Tokyo",
+    "grade": "G3",
+    "terrain": "Dirt",
+    "distance_type": "Short",
+    "distance_meters": 1300,
+    "schedule": "Classic Class February Second Half"
+  },
+  {
+    "id": 19,
+    "name": "Eastern Road",
+    "track": "Nakayama",
+    "grade": "OP",
+    "terrain": "Turf",
+    "distance_type": "Medium",
+    "distance_meters": 2000,
+    "schedule": "Classic Class March First Half"
+  },
+  {
+    "id": 20,
+    "name": "Yayoi Sho",
+    "track": "Nakayama",
+    "grade": "G2",
+    "terrain": "Turf",
+    "distance_type": "Medium",
+    "distance_meters": 2000,
+    "schedule": "Classic Class March First Half"
+  },
+  {
+    "id": 21,
+    "name": "Tulip Sho",
+    "track": "Hanshin",
+    "grade": "G2",
+    "terrain": "Turf",
+    "distance_type": "Mile",
+    "distance_meters": 1600,
+    "schedule": "Classic Class March First Half"
+  },
+  {
+    "id": 22,
+    "name": "Wakaba Stakes",
+    "track": "Hanshin",
+    "grade": "Listed",
+    "terrain": "Turf",
+    "distance_type": "Medium",
+    "distance_meters": 2000,
+    "schedule": "Classic Class March Second Half"
+  },
+  {
+    "id": 23,
+    "name": "Spring Stakes",
+    "track": "Chukyo",
+    "grade": "G2",
+    "terrain": "Turf",
+    "distance_type": "Mile",
+    "distance_meters": 1600,
+    "schedule": "Classic Class March Second Half"
+  },
+  {
+    "id": 24,
+    "name": "Sansho Stakes",
+    "track": "Hanshin",
+    "grade": "OP",
+    "terrain": "Dirt",
+    "distance_type": "Mile",
+    "distance_meters": 1800,
+    "schedule": "Classic Class March Second Half"
+  },
+  {
+    "id": 25,
+    "name": "Oka Sho",
+    "track": "Hanshin",
+    "grade": "G1",
+    "terrain": "Turf",
+    "distance_type": "Mile",
+    "distance_meters": 1600,
+    "schedule": "Classic Class April First Half"
+  },
+  {
+    "id": 26,
+    "name": "Satsuki Sho",
+    "track": "Nakayama",
+    "grade": "G1",
+    "terrain": "Turf",
+    "distance_type": "Medium",
+    "distance_meters": 2000,
+    "schedule": "Classic Class April First Half"
+  },
+  {
+    "id": 27,
+    "name": "Mainichi Cup",
+    "track": "Hanshin",
+    "grade": "G2",
+    "terrain": "Turf",
+    "distance_type": "Mile",
+    "distance_meters": 1600,
+    "schedule": "Classic Class April Second Half"
+  },
+  {
+    "id": 28,
+    "name": "Keio Hai Spring Cup",
+    "track": "Tokyo",
+    "grade": "G2",
+    "terrain": "Turf",
+    "distance_type": "Mile",
+    "distance_meters": 1600,
+    "schedule": "Classic Class April Second Half"
+  },
+  {
+    "id": 29,
+    "name": "Kyoto Shimbun Hai",
+    "track": "Kyoto",
+    "grade": "G2",
+    "terrain": "Turf",
+    "distance_type": "Medium",
+    "distance_meters": 2200,
+    "schedule": "Classic Class May First Half"
+  },
+  {
+    "id": 30,
+    "name": "Sports Nippon Sho Osaka-Hamburg Cup",
+    "track": "Hanshin",
+    "grade": "G2",
+    "terrain": "Turf",
+    "distance_type": "Medium",
+    "distance_meters": 2400,
+    "schedule": "Classic Class May First Half"
+  },
+  {
+    "id": 31,
+    "name": "NHK Mile Cup",
+    "track": "Tokyo",
+    "grade": "G1",
+    "terrain": "Turf",
+    "distance_type": "Mile",
+    "distance_meters": 1600,
+    "schedule": "Classic Class May First Half"
+  },
+  {
+    "id": 32,
+    "name": "Yushun Himba",
+    "track": "Tokyo",
+    "grade": "G1",
+    "terrain": "Turf",
+    "distance_type": "Medium",
+    "distance_meters": 2400,
+    "schedule": "Classic Class May Second Half"
+  },
+  {
+    "id": 33,
+    "name": "Tokyo Yushun",
+    "track": "Tokyo",
+    "grade": "G1",
+    "terrain": "Turf",
+    "distance_type": "Medium",
+    "distance_meters": 2400,
+    "schedule": "Classic Class May Second Half"
+  },
+  {
+    "id": 34,
+    "name": "Meguro Kinen",
+    "track": "Tokyo",
+    "grade": "G2",
+    "terrain": "Turf",
+    "distance_type": "Long",
+    "distance_meters": 2500,
+    "schedule": "Classic Class May Second Half"
+  },
+  {
+    "id": 35,
+    "name": "Kokura Kinen",
+    "track": "Kokura",
+    "grade": "G3",
+    "terrain": "Turf",
+    "distance_type": "Medium",
+    "distance_meters": 2000,
+    "schedule": "Classic Class June Second Half"
+  },
+  {
+    "id": 36,
+    "name": "Takarazuka Kinen",
+    "track": "Hanshin",
+    "grade": "G1",
+    "terrain": "Turf",
+    "distance_type": "Medium",
+    "distance_meters": 2200,
+    "schedule": "Classic Class June Second Half"
+  },
+  {
+    "id": 37,
+    "name": "Japan Dirt Classic",
+    "track": "Ooi",
+    "grade": "G1",
+    "terrain": "Dirt",
+    "distance_type": "Medium",
+    "distance_meters": 2000,
+    "schedule": "Classic Class August First Half"
+  },
+  {
+    "id": 38,
+    "name": "Sapporo Kinen",
+    "track": "Sapporo",
+    "grade": "G2",
+    "terrain": "Turf",
+    "distance_type": "Medium",
+    "distance_meters": 2000,
+    "schedule": "Classic Class August Second Half"
+  },
+  {
+    "id": 39,
+    "name": "Niigata Kinen",
+    "track": "Niigata",
+    "grade": "G3",
+    "terrain": "Turf",
+    "distance_type": "Medium",
+    "distance_meters": 2000,
+    "schedule": "Classic Class August Second Half"
+  },
+  {
+    "id": 40,
+    "name": "Kilometer Challenge Cup",
+    "track": "Hanshin",
+    "grade": "G3",
+    "terrain": "Turf",
+    "distance_type": "Short",
+    "distance_meters": 1200,
+    "schedule": "Classic Class September Second Half"
+  },
+  {
+    "id": 41,
+    "name": "Rose Stakes",
+    "track": "Chukyo",
+    "grade": "G2",
+    "terrain": "Turf",
+    "distance_type": "Mile",
+    "distance_meters": 1600,
+    "schedule": "Classic Class September Second Half"
+  },
+  {
+    "id": 42,
+    "name": "Sports Nippon Sho St. Lite Kinen",
+    "track": "Nakayama",
+    "grade": "G2",
+    "terrain": "Turf",
+    "distance_type": "Medium",
+    "distance_meters": 2000,
+    "schedule": "Classic Class September Second Half"
+  },
+  {
+    "id": 43,
+    "name": "Sankei Sho All Comers",
+    "track": "Nakayama",
+    "grade": "G2",
+    "terrain": "Turf",
+    "distance_type": "Medium",
+    "distance_meters": 2200,
+    "schedule": "Classic Class September Second Half"
+  },
+  {
+    "id": 44,
+    "name": "Swan Stakes",
+    "track": "Kyoto",
+    "grade": "G2",
+    "terrain": "Turf",
+    "distance_type": "Short",
+    "distance_meters": 1400,
+    "schedule": "Classic Class October Second Half"
+  },
+  {
+    "id": 45,
+    "name": "Fuji Stakes",
+    "track": "Tokyo",
+    "grade": "G2",
+    "terrain": "Turf",
+    "distance_type": "Mile",
+    "distance_meters": 1600,
+    "schedule": "Classic Class October Second Half"
+  },
+  {
+    "id": 46,
+    "name": "Kikuka Sho",
+    "track": "Kyoto",
+    "grade": "G1",
+    "terrain": "Turf",
+    "distance_type": "Long",
+    "distance_meters": 3000,
+    "schedule": "Classic Class October Second Half"
+  },
+  {
+    "id": 47,
+    "name": "Masashino Stakes",
+    "track": "Tokyo",
+    "grade": "G3",
+    "terrain": "Dirt",
+    "distance_type": "Mile",
+    "distance_meters": 1600,
+    "schedule": "Classic Class November First Half"
+  },
+  {
+    "id": 48,
+    "name": "Queen Elizabeth II Cup",
+    "track": "Kyoto",
+    "grade": "G2",
+    "terrain": "Turf",
+    "distance_type": "Medium",
+    "distance_meters": 2200,
+    "schedule": "Classic Class November First Half"
+  },
+  {
+    "id": 49,
+    "name": "January Stakes",
+    "track": "Tokyo",
+    "grade": "G3",
+    "terrain": "Dirt",
+    "distance_type": "Mile",
+    "distance_meters": 1600,
+    "schedule": "Senior Class January First Half"
+  },
+  {
+    "id": 50,
+    "name": "Chukyo Kinen",
+    "track": "Chukyo",
+    "grade": "G3",
+    "terrain": "Turf",
+    "distance_type": "Mile",
+    "distance_meters": 1600,
+    "schedule": "Senior Class January Second Half"
+  },
+  {
+    "id": 51,
+    "name": "American Jockey Club Cup",
+    "track": "Nakayama",
+    "grade": "G2",
+    "terrain": "Turf",
+    "distance_type": "Medium",
+    "distance_meters": 2200,
+    "schedule": "Senior Class January Second Half"
+  },
+  {
+    "id": 52,
+    "name": "Bellhein Memorial",
+    "track": "Kawasaki",
+    "grade": "G1",
+    "terrain": "Dirt",
+    "distance_type": "Medium",
+    "distance_meters": 2100,
+    "schedule": "Senior Class January Second Half"
+  },
+  {
+    "id": 53,
+    "name": "Diamond Stakes",
+    "track": "Tokyo",
+    "grade": "G2",
+    "terrain": "Turf",
+    "distance_type": "Long",
+    "distance_meters": 3400,
+    "schedule": "Senior Class February First Half"
+  },
+  {
+    "id": 54,
+    "name": "Nakayama Kinen",
+    "track": "Nakayama",
+    "grade": "G2",
+    "terrain": "Turf",
+    "distance_type": "Mile",
+    "distance_meters": 1800,
+    "schedule": "Senior Class February Second Half"
+  },
+  {
+    "id": 55,
+    "name": "Hankyu Hai",
+    "track": "Hanshin",
+    "grade": "G3",
+    "terrain": "Turf",
+    "distance_type": "Short",
+    "distance_meters": 1400,
+    "schedule": "Senior Class February Second Half"
+  },
+  {
+    "id": 56,
+    "name": "February Stakes",
+    "track": "Tokyo",
+    "grade": "G1",
+    "terrain": "Dirt",
+    "distance_type": "Mile",
+    "distance_meters": 1600,
+    "schedule": "Senior Class February Second Half"
+  },
+  {
+    "id": 57,
+    "name": "Aichi Cup",
+    "track": "Chukyo",
+    "grade": "G2",
+    "terrain": "Turf",
+    "distance_type": "Medium",
+    "distance_meters": 2000,
+    "schedule": "Senior Class February Second Half"
+  },
+  {
+    "id": 58,
+    "name": "Nikkei Sho",
+    "track": "Nakayama",
+    "grade": "G2",
+    "terrain": "Turf",
+    "distance_type": "Long",
+    "distance_meters": 2500,
+    "schedule": "Senior Class March Second Half"
+  },
+  {
+    "id": 59,
+    "name": "Takamatsunomiya Kinen",
+    "track": "Chukyo",
+    "grade": "G1",
+    "terrain": "Turf",
+    "distance_type": "Short",
+    "distance_meters": 1200,
+    "schedule": "Senior Class March Second Half"
+  },
+  {
+    "id": 60,
+    "name": "Osaka Cup",
+    "track": "Hanshin",
+    "grade": "G1",
+    "terrain": "Turf",
+    "distance_type": "Medium",
+    "distance_meters": 2000,
+    "schedule": "Senior Class March Second Half"
+  },
+  {
+    "id": 61,
+    "name": "Milers Cup",
+    "track": "Kyoto",
+    "grade": "G2",
+    "terrain": "Turf",
+    "distance_type": "Mile",
+    "distance_meters": 1600,
+    "schedule": "Senior Class April Second Half"
+  },
+  {
+    "id": 62,
+    "name": "Tenno Sho (Spring)",
+    "track": "Kyoto",
+    "grade": "G1",
+    "terrain": "Turf",
+    "distance_type": "Long",
+    "distance_meters": 3200,
+    "schedule": "Senior Class April Second Half"
+  },
+  {
+    "id": 63,
+    "name": "Victoria Mile",
+    "track": "Tokyo",
+    "grade": "G1",
+    "terrain": "Turf",
+    "distance_type": "Mile",
+    "distance_meters": 1600,
+    "schedule": "Senior Class May First Half"
+  },
+  {
+    "id": 64,
+    "name": "Yasuda Kinen",
+    "track": "Tokyo",
+    "grade": "G1",
+    "terrain": "Turf",
+    "distance_type": "Mile",
+    "distance_meters": 1600,
+    "schedule": "Senior Class June First Half"
+  },
+  {
+    "id": 65,
+    "name": "Teio Sho",
+    "track": "Ooi",
+    "grade": "G1",
+    "terrain": "Dirt",
+    "distance_type": "Medium",
+    "distance_meters": 2000,
+    "schedule": "Senior Class June Second Half"
+  },
+  {
+    "id": 66,
+    "name": "Sapporo Kinen",
+    "track": "Sapporo",
+    "grade": "G2",
+    "terrain": "Turf",
+    "distance_type": "Medium",
+    "distance_meters": 2000,
+    "schedule": "Senior Class August Second Half"
+  },
+  {
+    "id": 67,
+    "name": "Keisei Hai Autumn Handicap",
+    "track": "Nakayama",
+    "grade": "G2",
+    "terrain": "Turf",
+    "distance_type": "Short",
+    "distance_meters": 1200,
+    "schedule": "Senior Class September First Half"
+  },
+  {
+    "id": 68,
+    "name": "Sprinters Stakes",
+    "track": "Nakayama",
+    "grade": "G1",
+    "terrain": "Turf",
+    "distance_type": "Short",
+    "distance_meters": 1200,
+    "schedule": "Senior Class September Second Half"
+  },
+  {
+    "id": 69,
+    "name": "Elk Stakes",
+    "track": "Hanshin",
+    "grade": "G3",
+    "terrain": "Turf",
+    "distance_type": "Mile",
+    "distance_meters": 1600,
+    "schedule": "Senior Class October First Half"
+  },
+  {
+    "id": 70,
+    "name": "Fuchu Himba Stakes",
+    "track": "Tokyo",
+    "grade": "G2",
+    "terrain": "Turf",
+    "distance_type": "Mile",
+    "distance_meters": 1800,
+    "schedule": "Senior Class October First Half"
+  },
+  {
+    "id": 71,
+    "name": "Dirt Sprint",
+    "track": "Morioka",
+    "grade": "G1",
+    "terrain": "Dirt",
+    "distance_type": "Short",
+    "distance_meters": 1200,
+    "schedule": "Senior Class October Second Half"
+  },
+  {
+    "id": 72,
+    "name": "Tenno Sho (Autumn)",
+    "track": "Tokyo",
+    "grade": "G1",
+    "terrain": "Turf",
+    "distance_type": "Medium",
+    "distance_meters": 2000,
+    "schedule": "Senior Class October Second Half"
+  },
+  {
+    "id": 73,
+    "name": "Stayer Stakes",
+    "track": "Nakayama",
+    "grade": "G2",
+    "terrain": "Turf",
+    "distance_type": "Long",
+    "distance_meters": 3600,
+    "schedule": "Senior Class November First Half"
+  },
+  {
+    "id": 74,
+    "name": "Mile Championship",
+    "track": "Kyoto",
+    "grade": "G1",
+    "terrain": "Turf",
+    "distance_type": "Mile",
+    "distance_meters": 1600,
+    "schedule": "Senior Class November Second Half"
+  },
+  {
+    "id": 75,
+    "name": "Japan Cup",
+    "track": "Tokyo",
+    "grade": "G1",
+    "terrain": "Turf",
+    "distance_type": "Medium",
+    "distance_meters": 2400,
+    "schedule": "Senior Class November Second Half"
+  },
+  {
+    "id": 76,
+    "name": "Champions Cup",
+    "track": "Chukyo",
+    "grade": "G1",
+    "terrain": "Dirt",
+    "distance_type": "Mile",
+    "distance_meters": 1800,
+    "schedule": "Senior Class December First Half"
+  },
+  {
+    "id": 77,
+    "name": "Arima Kinen",
+    "track": "Nakayama",
+    "grade": "G1",
+    "terrain": "Turf",
+    "distance_type": "Long",
+    "distance_meters": 2500,
+    "schedule": "Senior Class December Second Half"
+  }
+]

@@ -81,21 +81,36 @@ TRANSLATIONS = {
         {"English": "Insufficient!",                    "Español": "¡Insuficiente!"},
         {"English": "You don't have enough carats!",    "Español": "¡No tienes suficientes carats!"},
     ],
-    "stats.speed":   [{"English": "Speed",   "Español": "Velocidad"}],
-    "stats.stamina": [{"English": "Stamina", "Español": "Resistencia"}],
-    "stats.power":   [{"English": "Power",   "Español": "Potencia"}],
-    "stats.guts":    [{"English": "Guts",    "Español": "Coraje"}],
-    "stats.wit":     [{"English": "Wit",     "Español": "Ingenio"}],
+    "stats.spd":   [{"English": "Speed",   "Español": "Velocidad"}],
+    "stats.stm":   [{"English": "Stamina", "Español": "Resistencia"}],
+    "stats.pwr":   [{"English": "Power",   "Español": "Potencia"}],
+    "stats.gut":   [{"English": "Guts",    "Español": "Coraje"}],
+    "stats.wit":   [{"English": "Wit",     "Español": "Ingenio"}],
 
     "training.header": [
         {"English": "{0}{1}⚡ {2}/100"}
     ],
     "career.header": [
-        {"English": "## {0} **{1}**\n⚡ **{2}**  |  📅 **{3}Y {4}M {5}**",
-         "Español": "## {0} **{1}**\n⚡ **{2}**  |  📅 **Año {3} Mes {4} {5}**"}
+        {"English": "## {0} **{1}**\n**{2}**  |  📅 **{3}Y {4} {5}**",
+         "Español": "## {0} **{1}**\n**{2}**  |  📅 **Año {3} {4} {5}**"}
     ],
-    "career.half.early": [{"English": "EARLY", "Español": "INICIO"}],
-    "career.half.late":  [{"English": "LATE",  "Español": "FIN"}],
+    "career.half.early": [{"English": "Early", "Español": "Inicio"}],
+    "career.half.late":  [{"English": "Late",  "Español": "Fin"}],
+
+    "career.months": [
+        {"English": "January", "Español": "Enero"},
+        {"English": "February", "Español": "Febrero"},
+        {"English": "March", "Español": "Marso"},
+        {"English": "April", "Español": "Abril"},
+        {"English": "May", "Español": "Mayo"},
+        {"English": "June", "Español": "Junyo"},
+        {"English": "July", "Español": "Julyo"},
+        {"English": "August", "Español": "Agosto"},
+        {"English": "September", "Español": "Setiembre"},
+        {"English": "October", "Español": "Octubre"},
+        {"English": "November", "Español": "Noviembre"},
+        {"English": "December", "Español": "Deciembre"}
+    ],
 
     "training.skill_info": [
 
@@ -181,7 +196,7 @@ TRANSLATIONS = {
 
     "errors.career.no_uma": [
         {"English": "Can't Start Career",           "Español": "No se puede iniciar la carrera"},
-        {"English": "You don't have an Uma yet — roll first!",
+        {"English": "You don't have an Uma yet, roll first!",
          "Español": "¡Aún no tienes una Uma, tira primero!"},
     ],
     "errors.career.ended": [
