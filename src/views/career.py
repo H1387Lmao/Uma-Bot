@@ -1,8 +1,9 @@
 from ..career import *
 from uicord import *
-from .translations import translator, tr, SUPPORTED_LANGS, TRANSLATIONS
+from .translations import translator, tr, SUPPORTED_LANGS, TRANSLATIONS, typewriter
 from .pages import pagination_buttons, error, _back_button
 from .state import view_state
+from ..data import grade_map
 
 MOOD_LEVELS = ['awful', 'bad', 'normal', 'good', 'great']
 
@@ -34,15 +35,43 @@ def career_select(prof, uid, page=0):
  
 def career_select_confirm(prof, uid, name):
     count, level = _get_umas(prof).get(name, [0, 0])
+    data_uma = UMAS[name]
     start = Button(tr("career.select.start", 0, prof), emoji="🏁", color=Colors.Green)
+
     @interaction(start)
     async def _start(ctx):
         prof["career"] = Career.create_new(name, str(uid), [])
         await ctx.response.edit_message(view=career(prof, uid))
+    
+    cols = 3
+    rows = []
+
+    aptitudes = []
+
+    for apt in ['turf','dirt','front', 'mile', 'medium', 'long']:
+        grade = grade_map[getattr(data_uma, f"get_{apt}_apt")()]
+        aptitudes.append((apt.title(), grade))
+
+    longest_length = max(len(stat) for stat, _ in aptitudes)
+    
+    for i in range(0, len(aptitudes), cols):
+        chunk = aptitudes[i:i+cols]
+    
+        label_row = []
+    
+        for actual, value in chunk:
+            _label = typewriter(' '+actual)
+            label = f"{view_state.bot.get_em('rank'+value)}{_label:{"\u2007"}<{longest_length + 2}}"
+            label_row.append(label)
+
+        rows.append(" ".join(label_row))
+        rows.append("")
+    
+    aptitude_lines = "\n".join(rows)
     return View(
         Container(
             Section(
-                Text(f"## {_uma_em(name)} {name}"),
+                Text(f"## {_uma_em(name)} {name}\n{aptitude_lines}"),
                 accessory=Thumbnail(url=getattr(_uma_em(name), "url", ""))
             ),
             ActionRow(start, _back_button(_lang(prof), lambda: career_select(prof, uid))),
@@ -79,7 +108,7 @@ def training(prof, uid, confirm_stat=None):
             else:
                 return await i.response.edit_message(view=training(prof, uid, stat))
     
-    stats_displayed.append(('skill_points', tr('training.skill_pts_label', 0, prof), career.skill_points))
+    stats_displayed.append(('sp', tr('training.skill_pts_label', 0, prof), career.skill_points))
     
     longest_length = max(len(stat) for _, stat, _ in stats_displayed)
     
@@ -93,19 +122,20 @@ def training(prof, uid, confirm_stat=None):
         value_row = []
     
         for actual, stat, value in chunk:
-            label = f"{_stat_em(actual)} {stat}"
-            label_row.append(label.ljust(longest_length + 6))
+            em = str(_stat_em(actual))
+            label = em+typewriter(stat.ljust(longest_length))
+            label_row.append(label)
     
             if isinstance(value, tuple):
                 base, bonus = value
-                val = f"{base} **(+{bonus})**"
+                val = typewriter(f"{base} **(+{bonus})**")
             else:
-                val = str(value)
+                val = typewriter(str(value))
     
-            value_row.append(val.ljust(longest_length + 6))
+            value_row.append(em+val.ljust(longest_length, '\u2007'))
     
-        rows.append(" ".join(label_row))
-        rows.append(" ".join(value_row))
+        rows.append("\u2007".join(label_row))
+        rows.append("\u2007".join(value_row))
         rows.append("")  # spacing row
     
     stat_line = "\n".join(rows)

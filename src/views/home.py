@@ -8,6 +8,7 @@ from .career import career_select, career
 from .state import view_state
 import discord as dsc
 import signal, sys, atexit
+import asyncio
 
 SEC_SETTINGS  = "settings.lang"
 SEC_TITLES    = "page.titles"
@@ -18,23 +19,30 @@ TITLE_HOME  = 0
 TITLE_CLUB  = 1
 TITLE_SETTINGS = 2
 
-async def create_loading(ctx, function, *args):
-    em = "<a:load:1482555422798905395>"
+async def create_loading(ctx, function, *args, respond=False):
+    em = "<a:loading:1482569743679361225>"
 
-    await ctx.response.edit_message(
+    res = ctx.response.edit_message if not respond else ctx.reply
+
+    msg = await res(
         view=View(
             Container(
-                Text(tr("ui.loading", 0, prof, em))
+                Text(f"### **{tr("ui.loading", 0, prof, em)}**\n-# {tr("ui.loading", 1, prof)}")
             )
         )
     )
     while not view_state.emojis:
         await asyncio.sleep(1)
-    await ctx.edit_original_response(
+
+    res = ctx.edit_original_response if not respond else msg.edit
+
+    await res(
         view=function(*args)
     )
 
-def prof(data, uid: int, ulang="English"):
+async def prof(ctx, data, uid: int, ulang="English"):
+    if str(uid) in data:
+        return await create_loading(ctx, home, data[str(uid)], uid, respond=True)
     tr_title  = tr("settings.lang", 0, ulang)
     tr_button = tr("settings.lang", 1, ulang)
 
@@ -77,13 +85,17 @@ def prof(data, uid: int, ulang="English"):
             ctx, home, profile, uid
         )
 
-    return View(
-        Container(
-            Text(f"## {tr_title}"),
-            ActionRow(lang_select),
-            ActionRow(start_btn),
+    await ctx.respond(
+        view=View(
+            Container(
+                Text(f"## {tr_title}"),
+                ActionRow(lang_select),
+                ActionRow(start_btn),
+            )
         )
     )
+
+    
 
 def home(prof, uid, page=0):
     lang = prof["settings"]["lang"]

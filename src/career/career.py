@@ -2,16 +2,16 @@ from .goals import *
 from ..data.uma_database import UMAS
 import random
 
-stat_names = ['spd', 'stm', 'pwr', 'gut', 'wit', 'skill_points']
+stat_names = ['spd', 'stm', 'pwr', 'gut', 'wit', 'sp']
 
 stat_to_index = {s: i for i, s in enumerate(stat_names)}
 
 training_bonuses = {
-	'spd': [('spd', 20), ('pwr', 10),          ('skill_points', 4), ('energy', -20)],
-	'stm': [('stm', 20), ('gut', 10),          ('skill_points', 4), ('energy', -20)],
-	'pwr': [('stm', 10), ('pwr', 20),          ('skill_points', 4), ('energy', -20)],
-	'gut': [('spd', 5),  ('pwr', 5),           ('gut', 20),         ('skill_points', 4), ('energy', 35)],
-	'wit': [('wit', 20), ('skill_points', 10), ('energy', 5)]
+	'spd': [('spd', 20), ('pwr', 10),          ('sp', 4), ('energy', -20)],
+	'stm': [('stm', 20), ('gut', 10),          ('sp', 4), ('energy', -20)],
+	'pwr': [('stm', 10), ('pwr', 20),          ('sp', 4), ('energy', -20)],
+	'gut': [('spd', 5),  ('pwr', 5),           ('gut', 20),         ('sp', 4), ('energy', 35)],
+	'wit': [('wit', 20), ('sp', 10), ('energy', 5)]
 }
 
 class Career:
@@ -69,7 +69,7 @@ class Career:
 				self.stats[index]+=effect[1]
 			elif effect[0] == 'energy':
 				self.energy+=effect[1]
-			elif effect[0] == 'skill_points':
+			elif effect[0] == 'sp':
 				self.skill_points+=effect[1]
 
 		return bonuses

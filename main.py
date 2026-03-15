@@ -10,11 +10,7 @@ uma = Uma()
     dev=True
 )
 async def start_adventure(ctx):
-    await ctx.respond(
-        view=views.prof(
-            {}, ctx.author.id
-        )
-    )
+    await views.prof(ctx, uma.database, ctx.author.id)
 
 state.DEV_IDS.append(735679718506102881)
 

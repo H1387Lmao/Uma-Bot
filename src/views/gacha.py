@@ -119,7 +119,9 @@ async def view_multi(ctx, prof, emojis, umas, uid, page):
             return n[1:]
         return n
 
-    if not prof["settings"]["skip_gacha"]:
+    if not prof["settings"].setdefault(
+        "skip_gacha", False
+    ):
         fakes = []
         fake_index = []
         for i, em in enumerate(emojis):
@@ -161,6 +163,9 @@ async def view_multi(ctx, prof, emojis, umas, uid, page):
             )
             if i in fake_index:
                 await asyncio.sleep(1)
+    else:
+        shown = [view_state.bot.get_uma(umas[j]) for j in range(10)]
+        names = umas
 
     done_text = tr("page.gacha.result_multi_done", 0, prof,
                    format_emojis(prof, shown, names))

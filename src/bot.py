@@ -5,6 +5,7 @@ from pathlib import Path
 import json, sys
 from .views.state import view_state
 from .views.translations import tr, SUPPORTED_LANGS
+import sqlitedict
 
 PREFIXES = [
     "devuma ",
@@ -33,7 +34,7 @@ class Uma(bridge.Bot):
         )
         view_state.bot = self
 
-        self.cached_randoms={} #needed by career
+        self.database = sqlitedict.SqliteDict() # database
 
         
     async def on_ready(self):

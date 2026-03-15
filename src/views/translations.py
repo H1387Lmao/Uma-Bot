@@ -1,4 +1,33 @@
 import re
+import unicodedata
+
+FIGURE_SPACE = "\u2007"
+
+def typewriter(text: str) -> str:
+    result = []
+
+    for char in text:
+        if char == " ":
+            result.append(FIGURE_SPACE)
+            continue
+
+        decomposed = unicodedata.normalize("NFD", char)
+
+        base = decomposed[0]
+        accents = decomposed[1:]
+
+        code = ord(base)
+
+        if 65 <= code <= 90:
+            base = chr(0x1D670 + code - 65)
+        elif 97 <= code <= 122:
+            base = chr(0x1D68A + code - 97)
+        elif 48 <= code <= 57:
+            base = chr(0x1D7F6 + code - 48)
+
+        result.append(base + accents)
+
+    return "".join(result)
 
 SUPPORTED_LANGS = ["English", "Español"]
 TRANSLATIONS = {
@@ -59,16 +88,16 @@ TRANSLATIONS = {
         {"English": "1500 | 10 Rolls",  "Español": "1500 | 10 Tiradas"},
     ],
     "page.gacha.result_one": [
-        {"English": "🎉 You obtained **{0}**\n-# You have {1} carats left.",
-         "Español": "🎉 ¡Obtuviste **{0}**!\n-# Te quedan {1} carats."},
+        {"English": "🎉 You obtained **<0>**\n-# You have <1> carats left.",
+         "Español": "🎉 ¡Obtuviste **<0>**!\n-# Te quedan <1> carats."},
     ],
     "page.gacha.result_multi_rolling": [
-        {"English": "-# Rolling {0} times!\n**{1}**",
-         "Español": "-# ¡Tirando {0} veces!\n**{1}**"},
+        {"English": "-# Rolling <0> times!\n**<1>**",
+         "Español": "-# ¡Tirando <0> veces!\n**<1>**"},
     ],
     "page.gacha.result_multi_done": [
-        {"English": "-# Finished rolling!\n**{0}**",
-         "Español": "-# ¡Terminaste de tirar!\n**{0}**"},
+        {"English": "-# Finished rolling!\n**<0>**",
+         "Español": "-# ¡Terminaste de tirar!\n**<0>**"},
     ],
     "page.storage.titles": [
         {"English": "Umamusume"},
@@ -80,8 +109,10 @@ TRANSLATIONS = {
         {"English": "start", "Español": "iniciar"},
     ],
     "ui.loading": [
-        {"English": "{0}Please wait while the bot starts to load!",
-         "Español": "{0}Por favor espera mientras el bot termina de cargarse."},
+        {"English": "<0>Please wait while the bot starts to load!",
+         "Español": "<0>Por favor espera mientras el bot termina de cargarse."},
+        {"English": "This page will automatically refresh after the bot loads successfully!",
+         "Español": "Esta pagina se actualizara automaticamente despues de que el bot se cargue correctamente!"},
     ],
     "errors.insufficient_currency": [
         {"English": "Insufficient!",                    "Español": "¡Insuficiente!"},
@@ -94,11 +125,11 @@ TRANSLATIONS = {
     "stats.wit":   [{"English": "Wit",     "Español": "Ingenio"}],
 
     "training.header": [
-        {"English": "{0}{1}⚡ {2}/100"}
+        {"English": "<0><1>⚡ <2>/100"}
     ],
     "career.header": [
-        {"English": "## {0} **{1}**\n**{2}**  |  📅 **{3}Y {4} {5}**",
-         "Español": "## {0} **{1}**\n**{2}**  |  📅 **Año {3} {4} {5}**"}
+        {"English": "## <0> **<1>**\n**<2>**  |  📅 **<3>Y <4> <5>**",
+         "Español": "## <0> **<1>**\n**<2>**  |  📅 **Año <3> <4> <5>**"}
     ],
     "career.half.early": [{"English": "Early", "Español": "Inicio"}],
     "career.half.late":  [{"English": "Late",  "Español": "Fin"}],
@@ -120,14 +151,14 @@ TRANSLATIONS = {
 
     "training.skill_info": [
 
-        {"English": "Skill Points: {0}  |  Skills: {1}",
-         "Español": "Puntos de habilidad: {0}  |  Habilidades: {1}"},
+        {"English": "Skill Points: <0>  |  Skills: <1>",
+         "Español": "Puntos de habilidad: <0>  |  Habilidades: <1>"},
     ],
     "training.skill_pts_label": [
-        {"English": "Skill Points", "Español": "Puntos de habilidad"},
+        {"English": "SP", "Español": "SP"},
     ],
     "training.train_button": [
-        {"English": "Train {0}", "Español": "Entrenar {0}"},
+        {"English": "Train <0>", "Español": "Entrenar <0>"},
     ],
     "training.schedule": [
         {"English": "📅 Schedule a Race", "Español": "📅 Programar carrera"},
@@ -156,11 +187,11 @@ TRANSLATIONS = {
     ],
 
     "career.complete.title": [
-        {"English": "🏆 Career Complete – {0}!", "Español": "🏆 ¡Carrera completada – {0}!"},
+        {"English": "🏆 Career Complete – <0>!", "Español": "🏆 ¡Carrera completada – <0>!"},
     ],
     "career.complete.stats": [
-        {"English": "Fans: {0}  |  Goals: {1}/{2}",
-         "Español": "Fans: {0}  |  Objetivos: {1}/{2}"},
+        {"English": "Fans: <0>  |  Goals: <1>/<2>",
+         "Español": "Fans: <0>  |  Objetivos: <1>/<2>"},
     ],
     "career.complete.view": [
         {"English": "View Summary", "Español": "Ver resumen"},
@@ -170,8 +201,8 @@ TRANSLATIONS = {
     ],
 
     "career.skillpoints.label": [
-        {"English": "Skill Points",
-         "Español": "Puntos de Habilidad"
+        {"English": "SP",
+         "Español": "SP"
         },
     ],
 
@@ -187,18 +218,18 @@ TRANSLATIONS = {
     ],
 
     "goal.ura": [
-        {"English": "Win the {0}.", "Español": "Gana la {0}."},
+        {"English": "Win the <0>.", "Español": "Gana la <0>."},
     ],
     "goal.debut": [
         {"English": "Win your debut race.",     "Español": "Gana tu carrera de debut."},
     ],
     "goal.fans": [
-        {"English": "Accumulate {0} fans.",     "Español": "Acumula {0} fans."},
+        {"English": "Accumulate <0> fans.",     "Español": "Acumula <0> fans."},
     ],
-    "goal.req.participate": [{"English": "Participate in {0}",  "Español": "Participar en {0}"}],
-    "goal.req.top5":        [{"English": "Finish top 5 in {0}", "Español": "Terminar en el top 5 de {0}"}],
-    "goal.req.top3":        [{"English": "Finish top 3 in {0}", "Español": "Terminar en el top 3 de {0}"}],
-    "goal.req.win":         [{"English": "Win {0}",             "Español": "Ganar {0}"}],
+    "goal.req.participate": [{"English": "Participate in <0>",  "Español": "Participar en <0>"}],
+    "goal.req.top5":        [{"English": "Finish top 5 in <0>", "Español": "Terminar en el top 5 de <0>"}],
+    "goal.req.top3":        [{"English": "Finish top 3 in <0>", "Español": "Terminar en el top 3 de <0>"}],
+    "goal.req.win":         [{"English": "Win <0>",             "Español": "Ganar <0>"}],
 
     "errors.career.no_uma": [
         {"English": "Can't Start Career",           "Español": "No se puede iniciar la carrera"},
@@ -266,7 +297,7 @@ class TranslationSection:
         self.name = name
         self.translations = list(texts)
 
-    def translate(self, target: dict | str, index: int, *args) -> str:
+    def translate(self, target: dict | str, index: int, *args, monospaced=False) -> str:
         lang = target["settings"]["lang"] if isinstance(target, dict) else target
         if index < 0 or index >= len(self.translations):
             return f"[index {index} out of range for section '{self.name}']"
@@ -279,7 +310,7 @@ class TranslationSection:
             return f"[no translation [{lang}] for {english_key!r}]"
         if args:
             result = _interpolate(result, args)
-        return result
+        return result if not monospaced else typewriter(result)
 
 
 def _interpolate(template: str, args: tuple) -> str:
@@ -291,7 +322,7 @@ def _interpolate(template: str, args: tuple) -> str:
             return str(args[idx]) if idx < len(args) else match.group(0)
         except ValueError:
             return match.group(0)
-    return re.sub(r"\{(\w+)\}", replacer, template)
+    return re.sub(r"\<(\w+)\>", replacer, template)
 
 
 def sectionify(parent: object, section_name: str, raw: list):
@@ -316,7 +347,7 @@ class Translator:
         for section_name, value in translations.items():
             sectionify(self, section_name, value)
 
-    def translate(self, identifier: str, target: dict | str, index: int, *args) -> str:
+    def translate(self, identifier: str, target: dict | str, index: int, *args, monospaced=True) -> str:
         root = self
         for part in identifier.split("."):
             if not hasattr(root, part):
@@ -324,10 +355,10 @@ class Translator:
             root = getattr(root, part)
         if not isinstance(root, TranslationSection):
             return None
-        return root.translate(target, index, *args)
+        return root.translate(target, index, *args, monospaced=monospaced)
 
 
 translator = Translator(TRANSLATIONS)
 
-def tr(identifier: str, index: int, prof_or_lang: dict | str = "English", *args) -> str:
-    return translator.translate(identifier, prof_or_lang, index, *args)
+def tr(identifier: str, index: int, prof_or_lang: dict | str = "English", *args, monospaced=False) -> str:
+    return translator.translate(identifier, prof_or_lang, index, *args, monospaced=monospaced)

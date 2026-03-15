@@ -24,6 +24,17 @@ B = Grade.B
 A = Grade.A
 S = Grade.S
 
+grade_map = {
+    G: 'G',
+    F: 'F',
+    E: 'E',
+    D: 'D',
+    C: 'C',
+    B: 'B',
+    A: 'A',
+    S: 'S'
+}
+
 PRE_OP = 0
 OP = 1
 G3 = 3
