@@ -9,7 +9,7 @@ MOOD_LEVELS = ['awful', 'bad', 'normal', 'good', 'great']
 def _lang(prof): return prof["settings"]["lang"]
 def _uma_em(name): return view_state.bot.get_em(name.replace(" ", "_").lower()) or "🐴"
 def _mood_em(c): return view_state.bot.get_em(f"mood_{MOOD_LEVELS[c.mood].lower()}")
-def _stat_em(stat): return view_state.bot.get_em(stat.upper())
+def _stat_em(stat): return view_state.bot.get_em(stat.upper()) or ":bulb:"
 
 def _get_umas(prof) -> dict[str, list]:
     return prof.get("inventory", {}).get("umas", {})
@@ -26,7 +26,8 @@ def career_select(prof, uid, page=0):
     for name in page_names:
         btn = Button(name, emoji=_uma_em(name), color=Colors.Grey)
         @interaction(btn)
-        async def _pick(i, n=name): await i.response.edit_message(view=career_select_confirm(prof, uid, n))
+        async def _pick(i, n=name):
+            await i.response.edit_message(view=career_select_confirm(prof, uid, n))
         btns.append(btn)
     pagination = pagination_buttons(lambda p: career_select(prof, uid, p), max_p, _lang(prof), page, back_factory=lambda: view_state.views.home(prof, uid))
     return View(Container(Text(tr("career.select.title", 0, prof)), ActionRow(*btns), *pagination), owner=uid)
@@ -44,72 +45,82 @@ def career_select_confirm(prof, uid, name):
                 Text(f"## {_uma_em(name)} {name}"),
                 accessory=Thumbnail(url=getattr(_uma_em(name), "url", ""))
             ),
-            Separator(),
             ActionRow(start, _back_button(_lang(prof), lambda: career_select(prof, uid))),
         ),
         owner=uid
     )
 
-def training(prof, uid, is_confirm=None):
+def training(prof, uid, confirm_stat=None):
     career = prof['career']
     em = _uma_em(career.name)
-    training_header = tr("training.header", 0, prof, '','', career.energy)
+    training_header = tr("training.header", 0, prof, em, career.name, career.energy)
     mood = _mood_em(career)
 
     stats_displayed = []
-    stats_editing = []
-
     training_btns = []
 
-    for stat, values in zip(stats, c.stats):
-        st=tr(f'stats.{stat}', 0, prof)
-        stats_displayed.append(stat, st, values)
+    preview = career.train(confirm_stat, True) if confirm_stat else {}
+    
+    for stat, values in zip(stat_names, career.stats):
+        st = tr(f'stats.{stat}', 0, prof)
+        if confirm_stat and stat in preview:
+            stats_displayed.append((stat, st, (values, preview[stat])))
+        else:
+            stats_displayed.append((stat, st, values))
+    
         btn = Button(tr('training.train_button', 0, prof, st), emoji=_stat_em(stat))
         training_btns.append(btn)
+    
         @interaction(btn)
         async def _train(i, stat=stat):
-            if not is_confirm:
-                await i.response.edit_message(view=training(prof, uid, stat))
+            if confirm_stat == stat:
+                career.train(stat)
+                return await i.response.edit_message(view=training(prof, uid, None))
             else:
-                career.train(is_confirm)
-                await i.response.edit_message(view=training(prof, uid, None))
-            
-        if is_confirm is not None:
-            self.stats_editing.extends(list(
-                career.train(is_confirm).items()
-            ))
-    stats_displayed.append(('skill_points', tr(f'training.skill_pts_label', 0, prof), c.skill_points))
-
-    longest_length = max(map(len, stats_displayed))
-
-    stat_line = ""
-
-    for actual, stat, values in stats_displayed:
-        stat_line += f"{_stat_em(actual)}{stat:<longest_length}"
-
-    editing = ['','','','','','']
-    if stats_editing:
-        for stat, value in stats_editing:
-            index = stat_to_index.get(stat)
-            if index:
-                editing[index]=f"  **(+{value})**"
-    if filter(bool, editing):
-        stat_line+='\n'
-    for stat in editing:
-        stat_line+=f"{stat:<longest_length}"
-
+                return await i.response.edit_message(view=training(prof, uid, stat))
     
+    stats_displayed.append(('skill_points', tr('training.skill_pts_label', 0, prof), career.skill_points))
+    
+    longest_length = max(len(stat) for _, stat, _ in stats_displayed)
+    
+    cols = 3
+    rows = []
+    
+    for i in range(0, len(stats_displayed), cols):
+        chunk = stats_displayed[i:i+cols]
+    
+        label_row = []
+        value_row = []
+    
+        for actual, stat, value in chunk:
+            label = f"{_stat_em(actual)} {stat}"
+            label_row.append(label.ljust(longest_length + 6))
+    
+            if isinstance(value, tuple):
+                base, bonus = value
+                val = f"{base} **(+{bonus})**"
+            else:
+                val = str(value)
+    
+            value_row.append(val.ljust(longest_length + 6))
+    
+        rows.append(" ".join(label_row))
+        rows.append(" ".join(value_row))
+        rows.append("")  # spacing row
+    
+    stat_line = "\n".join(rows)
+
     return View(
         Container(
             Section(
-                Text(f"{training_header}")
-            ),
-            accessory=Thumbnail(
-                url=mood.url
+                Text(f"## **{training_header}**"),
+                Text(stat_line),
+                accessory=Thumbnail(
+                    url=mood.url
+                )
             )
         ),
         Container(
-            Text(stat_line),
             ActionRow(*training_btns)
         )
     )

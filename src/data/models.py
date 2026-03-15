@@ -90,7 +90,7 @@ class UmaData:
 
         self.best_distance_aptitude = distances_apt[sorted(enumerate(aptitude[6:10]), key=lambda d: d[1])[-1][0]]
 
-        print(self.best_distance_aptitude)
+        print(self.best_distance_aptitude, stats)
         for dist, threshold in distances:
             if dist == self.best_distance_aptitude:
                 self.best_dist = threshold

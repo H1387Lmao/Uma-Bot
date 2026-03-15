@@ -82,7 +82,7 @@ def format_emojis(prof, emojis, names=[]):
 
     e = list(map(str, emojis))
     if prof["settings"].setdefault(
-        "Triangle Gacha", True
+        "triangle_gacha", True
     ):
         rows = [
             f"|                {e[0]}                |",
@@ -119,52 +119,55 @@ async def view_multi(ctx, prof, emojis, umas, uid, page):
             return n[1:]
         return n
 
-    fakes = []
-    fake_index = []
-    for i, em in enumerate(emojis):
-        display_em = em
-        if random.random() <= 0.15:
-            if not em.startswith("r"):
-                fake_index.append(i)
-            display_em = decrease_rarity(em)
-        fakes.append(display_em)
+    if not prof["settings"]["skip_gacha"]:
+        fakes = []
+        fake_index = []
+        for i, em in enumerate(emojis):
+            display_em = em
+            if random.random() <= 0.15:
+                if not em.startswith("r"):
+                    fake_index.append(i)
+                display_em = decrease_rarity(em)
+            fakes.append(display_em)
 
-    emojs = [view_state.emojis[a + "pull"] for a in fakes]
-    names = ["???"]*10
-
-    rolling_text = tr("page.gacha.result_multi_rolling", 0, prof,
-                      len(emojis), format_emojis(prof, emojs, names))
-    await ctx.response.edit_message(
-        view=View(
-            Container(Text(rolling_text)),
-            owner=uid,
-        )
-    )
-
-    shown = list(emojs)
-    for i in range(len(emojis) + 1):
-        await asyncio.sleep(0.35)
-        if i != 0:
-            names[i-1]=umas[i-1]
-        shown = (
-            [view_state.bot.get_uma(umas[j]) for j in range(i)]
-            + list(emojs[i:])
-        )
-        if i in fake_index:
-            shown[i] = view_state.emojis["s" + emojs[i].name]
+        emojs = [view_state.emojis[a + "pull"] for a in fakes]
+        names = ["???"]*10
 
         rolling_text = tr("page.gacha.result_multi_rolling", 0, prof,
-                          len(emojis), format_emojis(prof, shown, names))
-        await ctx.edit_original_response(
-            view=View(Container(Text(rolling_text)), owner=uid)
+                      len(emojis), format_emojis(prof, emojs, names))
+        await ctx.response.edit_message(
+            view=View(
+                Container(Text(rolling_text)),
+                owner=uid,
+            )
         )
-        if i in fake_index:
-            await asyncio.sleep(1)
+
+        shown = list(emojs)
+        for i in range(len(emojis) + 1):
+            await asyncio.sleep(0.35)
+            if i != 0:
+                names[i-1]=umas[i-1]
+            shown = (
+                [view_state.bot.get_uma(umas[j]) for j in range(i)]
+                + list(emojs[i:])
+            )
+            if i in fake_index:
+                shown[i] = view_state.emojis["s" + emojs[i].name]
+
+            rolling_text = tr("page.gacha.result_multi_rolling", 0, prof,
+                          len(emojis), format_emojis(prof, shown, names))
+            await ctx.edit_original_response(
+                view=View(Container(Text(rolling_text)), owner=uid)
+            )
+            if i in fake_index:
+                await asyncio.sleep(1)
 
     done_text = tr("page.gacha.result_multi_done", 0, prof,
                    format_emojis(prof, shown, names))
     back = _back_button(prof["settings"]["lang"], lambda: gacha(prof, uid))
-    await ctx.edit_original_response(
+
+    r = ctx.edit_original_response if not prof["settings"]["skip_gacha"] else ctx.response.edit_message
+    await r(
         view=View(
            Container(
                 Text(done_text),

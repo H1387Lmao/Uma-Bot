@@ -37,7 +37,12 @@ TRANSLATIONS = {
          "Español": "Gacha de Triángular",
          "_default": True,
          "_type": "toggle",
-         "_id": "Triangle Gacha"},
+         "_id": "triangle_gacha"},
+        {"English": "Skip Gacha", 
+         "Español": "Saltar Gacha",
+         "_default": False,
+         "_type": "toggle",
+         "_id": "skip_gacha"},
         {"English": "Language",
          "Español": "Idioma",
          "_default": "English",
@@ -74,8 +79,9 @@ TRANSLATIONS = {
     "cmd.start": [
         {"English": "start", "Español": "iniciar"},
     ],
-    "cmd.music": [
-        {"English": "music", "Español": "música"},
+    "ui.loading": [
+        {"English": "{0}Please wait while the bot starts to load!",
+         "Español": "{0}Por favor espera mientras el bot termina de cargarse."},
     ],
     "errors.insufficient_currency": [
         {"English": "Insufficient!",                    "Español": "¡Insuficiente!"},

@@ -18,6 +18,22 @@ TITLE_HOME  = 0
 TITLE_CLUB  = 1
 TITLE_SETTINGS = 2
 
+async def create_loading(ctx, function, *args):
+    em = "<a:load:1482555422798905395>"
+
+    await ctx.response.edit_message(
+        view=View(
+            Container(
+                Text(tr("ui.loading", 0, prof, em))
+            )
+        )
+    )
+    while not view_state.emojis:
+        await asyncio.sleep(1)
+    await ctx.edit_original_response(
+        view=function(*args)
+    )
+
 def prof(data, uid: int, ulang="English"):
     tr_title  = tr("settings.lang", 0, ulang)
     tr_button = tr("settings.lang", 1, ulang)
@@ -57,8 +73,8 @@ def prof(data, uid: int, ulang="English"):
             }
         })
         print(f"Created profile for {ctx.user}")
-        await ctx.response.edit_message(
-            view=home(profile, uid)
+        await create_loading(
+            ctx, home, profile, uid
         )
 
     return View(
@@ -186,6 +202,7 @@ def home(prof, uid, page=0):
         max_pages=2,
         lang=lang,
         current_page=page,
+        loop=True
     )
 
     thumb_url = bot.get_em_url(emoji) or "https://gametora.com/images/404.png"
