@@ -79,3 +79,8 @@ class Career:
 		self.month = self.turn//2
 		self.half = self.turn%2
 		self.year = (self.month//12+1)
+
+	def get_needed_goal(self):
+		for goal in self.goals:
+			if goal.deadline >= self.turn:
+				return goal

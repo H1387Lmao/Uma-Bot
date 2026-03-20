@@ -21,8 +21,12 @@ TITLE_SETTINGS = 2
 
 async def create_loading(ctx, function, *args, respond=False):
     em = "<a:loading:1482569743679361225>"
-
     res = ctx.response.edit_message if not respond else ctx.reply
+
+    if view_state.emojis:
+        return await res(
+            view=function(*args)
+        )
 
     msg = await res(
         view=View(

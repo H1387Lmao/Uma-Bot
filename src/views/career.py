@@ -3,7 +3,7 @@ from uicord import *
 from .translations import translator, tr, SUPPORTED_LANGS, TRANSLATIONS, typewriter
 from .pages import pagination_buttons, error, _back_button
 from .state import view_state
-from ..data import grade_map
+from ..data import grade_map, grade_stat
 
 MOOD_LEVELS = ['awful', 'bad', 'normal', 'good', 'great']
 
@@ -14,7 +14,34 @@ def _stat_em(stat): return view_state.bot.get_em(stat.upper()) or ":bulb:"
 
 def _get_umas(prof) -> dict[str, list]:
     return prof.get("inventory", {}).get("umas", {})
- 
+
+def get_goal_header(prof, uid):
+    career = prof['career']
+    goal_info = career.get_needed_goal()
+    
+    if isinstance(goal_info, FanGoal):
+       tr_identif = "goal.fans"
+    elif isinstance(goal_info, RaceGoal):
+        if goal_info.race_data.name=="Junior Make Debut":
+            tr_identif = "goal.debut"
+        else:
+            match goal_info.placement:
+                case 1:
+                    tr_identif = "goal.req.win"
+                case 3:
+                    tr_identif = "goal.req.top3"
+                case 5:
+                    tr_identif = "goal.req.top5"
+                case 99:
+                    tr_identif = "goal.req.participate"
+    elif goal_info is None:
+        return tr("career.goal.completed")
+    title = tr(tr_identif, 0, prof, goal_info.race_data.name)
+    needed_turn = goal_info.deadline-career.turn
+    index = 0 if needed_turn != 1 else 1
+    turn = tr("career.turns", index, prof, needed_turn)
+    return tr("career.goal.header", 0, prof, title, turn)
+        
 
 def career_select(prof, uid, page=0):
     umas = _get_umas(prof)
@@ -122,16 +149,19 @@ def training(prof, uid, confirm_stat=None):
         value_row = []
     
         for actual, stat, value in chunk:
-            em = str(_stat_em(actual))
-            label = em+typewriter(stat.ljust(longest_length))
-            label_row.append(label)
-    
             if isinstance(value, tuple):
                 base, bonus = value
                 val = typewriter(f"{base} **(+{bonus})**")
             else:
+                base = value
                 val = typewriter(str(value))
-    
+
+            em = str(_stat_em(actual))
+            label = em+typewriter(stat.ljust(longest_length))
+            em = str(view_state.bot.get_em(grade_stat(base))) if actual != 'sp' else ""
+
+            label_row.append(label)
+            
             value_row.append(em+val.ljust(longest_length, '\u2007'))
     
         rows.append("\u2007".join(label_row))
@@ -144,6 +174,7 @@ def training(prof, uid, confirm_stat=None):
         Container(
             Section(
                 Text(f"## **{training_header}**"),
+                Text(f"-# **{get_goal_header(prof, uid)}**"),
                 Text(stat_line),
                 accessory=Thumbnail(
                     url=mood.url
@@ -167,7 +198,7 @@ def career(prof, uid):
     half = tr(f'career.half.{early}', 0, prof)
     mood = _mood_em(career)
 
-    train = Button(tr('career.btn.train', 0, prof))
+    train = Button(tr('career.btn.train', 0, prof), emoji=view_state.bot.get_em("ui_career"))
 
     @interaction(train)
     async def _train(i):
@@ -178,6 +209,7 @@ def career(prof, uid):
             Text(
                 tr("career.header", 0, prof, em, career.name, training_header, career.year, month, half)
             ),
+            Text(f"-# **{get_goal_header(prof, uid)}**"),
             accessory=Thumbnail(
                 url=mood.url
             )

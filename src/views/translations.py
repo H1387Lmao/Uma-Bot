@@ -174,10 +174,15 @@ TRANSLATIONS = {
     "career.btn.complete_confirm": [{"English": "Are you sure?",   "Español": "¿Estás seguro?"}],
     "career.btn.end":              [{"English": "End Career",      "Español": "Finalizar carrera"}],
 
-    "career.goal.next":  [{"English": "Next Goal", "Español": "Próximo objetivo"}],
-    "career.turns":      [{"English": "turns",     "Español": "turnos"}],
-    "career.conditions": [{"English": "Conditions", "Español": "Condiciones"}],
-    "career.over.title": [{"English": "Career Over", "Español": "Carrera terminada"}],
+    "career.goal.next":       [{"English": "Next Goal", "Español": "Próximo objetivo"}],
+    "career.goal.completed":  [{"English": "All Goals Completed"}],
+    "career.goal.header":     [{"English": "<0> in <1>"}],
+    "career.turns":           [
+        {"English": "<0> turns",     "Español": "<0> turnos"},
+        {"English": "<0> turn",     "Español": "<0> turno"}
+    ],
+    "career.conditions":      [{"English": "Conditions", "Español": "Condiciones"}],
+    "career.over.title":      [{"English": "Career Over", "Español": "Carrera terminada"}],
 
     "career.select.title": [
         {"English": "### Choose Your Uma", "Español": "### Elige tu Uma"},
@@ -218,13 +223,13 @@ TRANSLATIONS = {
     ],
 
     "goal.ura": [
-        {"English": "Win the <0>.", "Español": "Gana la <0>."},
+        {"English": "Win the <0>", "Español": "Gana la <0>."},
     ],
     "goal.debut": [
-        {"English": "Win your debut race.",     "Español": "Gana tu carrera de debut."},
+        {"English": "Win your debut race",     "Español": "Gana tu carrera de debut."},
     ],
     "goal.fans": [
-        {"English": "Accumulate <0> fans.",     "Español": "Acumula <0> fans."},
+        {"English": "Accumulate <0> fans",     "Español": "Acumula <0> fans."},
     ],
     "goal.req.participate": [{"English": "Participate in <0>",  "Español": "Participar en <0>"}],
     "goal.req.top5":        [{"English": "Finish top 5 in <0>", "Español": "Terminar en el top 5 de <0>"}],
@@ -309,20 +314,22 @@ class TranslationSection:
                 return None
             return f"[no translation [{lang}] for {english_key!r}]"
         if args:
-            result = _interpolate(result, args)
+            result = _interpolate(result, args, lang)
         return result if not monospaced else typewriter(result)
 
 
-def _interpolate(template: str, args: tuple) -> str:
-    """Replace {0}, {1}, ... positional placeholders with provided args."""
-    def replacer(match):
+def _interpolate(template: str, args: tuple, lang: str) -> str:
+    """Replace <0>, <1>, ... positional placeholders with provided args."""
+    def arg_replacer(match):
         idx_str = match.group(1)
         try:
             idx = int(idx_str)
             return str(args[idx]) if idx < len(args) else match.group(0)
         except ValueError:
             return match.group(0)
-    return re.sub(r"\<(\w+)\>", replacer, template)
+
+        
+    return re.sub(r"\<(\w+)\>", arg_replacer, template)
 
 
 def sectionify(parent: object, section_name: str, raw: list):
