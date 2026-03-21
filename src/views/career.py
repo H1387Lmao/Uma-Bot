@@ -3,7 +3,7 @@ from uicord import *
 from .translations import translator, tr, SUPPORTED_LANGS, TRANSLATIONS, typewriter
 from .pages import pagination_buttons, error, _back_button
 from .state import view_state
-from ..data import grade_map, grade_stat
+from ..data import grade_map, grade_stat, SCHEDULES
 
 MOOD_LEVELS = ['awful', 'bad', 'normal', 'good', 'great']
 
@@ -106,6 +106,107 @@ def career_select_confirm(prof, uid, name):
         owner=uid
     )
 
+def get_statline(stats_displayed, compact=False):
+    longest_length = max(len(stat) for _, stat, _ in stats_displayed)
+    
+    cols = 3 if not compact else 2
+    rows = []
+    
+    for i in range(0, len(stats_displayed), cols):
+        chunk = stats_displayed[i:i+cols]
+    
+        label_row = []
+        value_row = []
+    
+        for actual, stat, value in chunk:
+            if isinstance(value, tuple):
+                base, bonus = value
+                val = typewriter(f"{base} **(+{bonus})**")
+            else:
+                base = value
+                val = typewriter(str(value))
+
+            em = str(_stat_em(actual))
+            label = em+typewriter(stat.ljust(longest_length))
+            em = str(view_state.bot.get_em(grade_stat(base))) if actual != 'sp' else ""
+
+            label_row.append(label)
+            
+            value_row.append(em+val.ljust(longest_length, '\u2007'))
+    
+        rows.append("\u2007".join(label_row))
+        rows.append("\u2007".join(value_row))
+        rows.append("")
+    
+    stat_line = "\n".join(rows)
+    return stat_line
+
+def create_race_button(race):
+    btn = Button(race.name, emoji=race.get_emoji(view_state))
+
+    return btn
+
+def race_schedule(prof, uid, page=0):
+    career: Career = prof['career']
+
+    _displaying_turn = career.turn+page
+
+    _month = _displaying_turn//2
+    _half = (_displaying_turn-1)%2
+    _year = _month//12
+    month = tr('career.months', (_month+3)%12, prof)
+    early = "late" if _half == 0 else "early"
+    half = tr(f'career.half.{early}', 0, prof)
+    year = tr(f'career.year', _year, prof)
+    em = _uma_em(career.name)
+
+    elements = []
+
+    current_row = []
+
+    races_in_turn: list[RaceData] = SCHEDULES.get(_displaying_turn, [])
+    if _displaying_turn == 4: # debut race
+        current_row.append(
+            create_race_button(
+                career.goals[0].race_data
+            )
+        )
+    if races_in_turn:
+        for race in races_in_turn:
+            btn = create_race_button(race)
+
+            current_row.append(btn)
+
+            if len(current_row) == 5:
+                elements.append(ActionRow(*current_row))
+                current_row = []
+    if current_row:
+        elements.append(ActionRow(*current_row))
+    if not elements:
+        elements.append(Text(
+            tr("errors.race.none", 0, prof)
+        ))
+
+
+    return View(
+        Container(
+            Text(
+                tr("race.schedule.title", 0, prof, em, year, month, half)
+            ),
+            *elements,
+            *pagination_buttons(
+                lambda p: race_schedule(prof, uid, p),
+                max_pages=len(SCHEDULES)-career.turn,
+                lang=prof,
+                current_page=page,
+                far_buttons=True,
+                back_factory=lambda: career(prof, uid)
+            )
+        ),
+        owner = uid
+    )
+
+
 def training(prof, uid, confirm_stat=None):
     career = prof['career']
     em = _uma_em(career.name)
@@ -137,38 +238,7 @@ def training(prof, uid, confirm_stat=None):
     
     stats_displayed.append(('sp', tr('training.skill_pts_label', 0, prof), career.skill_points))
     
-    longest_length = max(len(stat) for _, stat, _ in stats_displayed)
-    
-    cols = 3
-    rows = []
-    
-    for i in range(0, len(stats_displayed), cols):
-        chunk = stats_displayed[i:i+cols]
-    
-        label_row = []
-        value_row = []
-    
-        for actual, stat, value in chunk:
-            if isinstance(value, tuple):
-                base, bonus = value
-                val = typewriter(f"{base} **(+{bonus})**")
-            else:
-                base = value
-                val = typewriter(str(value))
-
-            em = str(_stat_em(actual))
-            label = em+typewriter(stat.ljust(longest_length))
-            em = str(view_state.bot.get_em(grade_stat(base))) if actual != 'sp' else ""
-
-            label_row.append(label)
-            
-            value_row.append(em+val.ljust(longest_length, '\u2007'))
-    
-        rows.append("\u2007".join(label_row))
-        rows.append("\u2007".join(value_row))
-        rows.append("")  # spacing row
-    
-    stat_line = "\n".join(rows)
+    stat_line = get_statline(stats_displayed, compact=prof['settings']['mobile_mode'])
 
     return View(
         Container(
@@ -183,6 +253,12 @@ def training(prof, uid, confirm_stat=None):
         ),
         Container(
             ActionRow(*training_btns)
+        ),
+        Container(
+            ActionRow(_create_back_button(
+                lambda: career(prof, uid),
+                prof
+            ))
         )
     )
 
@@ -193,21 +269,26 @@ def career(prof, uid):
     em = _uma_em(career.name)
     training_header = tr("training.header", 0, prof, '','', career.energy)
 
-    month = tr('career.months', career.month, prof)
+    month = tr('career.months', career.month%12, prof)
     early = "early" if career.half == 0 else "late"
     half = tr(f'career.half.{early}', 0, prof)
+    year = tr(f'career.year', career.year, prof)
     mood = _mood_em(career)
 
     train = Button(tr('career.btn.train', 0, prof), emoji=view_state.bot.get_em("ui_career"))
+    race = Button(tr('career.btn.race', 0, prof), emoji="🏁")
 
     @interaction(train)
     async def _train(i):
         await i.response.edit_message(view=training(prof, uid))
+    @interaction(race)
+    async def _race(i):
+        await i.response.edit_message(view=race_schedule(prof, uid))
     
     return View(Container(
         Section(
             Text(
-                tr("career.header", 0, prof, em, career.name, training_header, career.year, month, half)
+                tr("career.header", 0, prof, em, career.name, training_header, year, month, half)
             ),
             Text(f"-# **{get_goal_header(prof, uid)}**"),
             accessory=Thumbnail(
@@ -215,7 +296,7 @@ def career(prof, uid):
             )
         ),
         ActionRow(
-            train
+            train, race
         )
        
     ), owner=uid)

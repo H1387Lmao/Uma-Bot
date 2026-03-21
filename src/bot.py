@@ -34,7 +34,8 @@ class Uma(bridge.Bot):
         )
         view_state.bot = self
 
-        self.database = sqlitedict.SqliteDict() # database
+        self.database: sqlitedict.SqliteDict = sqlitedict.SqliteDict('database/main.db') # database
+        self.view_state = view_state
 
         
     async def on_ready(self):

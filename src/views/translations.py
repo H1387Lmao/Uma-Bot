@@ -72,6 +72,11 @@ TRANSLATIONS = {
          "_default": False,
          "_type": "toggle",
          "_id": "skip_gacha"},
+        {"English": "Compact UI", 
+         "Español": "UI de Compacta",
+         "_default": False,
+         "_type": "toggle",
+         "_id": "mobile_mode"},
         {"English": "Language",
          "Español": "Idioma",
          "_default": "English",
@@ -128,8 +133,8 @@ TRANSLATIONS = {
         {"English": "<0><1>⚡ <2>/100"}
     ],
     "career.header": [
-        {"English": "## <0> **<1>**\n**<2>**  |  📅 **<3>Y <4> <5>**",
-         "Español": "## <0> **<1>**\n**<2>**  |  📅 **Año <3> <4> <5>**"}
+        {"English": "## <0> **<1>**\n-# **<2>** 📅 **<3> <4> <5>**",
+         "Español": "## <0> **<1>**\n-# **<2>** 📅 **<3> <4> <5>**"}
     ],
     "career.half.early": [{"English": "Early", "Español": "Inicio"}],
     "career.half.late":  [{"English": "Late",  "Español": "Fin"}],
@@ -148,6 +153,11 @@ TRANSLATIONS = {
         {"English": "November", "Español": "Noviembre"},
         {"English": "December", "Español": "Deciembre"}
     ],
+    "career.year": [
+        {"English": "Junior Year", "Español": "Año Junior"},
+        {"English": "Classic Year", "Español": "Año Clasico"},
+        {"English": "Senior Year", "Español": "Año Senior"},
+    ],
 
     "training.skill_info": [
 
@@ -159,9 +169,6 @@ TRANSLATIONS = {
     ],
     "training.train_button": [
         {"English": "Train <0>", "Español": "Entrenar <0>"},
-    ],
-    "training.schedule": [
-        {"English": "📅 Schedule a Race", "Español": "📅 Programar carrera"},
     ],
 
     "career.btn.train":            [{"English": "Train",           "Español": "Entrenar"}],
@@ -212,7 +219,8 @@ TRANSLATIONS = {
     ],
 
     "race.schedule.title": [
-        {"English": "### Schedule a Race", "Español": "### Programar una carrera"},
+        {"English": "### Schedule a Race\n-# **<0>** 📅 **<1> <2> <3>**",
+        "Español": "### Programar una carrera\n-# **<0>** 📅 **<1> <2> <3>**"},
     ],
     "race.schedule.queued": [
         {"English": "Queued", "Español": "En cola"},
@@ -288,12 +296,15 @@ TRANSLATIONS = {
     "condition.Overtired":          [{"English": "Overtired",         "Español": "Exceso de cansancio"}],
     "condition.Charming":           [{"English": "Charming",          "Español": "Encantador"}],
     "condition.FastLearner":        [{"English": "Fast Learner",      "Español": "Aprendiz Rápido"}],
-    "condition.PracticePerfect_○":  [{"English": "Practice Perfect", "Español": "Práctica Perfecta"}],
+    "condition.PracticePerfect_○":  [{"English": "Practice Perfect",  "Español": "Práctica Perfecta"}],
     "condition.PracticePerfect_◎":  [{"English": "Practice Perfect+", "Español": "Práctica Perfecta+"}],
     "condition.HotTopic":           [{"English": "Hot Topic",         "Español": "Tendencia"}],
     "condition.ShiningBrightly":    [{"English": "Shining Brightly",  "Español": "Brillando Intensamente"}],
     "condition.Sharpener":          [{"English": "Sharpener",         "Español": "Afilador"}],
     "condition.NaturalTalent":      [{"English": "Natural Talent",    "Español": "Talento Natural"}],
+    "club.invite.accept":     [{"English": "Accept"}],
+    "club.invite.decline":    [{"English": "Decline"}],
+    "club.invite.invite_msg": [{"English": "You have been invited to **<0>**!"}],
 }
 
 
@@ -307,8 +318,9 @@ class TranslationSection:
         if index < 0 or index >= len(self.translations):
             return f"[index {index} out of range for section '{self.name}']"
         entry = self.translations[index]
-        result = entry.get(lang) or entry.get("English", "")
-        if not result:
+        result = entry.get(lang)
+        result = entry.get("English", "") if not result and result != False else result
+        if not result and result != False:
             english_key = entry.get("English", "???")
             if english_key is None:
                 return None

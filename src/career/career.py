@@ -17,39 +17,41 @@ training_bonuses = {
 class Career:
 	def __init__(
 		self,
-		owner,
-		name,
-		fans = 0,
-		energy = 0,
-		mood = 0,
-		skill_points = 120,
-		stats = [0,0,0,0,0],
-		skills = [],
-		conditions = [],
-		races_scheduled = [],
-		support_cards = [],
-		goals_done = 0,
-		turn = 0,
-		seed = None
+		owner: int,
+		name: str,
+		fans: int = 0,
+		energy: int = 0,
+		mood: int = 0,
+		skill_points: int = 120,
+		stats: list[int] = [0,0,0,0,0],
+		skills: list[int] = [],
+		conditions: list[int] = [],
+		races_scheduled: list[int] = [],
+		support_cards: list[int] = [],
+		goals_done: int = 0,
+		turn: int = 0,
+		seed: int = None
 	):
-		self.owner = owner
-		self.name = name
-		self.fans = fans
-		self.energy = energy
-		self.mood = mood
-		self.stats = stats
-		self.conditions = conditions
-		self.races_scheduled = races_scheduled
-		self.turn = turn
+		self.owner: int = owner
+		self.name: str = name
+		self.fans: int = fans
+		self.energy: int = energy
+		self.mood: int = mood
+		self.stats: list[int] = stats
+		self.conditions: list[int] = conditions
+		self.races_scheduled: list[int] = races_scheduled
+		self.turn: int = turn
 		
 		self.advance()
 		
-		self.support_cards = support_cards
+		self.support_cards: list[int] = support_cards
+		self.goals_done: int = goals_done
+		self.seed: int = seed
 
-		self.skill_points = skill_points
-		self.skills = skills
+		self.skill_points: int = skill_points
+		self.skills: list[int] = skills
 
-		self.goals = get_goals(name, UMAS[name])
+		self.goals: list[FanGoal|RaceGoal] = get_goals(name, UMAS[name])
 	@staticmethod
 	def create_new(name, uid, sps):
 		uma_data = UMAS[name]
@@ -76,11 +78,11 @@ class Career:
 
 	def advance(self):
 		self.turn += 1
-		self.month = self.turn//2
-		self.half = self.turn%2
+		self.month = self.turn//2 + 3 # start in april
+		self.half = (self.turn-1)%2
 		self.year = (self.month//12+1)
 
 	def get_needed_goal(self):
-		for goal in self.goals:
+		for goal in self.goals[self.goals_done:]:
 			if goal.deadline >= self.turn:
 				return goal

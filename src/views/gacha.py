@@ -1,7 +1,7 @@
 # gacha.py
 from uicord import *
 from .translations import translator, tr
-from .pages import pagination_buttons, error
+from .pages import pagination_buttons, error, _create_back_button
 from .state import view_state
 from src.data import *
 import asyncio
@@ -85,10 +85,11 @@ def format_emojis(prof, emojis, names=[]):
         "triangle_gacha", True
     ):
         rows = [
-            f"|                {e[0]}                |",
-            f"|           {e[1]}   {e[2]}           |",
-            f"|      {e[3]}   {e[4]}   {e[5]}      |",
-            f"| {e[6]}   {e[7]}   {e[8]}   {e[9]} |",
+            f"",
+            f"                {e[0]}                ",
+            f"           {e[1]}   {e[2]}           ",
+            f"      {e[3]}   {e[4]}   {e[5]}      ",
+            f" {e[6]}   {e[7]}   {e[8]}   {e[9]}",
         ]
     else: rows = ["-# "+a+b for a,b in zip(e, names)]
 

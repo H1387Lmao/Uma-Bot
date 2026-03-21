@@ -44,9 +44,9 @@ async def create_loading(ctx, function, *args, respond=False):
         view=function(*args)
     )
 
-async def prof(ctx, data, uid: int, ulang="English"):
+async def prof(ctx, data, uid: int, ulang="English", respond=True):
     if str(uid) in data:
-        return await create_loading(ctx, home, data[str(uid)], uid, respond=True)
+        return await create_loading(ctx, home, data[str(uid)], uid, respond=respond)
     tr_title  = tr("settings.lang", 0, ulang)
     tr_button = tr("settings.lang", 1, ulang)
 
@@ -59,15 +59,13 @@ async def prof(ctx, data, uid: int, ulang="English"):
 
     @interaction(lang_select)
     async def _switch(ctx):
-        await ctx.response.edit_message(
-            view=prof(data, uid, lang_select.picked)
-        )
+        await prof(ctx, data, uid, lang_select.picked, False)
 
     start_btn = Button(tr_button)
 
     @interaction(start_btn)
     async def _ok(ctx):
-        profile = data.setdefault(str(ctx.user.id), {
+        prof = data.setdefault(str(ctx.user.id), {
             "name":         ctx.user.display_name,
             "inventory":    {
                 "umas":     {},
@@ -84,12 +82,31 @@ async def prof(ctx, data, uid: int, ulang="English"):
                 "lang":         ulang,
             }
         })
+
+        options = [
+            {
+                "name": tr("page.settings.options", i, ulang),
+                "id": tr("page.settings.options", i, "_id"),
+                "default": tr("page.settings.options", i, "_default"),
+                "value": tr("page.settings.options", i, "_values"),
+                "type": tr("page.settings.options", i, "_type")
+
+            } for i in range(len(TRANSLATIONS["page.settings.options"]))
+        ]
+
+        for element in options:
+            name     = element["name"]
+            id       = element["id"]
+            values   = element["value"]
+            default  = prof["settings"].setdefault(
+                id, element["default"]
+            )
         print(f"Created profile for {ctx.user}")
         await create_loading(
-            ctx, home, profile, uid
+            ctx, home, prof, uid
         )
-
-    await ctx.respond(
+    res = ctx.respond if respond else ctx.response.edit_message
+    await res(
         view=View(
             Container(
                 Text(f"## {tr_title}"),
@@ -167,6 +184,7 @@ def home(prof, uid, page=0):
                 default  = prof["settings"].setdefault(
                     id, element["default"]
                 )
+                print(default)
                 if len(current_row)==5:
                     elements.append(ActionRow(
                         *current_row
