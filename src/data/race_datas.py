@@ -405,4 +405,8 @@ SCHEDULES: dict[int, list[RaceData]] = {
     ],
 }
 
+for turn, races in SCHEDULES.items():
+    for race in races:
+        race.turn = turn
+
 races_by_turn_name = {turn_id: {data.name.strip(): data for data in races} for turn_id, races, in SCHEDULES.items()}

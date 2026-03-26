@@ -230,7 +230,10 @@ TRANSLATIONS = {
         "Español": "### Programar una carrera\n-# **<0>** 📅 **<1> <2> <3>**"},
     ],
     "race.schedule.queued": [
-        {"English": "Queued", "Español": "En cola"},
+        {"English": "Queued <0>", "Español": "<0> en cola"},
+    ],
+    "race.schedule.pick": [
+        {"English": "Schedule", "Español": "Congrama"},
     ],
 
     "skills.none": [

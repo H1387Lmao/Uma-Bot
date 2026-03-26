@@ -26,7 +26,7 @@ class Career:
 		stats: list[int] = [0,0,0,0,0],
 		skills: list[int] = [],
 		conditions: list[int] = [],
-		races_scheduled: list[int] = [],
+		races_scheduled: dict[int, RaceData] = {},
 		support_cards: list[int] = [],
 		goals_done: int = 0,
 		turn: int = 0,
@@ -40,7 +40,7 @@ class Career:
 		self.mood: int = mood
 		self.stats: list[int] = stats
 		self.conditions: list[int] = conditions
-		self.races_scheduled: list[int] = races_scheduled
+		self.races_scheduled: dict[int, RaceData] = races_scheduled
 		self.turn: int = turn		
 		self.support_cards: list[int] = support_cards
 		self.goals_done: int = goals_done
@@ -54,14 +54,30 @@ class Career:
 		self.goals: list[FanGoal|RaceGoal] = get_goals(name, UMAS[name])
 
 		self.update_current_goal()
+		self.update_aptitudes()
 
 		self.advance()
+
+	def update_aptitudes(self):
+		ud = UMAS[self.name]
+		self.apts: dict[str, int] = {
+			"turf": ud.get_turf_apt(),
+			"dirt": ud.get_dirt_apt(),
+			"mile": ud.get_mile_apt(),
+			"medium": ud.get_medium_apt(),
+			"sprint": ud.get_sprint_apt(),
+			"long": ud.get_long_apt(),
+			"front": ud.get_front_apt(),
+			"pace": ud.get_pace_apt(),
+			"end": ud.get_end_apt(),
+			"late": ud.get_late_apt()
+		}
 
 
 	@staticmethod
 	def create_new(name, uid, sps):
 		uma_data = UMAS[name]
-		return Career(uid, name, 1, 100, 2, 120, list(uma_data.stats), [], [], sps)
+		return Career(uid, name, 1, 100, 2, 120, list(uma_data.stats), [], [], {}, sps)
 	def update_current_goal(self):
 		for goal in self.goals[self.goals_done:]:
 			if goal.deadline == self.turn:

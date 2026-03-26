@@ -161,8 +161,15 @@ class RaceData:
         self.grade = grade
         self.turf = turf
 
+        self.turn = 0
+
     def get_emoji(self, view_state):
         return view_state.bot.get_em(GRADE_ICON(self.grade))
+
+    def evaluate_distance(self, aptitudes):
+        return aptitudes[self.distance]>=A
+    def evaluate_ground(self, aptitudes):
+        return aptitudes['turf' if self.turf else 'dirt']>=A
 
     def display(self, separator='\n'):
         return f"{self.get_emoji() or ''} {self.name}{separator}{self.race_name} {self.distance}m"

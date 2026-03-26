@@ -48,10 +48,27 @@ def get_goal_header(prof, uid):
 
 
 def view_race_info(prof, uid, race, page):
-    print(race)
+    c: Career = prof['career']
+    d_ev = race.evaluate_distance(c.apts)
+    g_ev = race.evaluate_ground(c.apts)
+
+    d_stars = ":star:" if d_ev else ""
+    g_stars = ":star:" if g_ev else ""
+
+    schedule = Button(tr("race.schedule.pick", 0, prof))
+    @interaction(schedule)
+    async def _schedule(i):
+        c.races_scheduled[race.turn] = race
+        await i.response.edit_message(view=race_schedule(prof, uid, page))
+
     return View(
         Container(
-            Text(f"# {race.name}"),
+            Text(f"# {race.name} {d_stars}{g_stars}"),
+            ActionRow(
+                schedule
+            )
+        ),
+        Container(
             ActionRow(
                 _back_button(prof, lambda: race_schedule(prof, uid, page))
             )
@@ -85,7 +102,7 @@ def career_select_confirm(prof, uid, name):
         prof["career"] = Career.create_new(name, str(uid), [])
         await ctx.response.edit_message(view=career(prof, uid))
     
-    cols = 3
+    cols = 2
     rows = []
 
     aptitudes = []
@@ -156,13 +173,28 @@ def get_statline(stats_displayed, compact=False):
     stat_line = "\n".join(rows)
     return stat_line
 
-def create_race_button(race, page):
-    btn = Button(race.name, emoji=race.get_emoji(view_state))
+def create_race_button(prof, uid, race, page, d_ev, g_ev):
+    d_stars = ":star:" if d_ev else ""
+    g_stars = ":star:" if g_ev else ""
+
+    btn = Button(f"{race.name}{d_stars}{g_stars}", emoji=race.get_emoji(view_state))
+
     @interaction(btn)
     async def _show_info(i, race=race):
-        await i.response.edit_message(
-            view=view_race_info(prof, uid, race, page)
-        )
+        if page!=0:
+            await i.response.edit_message(
+                view=view_race_info(prof, uid, race, page)
+            )
+        else:
+            await i.response.edit_message(
+                view=View(Text("Lmao race is not implemented yet!"),
+                    ActionRow(
+                        _back_button(
+                            prof, lambda: race_schedule(prof, uid, page)
+                        )
+                    )
+                )
+            )
     return btn
 
 def race_schedule(prof, uid, page=0):
@@ -179,20 +211,30 @@ def race_schedule(prof, uid, page=0):
     year = tr(f'career.year', _year, prof)
     em = _uma_em(_career.name)
 
+    d_ev = race.evaluate_distance(_career.apts)
+    g_ev = race.evaluate_ground(_career.apts)
+
     elements = []
 
     current_row = []
 
     races_in_turn: list[RaceData] = SCHEDULES.get(_displaying_turn, [])
+    queued = ""
+    if _displaying_turn in _career.races_scheduled:
+        queued = f"\n-# **{tr("race.schedule.queued",0,prof,_career.races_scheduled[_displaying_turn].name)}**"
     if _displaying_turn == 4: # debut race
         current_row.append(
             create_race_button(
-                _career.goals[0].race_data
+                prof, uid,_career.goals[0].race_data, page, d_ev, g_ev
             )
         )
     if races_in_turn:
         for race in races_in_turn:
-            btn = create_race_button(race, page)
+            btn = create_race_button(prof, uid, race, page, d_ev, g_ev)
+
+            if _career.current_goal is not None:
+                if _career.current_goal.race_data != race:
+                    btn.disabled = True
 
             current_row.append(btn)
 
@@ -210,7 +252,7 @@ def race_schedule(prof, uid, page=0):
     return View(
         Container(
             Text(
-                tr("race.schedule.title", 0, prof, em, year, month, half)
+                tr("race.schedule.title", 0, prof, em, year, month, half)+queued
             ),
             *elements,
             *pagination_buttons(
