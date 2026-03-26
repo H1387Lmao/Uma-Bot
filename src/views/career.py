@@ -211,8 +211,7 @@ def race_schedule(prof, uid, page=0):
     year = tr(f'career.year', _year, prof)
     em = _uma_em(_career.name)
 
-    d_ev = race.evaluate_distance(_career.apts)
-    g_ev = race.evaluate_ground(_career.apts)
+    
 
     elements = []
 
@@ -223,13 +222,18 @@ def race_schedule(prof, uid, page=0):
     if _displaying_turn in _career.races_scheduled:
         queued = f"\n-# **{tr("race.schedule.queued",0,prof,_career.races_scheduled[_displaying_turn].name)}**"
     if _displaying_turn == 4: # debut race
+        race = _career.goals[0].race_data
+        d_ev = race.evaluate_distance(_career.apts)
+        g_ev = race.evaluate_ground(_career.apts)
         current_row.append(
             create_race_button(
-                prof, uid,_career.goals[0].race_data, page, d_ev, g_ev
+                prof, uid, race, page, d_ev, g_ev
             )
         )
     if races_in_turn:
         for race in races_in_turn:
+            d_ev = race.evaluate_distance(_career.apts)
+            g_ev = race.evaluate_ground(_career.apts)
             btn = create_race_button(prof, uid, race, page, d_ev, g_ev)
 
             if _career.current_goal is not None:
@@ -353,8 +357,8 @@ def career(prof, uid, goal_only=False):
     mood = _mood_em(_career)
 
     train = Button(tr('career.btn.train', 0, prof), emoji=view_state.bot.get_em("ui_career"))
-    race = Button(tr('career.btn.race', 0, prof), emoji="🏁")
-    sleep = Button(tr('career.btn.rest', 0, prof))
+    race = Button(tr('career.btn.race', 0, prof), emoji=view_state.bot.get_em("ui_race"))
+    sleep = Button(tr('career.btn.rest', 0, prof), emoji=view_state.bot.get_em("ui_rest"))
 
     @interaction(train)
     async def _train(i):
