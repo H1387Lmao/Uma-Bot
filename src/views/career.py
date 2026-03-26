@@ -45,7 +45,18 @@ def get_goal_header(prof, uid):
     index = 0 if needed_turn != 1 else 1
     turn = tr("career.turns", index, prof, needed_turn) if needed_turn>0 else ""
     return tr("career.goal.header", 0, prof, title, turn)
-        
+
+
+def view_race_info(prof, uid, race, page):
+    print(race)
+    return View(
+        Container(
+            Text(f"# {race.name}"),
+            ActionRow(
+                _back_button(prof, lambda: race_schedule(prof, uid, page))
+            )
+        )
+    )
 
 def career_select(prof, uid, page=0):
     umas = _get_umas(prof)
@@ -145,9 +156,13 @@ def get_statline(stats_displayed, compact=False):
     stat_line = "\n".join(rows)
     return stat_line
 
-def create_race_button(race):
+def create_race_button(race, page):
     btn = Button(race.name, emoji=race.get_emoji(view_state))
-
+    @interaction(btn)
+    async def _show_info(i, race=race):
+        await i.response.edit_message(
+            view=view_race_info(prof, uid, race, page)
+        )
     return btn
 
 def race_schedule(prof, uid, page=0):
@@ -177,7 +192,7 @@ def race_schedule(prof, uid, page=0):
         )
     if races_in_turn:
         for race in races_in_turn:
-            btn = create_race_button(race)
+            btn = create_race_button(race, page)
 
             current_row.append(btn)
 
