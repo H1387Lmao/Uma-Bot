@@ -5,14 +5,16 @@ requires-python = ">=3.12"
 dependencies = [
     "aiohttp>=3.11.18",
     "py-cord",
-    "pynacl",
-    "rapidfuzz",
     "requests",
     "sqlitedict",
-    "uicord",
-    "yt-dlp",
-    "pillow"
+    "uicord>=3.1.0",
+    "pillow",
 ]
 
 [tool.uv.sources]
-uicord = { git = "https://github.com/H1387Lmao/UICord.git" }
+uicord = { path = "../UICord" }
+
+[dependency-groups]
+dev = [
+    "uicord",
+]

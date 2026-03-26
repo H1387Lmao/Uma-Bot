@@ -1,3 +1,4 @@
 from .bot import *
-from .utils import *
 from . import views
+from .profile import *
+from .utils import *

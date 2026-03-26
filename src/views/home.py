@@ -191,7 +191,11 @@ def home(prof, uid, page=0):
                     ))
                 match element["type"]:
                     case "toggle":
-                        tg = Toggle(name, default=default)
+                        tg = Toggle(
+                            name, default=default,
+                            custom_off=view_state.emojis["toggle_off"],
+                            custom_on=view_state.emojis["toggle_on"]
+                        )
                         @interaction(tg)
                         async def _int(ctx, id=id, tg=tg, name=name):
                             prof["settings"][id] = tg.active

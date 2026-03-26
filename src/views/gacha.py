@@ -218,6 +218,7 @@ def gacha(prof, uid, page=0, **kwargs):
     return View(
         Container(
             page_title,
+            Text(tr("page.gacha.carat_label", 0, prof, prof["stats"]["carats"], view_state.emojis["carat"])),
             ActionRow(rollx1, rollx10),
             *nav_buttons,
         ),

@@ -43,6 +43,7 @@ class Uma(bridge.Bot):
         
         emojis = await self.fetch_emojis()
         self.em = {v.name: v for v in emojis}
+        self.em["carat"]=self.em["carats"] #use new version
 
         view_state.logger.print(f"[light purple]Fetched Emojis | Count: {len(self.em)}[reset]")
 

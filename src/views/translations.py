@@ -96,6 +96,10 @@ TRANSLATIONS = {
         {"English": "🎉 You obtained **<0>**\n-# You have <1> carats left.",
          "Español": "🎉 ¡Obtuviste **<0>**!\n-# Te quedan <1> carats."},
     ],
+    "page.gacha.carat_label": [
+        {"English": "-# You have <0> carats<1> left.",
+         "Español": "-# Te quedan <0> carats<1>."},
+    ],
     "page.gacha.result_multi_rolling": [
         {"English": "-# Rolling <0> times!\n**<1>**",
          "Español": "-# ¡Tirando <0> veces!\n**<1>**"},
@@ -112,6 +116,9 @@ TRANSLATIONS = {
     ],
     "cmd.start": [
         {"English": "start", "Español": "iniciar"},
+    ],
+    "cmd.profile": [
+        {"English": "profile", "Español": "perfil"},
     ],
     "ui.loading": [
         {"English": "<0>Please wait while the bot starts to load!",
@@ -185,8 +192,8 @@ TRANSLATIONS = {
     "career.goal.completed":  [{"English": "All Goals Completed"}],
     "career.goal.header":     [{"English": "<0> in <1>"}],
     "career.turns":           [
-        {"English": "<0> turns",     "Español": "<0> turnos"},
-        {"English": "<0> turn",     "Español": "<0> turno"}
+        {"English": "in <0> turns",     "Español": "de <0> turnos"},
+        {"English": "in <0> turn",      "Español": "de <0> turno"}
     ],
     "career.conditions":      [{"English": "Conditions", "Español": "Condiciones"}],
     "career.over.title":      [{"English": "Career Over", "Español": "Carrera terminada"}],
@@ -239,9 +246,9 @@ TRANSLATIONS = {
     "goal.fans": [
         {"English": "Accumulate <0> fans",     "Español": "Acumula <0> fans."},
     ],
-    "goal.req.participate": [{"English": "Participate in <0>",  "Español": "Participar en <0>"}],
-    "goal.req.top5":        [{"English": "Finish top 5 in <0>", "Español": "Terminar en el top 5 de <0>"}],
-    "goal.req.top3":        [{"English": "Finish top 3 in <0>", "Español": "Terminar en el top 3 de <0>"}],
+    "goal.req.participate": [{"English": "Participate <0>",  "Español": "Participar en <0>"}],
+    "goal.req.top5":        [{"English": "Finish top 5 <0>", "Español": "Terminar en el top 5 <0>"}],
+    "goal.req.top3":        [{"English": "Finish top 3 <0>", "Español": "Terminar en el top 3 <0>"}],
     "goal.req.win":         [{"English": "Win <0>",             "Español": "Ganar <0>"}],
 
     "errors.career.no_uma": [
@@ -271,8 +278,8 @@ TRANSLATIONS = {
     ],
     "errors.training.fail.game_over": [
         {"English": "Career Over",                 "Español": "Carrera terminada"},
-        {"English": "The career has ended — no more training.",
-         "Español": "La carrera ha terminado — no más entrenamiento."},
+        {"English": "The career has ended.",
+         "Español": "La carrera ha terminado."},
     ],
     "errors.race.none": [
         {"English": "No Races Available",          "Español": "Sin carreras disponibles"},

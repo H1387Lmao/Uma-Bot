@@ -4,6 +4,7 @@ from .translations import translator, tr, SUPPORTED_LANGS, TRANSLATIONS, typewri
 from .pages import pagination_buttons, error, _back_button
 from .state import view_state
 from ..data import grade_map, grade_stat, SCHEDULES
+import random
 
 MOOD_LEVELS = ['awful', 'bad', 'normal', 'good', 'great']
 
@@ -18,6 +19,8 @@ def _get_umas(prof) -> dict[str, list]:
 def get_goal_header(prof, uid):
     career = prof['career']
     goal_info = career.get_needed_goal()
+
+    args = []
     
     if isinstance(goal_info, FanGoal):
        tr_identif = "goal.fans"
@@ -34,12 +37,13 @@ def get_goal_header(prof, uid):
                     tr_identif = "goal.req.top5"
                 case 99:
                     tr_identif = "goal.req.participate"
+        args.append(goal_info.race_data.name)
     elif goal_info is None:
-        return tr("career.goal.completed")
-    title = tr(tr_identif, 0, prof, goal_info.race_data.name)
+        return tr("career.goal.completed", 0, prof)
+    title = tr(tr_identif, 0, prof, *args)
     needed_turn = goal_info.deadline-career.turn
     index = 0 if needed_turn != 1 else 1
-    turn = tr("career.turns", index, prof, needed_turn)
+    turn = tr("career.turns", index, prof, needed_turn) if needed_turn>0 else ""
     return tr("career.goal.header", 0, prof, title, turn)
         
 
@@ -147,9 +151,9 @@ def create_race_button(race):
     return btn
 
 def race_schedule(prof, uid, page=0):
-    career: Career = prof['career']
+    _career: Career = prof['career']
 
-    _displaying_turn = career.turn+page
+    _displaying_turn = _career.turn+page
 
     _month = _displaying_turn//2
     _half = (_displaying_turn-1)%2
@@ -158,7 +162,7 @@ def race_schedule(prof, uid, page=0):
     early = "late" if _half == 0 else "early"
     half = tr(f'career.half.{early}', 0, prof)
     year = tr(f'career.year', _year, prof)
-    em = _uma_em(career.name)
+    em = _uma_em(_career.name)
 
     elements = []
 
@@ -168,7 +172,7 @@ def race_schedule(prof, uid, page=0):
     if _displaying_turn == 4: # debut race
         current_row.append(
             create_race_button(
-                career.goals[0].race_data
+                _career.goals[0].race_data
             )
         )
     if races_in_turn:
@@ -196,7 +200,7 @@ def race_schedule(prof, uid, page=0):
             *elements,
             *pagination_buttons(
                 lambda p: race_schedule(prof, uid, p),
-                max_pages=len(SCHEDULES)-career.turn,
+                max_pages=len(SCHEDULES)-_career.turn,
                 lang=prof,
                 current_page=page,
                 far_buttons=True,
@@ -208,17 +212,21 @@ def race_schedule(prof, uid, page=0):
 
 
 def training(prof, uid, confirm_stat=None):
-    career = prof['career']
-    em = _uma_em(career.name)
-    training_header = tr("training.header", 0, prof, em, career.name, career.energy)
-    mood = _mood_em(career)
+    _career = prof['career']
+    if _career.current_goal is not None:
+        goal = _career.current_goal
+        if isinstance(goal, RaceGoal):
+            return career(prof, uid)
+    em = _uma_em(_career.name)
+    training_header = tr("training.header", 0, prof, em, _career.name, _career.energy)
+    mood = _mood_em(_career)
 
     stats_displayed = []
     training_btns = []
 
-    preview = career.train(confirm_stat, True) if confirm_stat else {}
+    preview = _career.train(confirm_stat, True) if confirm_stat else {}
     
-    for stat, values in zip(stat_names, career.stats):
+    for stat, values in zip(stat_names, _career.stats):
         st = tr(f'stats.{stat}', 0, prof)
         if confirm_stat and stat in preview:
             stats_displayed.append((stat, st, (values, preview[stat])))
@@ -231,12 +239,12 @@ def training(prof, uid, confirm_stat=None):
         @interaction(btn)
         async def _train(i, stat=stat):
             if confirm_stat == stat:
-                career.train(stat)
+                _career.train(stat)
                 return await i.response.edit_message(view=training(prof, uid, None))
             else:
                 return await i.response.edit_message(view=training(prof, uid, stat))
     
-    stats_displayed.append(('sp', tr('training.skill_pts_label', 0, prof), career.skill_points))
+    stats_displayed.append(('sp', tr('training.skill_pts_label', 0, prof), _career.skill_points))
     
     stat_line = get_statline(stats_displayed, compact=prof['settings']['mobile_mode'])
 
@@ -255,28 +263,41 @@ def training(prof, uid, confirm_stat=None):
             ActionRow(*training_btns)
         ),
         Container(
-            ActionRow(_create_back_button(
-                lambda: career(prof, uid),
-                prof
+            ActionRow(_back_button(
+                prof,
+                lambda: career(prof, uid)
             ))
         )
     )
 
-def career(prof, uid):
-    career = prof['career']
-    if not career:
-        return career_select(prof, uid)
-    em = _uma_em(career.name)
-    training_header = tr("training.header", 0, prof, '','', career.energy)
+def career_failure(prof, uid):
+    return View(Text("Your shit is cooked dumbass"))
 
-    month = tr('career.months', career.month%12, prof)
-    early = "early" if career.half == 0 else "late"
+def career(prof, uid, goal_only=False):
+    _career = prof['career']
+    if not _career:
+        return career_select(prof, uid)
+    if _career.current_goal is not None and not goal_only:
+        goal = _career.current_goal
+
+        if isinstance(goal, RaceGoal):
+            return career(prof, uid, True)
+        elif isinstance(goal, FanGoal):
+            if goal.requirement > _career.fans:
+                return career_failure(prof, uid)
+
+    em = _uma_em(_career.name)
+    training_header = tr("training.header", 0, prof, '','', _career.energy)
+
+    month = tr('career.months', _career.month%12, prof)
+    early = "early" if _career.half == 0 else "late"
     half = tr(f'career.half.{early}', 0, prof)
-    year = tr(f'career.year', career.year, prof)
-    mood = _mood_em(career)
+    year = tr(f'career.year', _career.year, prof)
+    mood = _mood_em(_career)
 
     train = Button(tr('career.btn.train', 0, prof), emoji=view_state.bot.get_em("ui_career"))
     race = Button(tr('career.btn.race', 0, prof), emoji="🏁")
+    sleep = Button(tr('career.btn.rest', 0, prof))
 
     @interaction(train)
     async def _train(i):
@@ -284,19 +305,36 @@ def career(prof, uid):
     @interaction(race)
     async def _race(i):
         await i.response.edit_message(view=race_schedule(prof, uid))
+    @interaction(sleep)
+    async def _sleep(i):
+        _career.energy+=random.choice([30,50,70])
+        _career.energy=min(_career.max_energy, _career.energy)
+
+        _career.advance()
+        await i.response.edit_message(view=career(prof, uid, goal_only))
+    if not goal_only:
+        elements = ActionRow(
+            train, race, sleep
+        )
+    else:
+        elements = ActionRow(
+            race
+        )
     
     return View(Container(
         Section(
             Text(
-                tr("career.header", 0, prof, em, career.name, training_header, year, month, half)
+                tr("career.header", 0, prof, em, _career.name, training_header, year, month, half)
             ),
             Text(f"-# **{get_goal_header(prof, uid)}**"),
             accessory=Thumbnail(
                 url=mood.url
             )
         ),
-        ActionRow(
-            train, race
-        )
-       
-    ), owner=uid)
+        elements,
+    ),
+    Container(
+        ActionRow(_back_button(prof, career))
+    ),
+
+    owner=uid)
