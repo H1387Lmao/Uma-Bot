@@ -109,11 +109,14 @@ class Career:
 
 	def advance(self):
 		self.turn += 1
-		self.month = self.turn//2 + 3 # start in april
+		self.month = (self.turn//2 + 3)%12 # start in april
 		self.half = (self.turn-1)%2
 		self.year = (self.month//12+1)
 		
 		self.update_current_goal()
+	def is_summer(self):
+		if not self.year: return False
+		return 6 <= self.month <= 7
 
 	def get_needed_goal(self):
 		for goal in self.goals[self.goals_done:]:

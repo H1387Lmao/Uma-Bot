@@ -52,8 +52,8 @@ def view_race_info(prof, uid, race, page):
     d_ev = race.evaluate_distance(c.apts)
     g_ev = race.evaluate_ground(c.apts)
 
-    d_stars = ":star:" if d_ev else ""
-    g_stars = ":star:" if g_ev else ""
+    d_stars = "⭐" if d_ev else ""
+    g_stars = "⭐" if g_ev else ""
 
     schedule = Button(tr("race.schedule.pick", 0, prof))
     @interaction(schedule)
@@ -304,8 +304,12 @@ def training(prof, uid, confirm_stat=None):
                 return await i.response.edit_message(view=training(prof, uid, None))
             else:
                 return await i.response.edit_message(view=training(prof, uid, stat))
-    
-    stats_displayed.append(('sp', tr('training.skill_pts_label', 0, prof), _career.skill_points))
+    if confirm_stat and 'sp' in preview:
+        sp_val = (_career.skill_points, preview["sp"])
+    else:
+        sp_val = _career.skill_points
+
+    stats_displayed.append(('sp', tr('training.skill_pts_label', 0, prof), sp_val))
     
     stat_line = get_statline(stats_displayed, compact=prof['settings']['mobile_mode'])
 
@@ -359,7 +363,9 @@ def career(prof, uid, goal_only=False):
     train = Button(tr('career.btn.train', 0, prof), emoji=view_state.bot.get_em("ui_career"))
     race = Button(tr('career.btn.race', 0, prof), emoji=view_state.bot.get_em("ui_race"))
     sleep = Button(tr('career.btn.rest', 0, prof), emoji=view_state.bot.get_em("ui_rest"))
-
+    recreation = Button(tr('career.btn.recreate', 0, prof), emoji=view_state.bot.get_em("ui_recreate"))
+    restcreation = Button(tr('career.btn.restcreate', 0, prof), emoji=view_state.bot.get_em("ui_restcreate"))
+    skills = Button(tr('career.btn.skills', 0, prof), emoji=view_state.bot.get_em("ui_skills"))
     @interaction(train)
     async def _train(i):
         await i.response.edit_message(view=training(prof, uid))
@@ -373,9 +379,24 @@ def career(prof, uid, goal_only=False):
 
         _career.advance()
         await i.response.edit_message(view=career(prof, uid, goal_only))
+    @interaction(recreation)
+    async def _recreation(i):
+        _career.mood=min(4, _career.mood+1)
+        _career.advance()
+        await i.response.edit_message(view=career(prof, uid, goal_only))
+
+    @interaction(restcreation)
+    async def _recreation(i):
+        _career.mood=min(4, _career.mood+1)
+        _career.energy+=random.choice([30,50,70])
+        _career.energy=min(_career.max_energy, _career.energy)
+
+        _career.advance()
+        await i.response.edit_message(view=career(prof, uid, goal_only))
     if not goal_only:
+        slp = [sleep, recreation] if not _career.is_summer() else [restcreation]
         elements = ActionRow(
-            train, race, sleep
+            train, race, *slp
         )
     else:
         elements = ActionRow(
@@ -395,7 +416,10 @@ def career(prof, uid, goal_only=False):
         elements,
     ),
     Container(
-        ActionRow(_back_button(prof, career))
+        ActionRow(
+            skills,
+            _back_button(prof, lambda: career(prof, uid, goal_only)),
+        )
     ),
 
     owner=uid)

@@ -21,6 +21,7 @@ TITLE_SETTINGS = 2
 
 async def create_loading(ctx, function, *args, respond=False):
     em = "<a:loading:1482569743679361225>"
+    
     res = ctx.response.edit_message if not respond else ctx.reply
 
     if view_state.emojis:
@@ -31,7 +32,12 @@ async def create_loading(ctx, function, *args, respond=False):
     msg = await res(
         view=View(
             Container(
-                Text(f"### **{tr("ui.loading", 0, prof, em)}**\n-# {tr("ui.loading", 1, prof)}")
+                Section(
+                    Text(f"### **{tr("ui.loading", 0, prof, em)}**\n-# {tr("ui.loading", 1, prof)}"),
+                    accessory=Thumbnail(
+                        url="https://raw.githubusercontent.com/H1387Lmao/H1387Lmao/refs/heads/main/resources/umabot-logo.png"
+                    )
+                )
             )
         )
     )
@@ -116,7 +122,44 @@ async def prof(ctx, data, uid: int, ulang="English", respond=True):
         )
     )
 
-    
+def credits_page(prof, uid):
+    bot = view_state.bot
+    prog_id = 735679718506102881
+    eng_id = 1252175358741057586
+    esp_id = 696002196205994024
+
+    prog_user = bot.get_user(prog_id)
+    eng_user = bot.get_user(eng_id)
+    esp_user = bot.get_user(esp_id)
+
+    prog_name = prog_user.display_name if prog_user else "Unknown"
+    eng_name = eng_user.display_name if eng_user else "Unknown"
+    esp_name = esp_user.display_name if esp_user else "Unknown"
+
+    title = tr("page.credits", 0, prof, monospaced=True)
+    assets = tr("page.credits", 1, prof)
+    sprites = tr("page.credits", 2, prof)
+    dev = tr("page.credits", 3, prof)
+    prog = tr("page.credits", 4, prof)
+    comm = tr("page.credits", 5, prof)
+    eng = tr("page.credits", 6, prof)
+    esp = tr("page.credits", 7, prof)
+
+    text = (
+        f"# **{title}**{bot.get_em("ui_profile")}\n"
+
+        f"## 🖼️ {assets}\n"
+        f"-# © CyGames — {sprites}\n\n"
+
+        f"## 🖱️ {dev}\n"
+        f"-# {prog_name} **({prog})**\n\n"
+
+        f"## 🌐 {comm}\n"
+        f"-# {eng_name} **({eng})**\n"
+        f"-# {esp_name} **({esp})**"
+    )
+
+    return Text(text)
 
 def home(prof, uid, page=0):
     lang = prof["settings"]["lang"]
@@ -151,6 +194,7 @@ def home(prof, uid, page=0):
         } for i in range(len(TRANSLATIONS["page.settings.options"]))
     ]
     elements = []
+    buttons = []
     
     match page:
         case 0:
@@ -175,7 +219,6 @@ def home(prof, uid, page=0):
         case 1:
             buttons = [Button(d['label'], emoji=bot.get_em(d['emoji'], "❔")) for d in club_btns]
         case 2:
-            buttons = []
             current_row=[]
             for element in options:
                 name     = element["name"]
@@ -184,7 +227,6 @@ def home(prof, uid, page=0):
                 default  = prof["settings"].setdefault(
                     id, element["default"]
                 )
-                print(default)
                 if len(current_row)==5:
                     elements.append(ActionRow(
                         *current_row
@@ -230,6 +272,8 @@ def home(prof, uid, page=0):
                 elements.append(ActionRow(
                     *current_row
                 ))
+        case 3:
+            page_title=credits_page(prof, uid)
 
     if buttons:
         elements.append(ActionRow(*buttons))
@@ -237,13 +281,13 @@ def home(prof, uid, page=0):
     parent_factory = lambda page: home(prof, uid, page=page)
     nav_buttons = pagination_buttons(
         parent_factory=parent_factory,
-        max_pages=2,
+        max_pages=3,
         lang=lang,
         current_page=page,
         loop=True
     )
 
-    thumb_url = bot.get_em_url(emoji) or "https://gametora.com/images/404.png"
+    thumb_url = "https://raw.githubusercontent.com/H1387Lmao/H1387Lmao/refs/heads/main/resources/umabot-logo.png" if page%3==0 else bot.get_em(emoji).url
     return View(
         Container(
             Section(
