@@ -108,6 +108,19 @@ class UmaData:
                 break
         else:
             self.best_dist = 2600
+
+        self.apts: dict[str, int] = {
+            "turf": self.get_turf_apt(),
+            "dirt": self.get_dirt_apt(),
+            "mile": self.get_mile_apt(),
+            "medium": self.get_medium_apt(),
+            "sprint": self.get_sprint_apt(),
+            "long": self.get_long_apt(),
+            "front": self.get_front_apt(),
+            "pace": self.get_pace_apt(),
+            "end": self.get_end_apt(),
+            "late": self.get_late_apt()
+        }
                 
     def get_turf_apt(self):
         return self.aptitude[0]

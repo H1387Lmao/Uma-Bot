@@ -45,10 +45,12 @@ async def create_loading(ctx, function, *args, respond=False):
         await asyncio.sleep(1)
 
     res = ctx.edit_original_response if not respond else msg.edit
-
-    await res(
-        view=function(*args)
-    )
+    try:
+        await res(
+            view=function(*args)
+        )
+    except:
+        return
 
 async def prof(ctx, data, uid: int, ulang="English", respond=True):
     if str(uid) in data:
@@ -152,11 +154,11 @@ def credits_page(prof, uid):
         f"-# © CyGames — {sprites}\n\n"
 
         f"## 🖱️ {dev}\n"
-        f"-# {prog_name} **({prog})**\n\n"
+        f"-# ***{prog_name}***\n**({prog})**\n\n"
 
         f"## 🌐 {comm}\n"
-        f"-# {eng_name} **({eng})**\n"
-        f"-# {esp_name} **({esp})**"
+        f"-# ***{eng_name}***\n**({eng})**\n"
+        f"-# ***{esp_name}***\n**({esp})**"
     )
 
     return Text(text)

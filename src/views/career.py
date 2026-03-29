@@ -4,6 +4,9 @@ from .translations import translator, tr, SUPPORTED_LANGS, TRANSLATIONS, typewri
 from .pages import pagination_buttons, error, _back_button
 from .state import view_state
 from ..data import grade_map, grade_stat, SCHEDULES
+from ..race import *
+from .race import *
+
 import random
 
 MOOD_LEVELS = ['awful', 'bad', 'normal', 'good', 'great']
@@ -24,6 +27,7 @@ def get_goal_header(prof, uid):
     
     if isinstance(goal_info, FanGoal):
        tr_identif = "goal.fans"
+       args=[goal_info.requirement]
     elif isinstance(goal_info, RaceGoal):
         if goal_info.race_data.name=="Junior Make Debut":
             tr_identif = "goal.debut"
@@ -76,6 +80,8 @@ def view_race_info(prof, uid, race, page):
     )
 
 def career_select(prof, uid, page=0):
+    if prof["career"]:
+        return career(prof, uid)
     umas = _get_umas(prof)
     if not umas:
         return error(prof, uid, "career.no_uma", back_view_factory=lambda: view_state.views.home(prof, uid))
@@ -174,8 +180,8 @@ def get_statline(stats_displayed, compact=False):
     return stat_line
 
 def create_race_button(prof, uid, race, page, d_ev, g_ev):
-    d_stars = ":star:" if d_ev else ""
-    g_stars = ":star:" if g_ev else ""
+    d_stars = "⭐" if d_ev else ""
+    g_stars = "⭐" if g_ev else ""
 
     btn = Button(f"{race.name}{d_stars}{g_stars}", emoji=race.get_emoji(view_state))
 
@@ -186,15 +192,9 @@ def create_race_button(prof, uid, race, page, d_ev, g_ev):
                 view=view_race_info(prof, uid, race, page)
             )
         else:
-            await i.response.edit_message(
-                view=View(Text("Lmao race is not implemented yet!"),
-                    ActionRow(
-                        _back_button(
-                            prof, lambda: race_schedule(prof, uid, page)
-                        )
-                    )
-                )
-            )
+            r = Race(prof["career"], race, i.user)
+            fn = show_race if not prof["settings"]["skip_race"] else show_skipped
+            await fn(prof, uid, r, i, lambda: career(prof, uid))
     return btn
 
 def race_schedule(prof, uid, page=0):
@@ -336,20 +336,22 @@ def training(prof, uid, confirm_stat=None):
     )
 
 def career_failure(prof, uid):
-    return View(Text("Your shit is cooked dumbass"))
+    return View(Text("Your career is over, thanks for playing the demo!"))
 
 def career(prof, uid, goal_only=False):
     _career = prof['career']
     if not _career:
         return career_select(prof, uid)
+    if _career.over:
+        return career_failure(prof, uid)
     if _career.current_goal is not None and not goal_only:
         goal = _career.current_goal
 
         if isinstance(goal, RaceGoal):
             return career(prof, uid, True)
         elif isinstance(goal, FanGoal):
-            if goal.requirement > _career.fans:
-                return career_failure(prof, uid)
+            _career.check_goal({"goal_type": "fans"})
+            return career(prof, uid)
 
     em = _uma_em(_career.name)
     training_header = tr("training.header", 0, prof, '','', _career.energy)
@@ -418,7 +420,7 @@ def career(prof, uid, goal_only=False):
     Container(
         ActionRow(
             skills,
-            _back_button(prof, lambda: career(prof, uid, goal_only)),
+            _back_button(prof, lambda: view_state.views.home(prof, uid)),
         )
     ),
 

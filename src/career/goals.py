@@ -76,7 +76,7 @@ GOAL_DB = {
 
 def make_debut(uma, data):
     Race = RaceData(None, "Junior Make Debut", data.best_dist, 0, data.get_turf_apt()>=6)
-    return RaceGoal(1, Race, 4)
+    return RaceGoal(3, Race, 4)
 
 def get_goals(uma, data):
     if uma in GOAL_DB:

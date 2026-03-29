@@ -56,24 +56,33 @@ class Career:
 		self.update_current_goal()
 		self.update_aptitudes()
 
-		self.advance()
+		self.over=False
+
+		self.advance() if self.turn == 0 else 0
+	def __reduce__(self):
+		return (self.__class__, (
+			self.owner,
+			self.name,
+			self.fans,
+			self.energy,
+			self.mood,
+			self.skill_points,
+			self.stats,
+			self.skills,
+			self.conditions,
+			self.races_scheduled,
+			self.turn,
+			self.support_cards,
+			self.goals_done,
+			self.seed,
+			self.max_energy
+		))
+	def __repr__(self):
+		return f"Career ({self.name})"
 
 	def update_aptitudes(self):
 		ud = UMAS[self.name]
-		self.apts: dict[str, int] = {
-			"turf": ud.get_turf_apt(),
-			"dirt": ud.get_dirt_apt(),
-			"mile": ud.get_mile_apt(),
-			"medium": ud.get_medium_apt(),
-			"sprint": ud.get_sprint_apt(),
-			"long": ud.get_long_apt(),
-			"front": ud.get_front_apt(),
-			"pace": ud.get_pace_apt(),
-			"end": ud.get_end_apt(),
-			"late": ud.get_late_apt()
-		}
-
-
+		self.apts: dict[str, int] = ud.apts
 	@staticmethod
 	def create_new(name, uid, sps):
 		uma_data = UMAS[name]
@@ -111,7 +120,7 @@ class Career:
 		self.turn += 1
 		self.month = (self.turn//2 + 3)%12 # start in april
 		self.half = (self.turn-1)%2
-		self.year = (self.month//12+1)
+		self.year = self.month//12
 		
 		self.update_current_goal()
 	def is_summer(self):
@@ -122,3 +131,14 @@ class Career:
 		for goal in self.goals[self.goals_done:]:
 			if goal.deadline >= self.turn:
 				return goal
+	def get_avg(self):
+		return sum(self.stats)//len(self.stats)
+	def check_goal(self, goal_res):
+		if self.current_goal is not None:
+			gtype=goal_res["goal_type"]
+			if gtype=="race":
+				self.over=goal_res["placement"]>self.current_goal.placement
+			elif gtype=="fans":
+				self.over=self.fans<self.current_goal.requirement
+		self.advance()
+    

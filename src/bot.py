@@ -5,7 +5,7 @@ from pathlib import Path
 import json, sys
 from .views.state import view_state
 from .views.translations import tr, SUPPORTED_LANGS
-import sqlitedict
+from .utils import CleanerContext
 
 PREFIXES = [
     "devuma ",
@@ -34,7 +34,7 @@ class Uma(bridge.Bot):
         )
         view_state.bot = self
 
-        self.database: sqlitedict.SqliteDict = sqlitedict.SqliteDict('database/main.db') # database
+        self.database = {}
         self.view_state = view_state
 
         
@@ -66,9 +66,9 @@ class Uma(bridge.Bot):
         dev = kwargs.pop("dev", False)
         def decorator(func):
             async def wrapper(ctx: bridge.Context, *args, **kwargs):
-                if dev and ctx.author not in Developers:
+                if dev and ctx.author.id not in Developers:
                     return
-                return await func(ctx, *args, **kwargs)
+                return await func(CleanerContext(ctx), *args, **kwargs)
             _name = kwargs.get("name") or func.__name__
             view_state.logger.print(f"[light yellow]Adding: {_name}[reset]")
 
@@ -83,7 +83,7 @@ class Uma(bridge.Bot):
                     view_state.logger.print(f"[light green]added translation [{lang}]: {name}[reset]")
             kwargs['aliases'] = aliases
             if not dev:
-                self.bridge_command(**kwargs)(func)
+                self.bridge_command(**kwargs)(wrapper)
             else:
-                self.command(**kwargs)(func)
+                self.command(**kwargs)(wrapper)
         return decorator

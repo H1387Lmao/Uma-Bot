@@ -73,10 +73,15 @@ TRANSLATIONS = {
          "_type": "toggle",
          "_id": "skip_gacha"},
         {"English": "Compact UI", 
-         "Español": "UI de Compacta",
-         "_default": False,
+         "Español": "UI Compacto",
+         "_default": True,
          "_type": "toggle",
          "_id": "mobile_mode"},
+        {"English": "Skip race", 
+         "Español": "Saltar carrera",
+         "_default": False,
+         "_type": "toggle",
+         "_id": "skip_race"},
         {"English": "Language",
          "Español": "Idioma",
          "_default": "English",
@@ -201,7 +206,7 @@ TRANSLATIONS = {
 
     "career.goal.next":       [{"English": "Next Goal", "Español": "Próximo objetivo"}],
     "career.goal.completed":  [{"English": "All Goals Completed"}],
-    "career.goal.header":     [{"English": "<0> in <1>"}],
+    "career.goal.header":     [{"English": "<0> <1>"}],
     "career.turns":           [
         {"English": "in <0> turns",     "Español": "de <0> turnos"},
         {"English": "in <0> turn",      "Español": "de <0> turno"}
@@ -246,7 +251,30 @@ TRANSLATIONS = {
     "race.schedule.pick": [
         {"English": "Schedule", "Español": "Congrama"},
     ],
-
+    "race.result.won": [
+        {"English": "## ***Won!***", "Español": "## ***¡Ganaste!***"},
+    ],
+    "race.result.lost": [
+        {"English": "## ***Lost!***", "Español": "## ***¡Perdiste!***"},
+    ],
+    "race.result.placement": [
+        {"English": "— <0> Place", "Español": "— <0> Lugar"},
+    ],
+    "race.result.reward.career": [
+        {"English": "-# You gained **<0>** fans, **<1>** SP, and **<2>** carats!",
+         "Español": "-# ¡Ganaste **<0>** fans, **<1>** SP y **<2>** carats!"},
+    ],
+    "race.result.reward.daily": [
+        {"English": "-# You gained **<0>** carats and **<1>** exp!",
+         "Español": "-# ¡Ganaste **<0>** carats y **<1>** exp!"},
+    ],
+    "race.result.club.title": [
+        {"English": "Club Race has finished!", "Español": "¡La carrera del club terminó!"},
+    ],
+    "race.result.club.entry": [
+        {"English": "<0> ***<1>***\n-# <2> <3>\n",
+         "Español": "<0> ***<1>***\n-# <2> <3>\n"},
+    ],
     "skills.none": [
         {"English": "No skills yet!", "Español": "¡Sin habilidades aún!"},
     ],
@@ -260,7 +288,7 @@ TRANSLATIONS = {
     "goal.fans": [
         {"English": "Accumulate <0> fans",     "Español": "Acumula <0> fans."},
     ],
-    "goal.req.participate": [{"English": "Participate <0>",  "Español": "Participar en <0>"}],
+    "goal.req.participate": [{"English": "Participate <0>",  "Español": "Participar <0>"}],
     "goal.req.top5":        [{"English": "Finish top 5 <0>", "Español": "Terminar en el top 5 <0>"}],
     "goal.req.top3":        [{"English": "Finish top 3 <0>", "Español": "Terminar en el top 3 <0>"}],
     "goal.req.win":         [{"English": "Win <0>",             "Español": "Ganar <0>"}],

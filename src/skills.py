@@ -2,53 +2,6 @@ from enum import IntEnum
 import random
 from .views.state import view_state
 
-class TRACK_TYPE(IntEnum):
-    Turf = 0
-    Dirt = 1
-
-class TRACK_WEATHER(IntEnum):
-    Sunny = 0
-    Snowy = 1
-    Rainy = 2
-    Cloudy = 3
-
-class TRACK_SEASON(IntEnum):
-    Summer = 0
-    Winter = 1
-    Fall = 2
-    Spring = 3
-
-class TRACK_LENGTH(IntEnum):
-    Short = 1200
-    Mile = 1600
-    Medium = 1800
-    Long = 2200
-
-class TRACK_TIME(IntEnum):
-    Day = 0
-    Night = 1
-    Sunset = 2
-
-class TRACK_NAME(IntEnum):
-    Sapporo = 0
-    Hakodate = 1
-    Niigata = 2
-    Fukushima = 4
-    Nakayama = 5
-    Tokyo = 6
-    Chukyo = 7
-    Kyoto = 8
-    Hanshin = 9
-    Kokura = 10
-    Oi = 11
-    Kawasaki = 12
-    Funabashi = 13
-    Morioka = 14
-    Longchamp = 15
-
-def random_enum(Enums):
-    return random.choice([priority for priority in Enums])
-
 class Skill:
     def __init__(
         self,
@@ -140,7 +93,7 @@ class Skill:
         target.spd += spd
         target.stm += stam
         target.pwr += pwr
-        target.gut += gut
+        target.guts += gut
         target.wit += wit
         target.vel += vel
         target.ACCEL_RATE += (accel / 1000) # Normalize accel boost

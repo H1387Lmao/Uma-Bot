@@ -1,4 +1,4 @@
-from src import Uma, views, card
+from src import Uma, views, card, utils
 import sys, atexit, signal
 from uicord import state, View, Container, MediaGallery, MediaGalleryItem, Text
 import discord
@@ -61,6 +61,15 @@ async def prof(ctx, member: discord.Member|None=None):
         )
         _out.unlink()
         
+@uma.cmd(
+    name="reset",
+    dev=True,
+    description="Restart the bot"
+)
+async def reset(ctx: utils.CleanerContext):
+    await ctx.defer()
+    await utils.CleanerContext.cleanup_all()
+    os.execv(sys.executable, [sys.executable] + sys.argv)
 
 state.DEV_IDS.append(735679718506102881)
 
