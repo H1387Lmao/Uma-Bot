@@ -147,7 +147,10 @@ async def view_multi(ctx, prof, emojis, umas, uid, page):
 
         shown = list(emojs)
         for i in range(len(emojis) + 1):
-            await asyncio.sleep(0.35)
+            if i-1 in fake_index:
+                await asyncio.sleep(1)
+            else:
+                await asyncio.sleep(0.35)
             if i != 0:
                 names[i-1]=umas[i-1]
             shown = (
@@ -162,8 +165,7 @@ async def view_multi(ctx, prof, emojis, umas, uid, page):
             await ctx.edit_original_response(
                 view=View(Container(Text(rolling_text)), owner=uid)
             )
-            if i in fake_index:
-                await asyncio.sleep(1)
+            
     else:
         shown = [view_state.bot.get_uma(umas[j]) for j in range(10)]
         names = umas

@@ -144,6 +144,9 @@ def career_select_confirm(prof, uid, name):
         owner=uid
     )
 
+def get_abs_sign(numb):
+    return (f"+{numb}" if numb > 0 else str(numb)) if numb != 0 else "0"
+
 def get_statline(stats_displayed, compact=False):
     longest_length = max(len(stat) for _, stat, _ in stats_displayed)
     
@@ -159,7 +162,7 @@ def get_statline(stats_displayed, compact=False):
         for actual, stat, value in chunk:
             if isinstance(value, tuple):
                 base, bonus = value
-                val = typewriter(f"{base} **(+{bonus})**")
+                val = typewriter(f"{base} **({get_abs_sign(bonus)})**")
             else:
                 base = value
                 val = typewriter(str(value))
@@ -180,10 +183,9 @@ def get_statline(stats_displayed, compact=False):
     return stat_line
 
 def create_race_button(prof, uid, race, page, d_ev, g_ev):
-    d_stars = "⭐" if d_ev else ""
-    g_stars = "⭐" if g_ev else ""
+    reccomended = "⭐" if d_ev and g_ev else ""
 
-    btn = Button(f"{race.name}{d_stars}{g_stars}", emoji=race.get_emoji(view_state))
+    btn = Button(f"{race.name}{reccomended}", emoji=race.get_emoji(view_state))
 
     @interaction(btn)
     async def _show_info(i, race=race):
@@ -270,7 +272,31 @@ def race_schedule(prof, uid, page=0):
         ),
         owner = uid
     )
+def failed_training(prof, uid, stat):
+    c = prof['career']
 
+    failed_info = ""
+
+    c.energy //= 2
+    c.mood = max(0, c.mood-1)
+    stat_index = c.stat_to_index(stat)
+    c.stats[stat_index]-=5
+
+    if random.random() <= 0.45:
+        c.conditions.add(1)
+        cond = tr('condition.PracticePoor', 0, prof)
+        failed_info+=tr("career.attained_condition", 0, prof, cond)
+
+    return View(
+        Container(
+            Section(
+                Text(f'## **{tr("errors.training.fail.low_energy", 0, prof)}**'),
+                *([Text(f"-# {failed_info}")] if failed_info else []),
+                accessory=Thumbnail(url=view_state.bot.get_em("failed").url)
+            ),
+            ActionRow(_back_button(prof, lambda: career(prof, uid)))
+        ), owner = uid
+    )
 
 def training(prof, uid, confirm_stat=None):
     _career = prof['career']
@@ -279,29 +305,39 @@ def training(prof, uid, confirm_stat=None):
         if isinstance(goal, RaceGoal):
             return career(prof, uid)
     em = _uma_em(_career.name)
-    training_header = tr("training.header", 0, prof, em, _career.name, _career.energy)
+    
     mood = _mood_em(_career)
 
     stats_displayed = []
     training_btns = []
 
     preview = _career.train(confirm_stat, True) if confirm_stat else {}
-    
+
+
+    energy_display = f"{_career.energy}/{_career.max_energy}"
+    if preview:
+        energy_display += "**("+get_abs_sign(preview['energy'])+")**"
+    training_header = tr("training.header", 0, prof, em, _career.name, energy_display)
     for stat, values in zip(stat_names, _career.stats):
         st = tr(f'stats.{stat}', 0, prof)
         if confirm_stat and stat in preview:
             stats_displayed.append((stat, st, (values, preview[stat])))
         else:
             stats_displayed.append((stat, st, values))
-    
+        if confirm_stat == stat:
+            st+=f' {(preview['failure_rate']*100):.0f}%'
         btn = Button(tr('training.train_button', 0, prof, st), emoji=_stat_em(stat))
         training_btns.append(btn)
     
         @interaction(btn)
         async def _train(i, stat=stat):
             if confirm_stat == stat:
-                _career.train(stat)
-                return await i.response.edit_message(view=training(prof, uid, None))
+                res = lambda: training(prof, uid, None)
+                if preview['failure_rate']>random.random():
+                    res = lambda: failed_training(prof, uid, confirm_stat)
+                else:
+                    _career.train(stat)
+                return await i.response.edit_message(view=res())
             else:
                 return await i.response.edit_message(view=training(prof, uid, stat))
     if confirm_stat and 'sp' in preview:
@@ -316,7 +352,7 @@ def training(prof, uid, confirm_stat=None):
     return View(
         Container(
             Section(
-                Text(f"## **{training_header}**"),
+                Text(f"## {training_header}"),
                 Text(f"-# **{get_goal_header(prof, uid)}**"),
                 Text(stat_line),
                 accessory=Thumbnail(

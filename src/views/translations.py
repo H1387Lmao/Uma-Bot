@@ -152,7 +152,7 @@ TRANSLATIONS = {
     "stats.wit":   [{"English": "Wit",     "Español": "Ingenio"}],
 
     "training.header": [
-        {"English": "<0><1>⚡ <2>/100"}
+        {"English": "<0><1>⚡ <2>"}
     ],
     "career.header": [
         {"English": "## <0> **<1>**\n-# **<2>** 📅 **<3> <4> <5>**",
@@ -234,6 +234,9 @@ TRANSLATIONS = {
     "career.summary.fans": [
         {"English": "Total Fans", "Español": "Fans totales"},
     ],
+    "career.attained_condition": [
+        {"English": "You attained the condition **<0>**"},
+    ],
 
     "career.skillpoints.label": [
         {"English": "SP",
@@ -304,7 +307,7 @@ TRANSLATIONS = {
          "Español": "Tu carrera ha terminado. Tus fans han sido guardados."},
     ],
     "errors.training.fail.low_energy": [
-        {"English": "Training Failed",             "Español": "Entrenamiento fallido"},
+        {"English": "Training Failed! Mood worsened.",             "Español": "Entrenamiento fallido! El ánimo empeoró."},
         {"English": "Not enough energy! Mood worsened.",
          "Español": "¡No hay suficiente energía! El ánimo empeoró."},
     ],
