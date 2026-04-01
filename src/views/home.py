@@ -1,11 +1,12 @@
 # home.py
 from uicord import *
-from .translations import translator, tr, SUPPORTED_LANGS, TRANSLATIONS
+from .translations import translator, tr, SUPPORTED_LANGS, TRANSLATIONS, DISABLED_LANGS
 from .pages import pagination_buttons
 from .gacha import gacha
 from .storage import storage
 from .career import career_select, career
 from .state import view_state
+from .feedback import _send_feedback
 import discord as dsc
 import signal, sys, atexit
 import asyncio
@@ -58,9 +59,14 @@ async def prof(ctx, data, uid: int, ulang="English", respond=True):
     tr_title  = tr("settings.lang", 0, ulang)
     tr_button = tr("settings.lang", 1, ulang)
 
+    contact = Button("Contact Us!", color=Colors.Blue)
+    @interaction(contact)
+    async def _contact(i):
+        await _send_feedback(i)
+
     options = [
         dsc.SelectOption(label=lang, default=lang == ulang)
-        for lang in SUPPORTED_LANGS
+        for lang in SUPPORTED_LANGS if lang not in DISABLED_LANGS
     ]
 
     lang_select = Choices(options=options)
@@ -114,12 +120,19 @@ async def prof(ctx, data, uid: int, ulang="English", respond=True):
             ctx, home, prof, uid
         )
     res = ctx.respond if respond else ctx.response.edit_message
+
+    d = "\n".join(DISABLED_LANGS)
     await res(
         view=View(
             Container(
                 Text(f"## {tr_title}"),
                 ActionRow(lang_select),
-                ActionRow(start_btn),
+                ActionRow(start_btn, contact),
+                Separator(),
+                Text("-# Some translations may be **missing** due to **mistranslations** or **missing translations**"
+                "\n-# If you wanna help with translations contact us! **astraldevs5919@gmail.com**"
+                +(f"\n>>> List of all disabled translations: {d}" if d else "")
+                )
             )
         )
     )
@@ -161,7 +174,12 @@ def credits_page(prof, uid):
         f"-# ***{esp_name}***\n**({esp})**"
     )
 
-    return Text(text)
+    contact = Button("Contact Us!")
+    @interaction(contact)
+    async def _contact(i):
+        await _send_feedback(i)
+
+    return [Text(text), ActionRow(contact)]
 
 def home(prof, uid, page=0):
     lang = prof["settings"]["lang"]
@@ -275,7 +293,8 @@ def home(prof, uid, page=0):
                     *current_row
                 ))
         case 3:
-            page_title=credits_page(prof, uid)
+            e=credits_page(prof, uid)
+            page_title, elements = e[0], e[1:]
 
     if buttons:
         elements.append(ActionRow(*buttons))

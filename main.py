@@ -9,7 +9,7 @@ uma = Uma()
 @uma.cmd(
     name="start",
     description="Start Your Career as a Trainer!",
-    dev=True
+    dev=False
 )
 async def start_adventure(ctx):
     await views.prof(ctx, uma.database, ctx.author.id)

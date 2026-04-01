@@ -8,7 +8,7 @@ from .views.translations import tr, SUPPORTED_LANGS
 from .utils import CleanerContext
 
 PREFIXES = [
-    "devuma ",
+    "uma ",
     "dev "
 ]
 

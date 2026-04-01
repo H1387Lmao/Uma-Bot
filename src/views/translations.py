@@ -30,6 +30,7 @@ def typewriter(text: str) -> str:
     return "".join(result)
 
 SUPPORTED_LANGS = ["English", "Español"]
+DISABLED_LANGS = []#"Español"]
 TRANSLATIONS = {
     "settings.lang": [
         {"English": "Choose a language",  "Español": "Elige un idioma"},

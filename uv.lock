@@ -536,15 +536,11 @@ wheels = [
 
 [[package]]
 name = "py-cord"
-version = "2.7.1"
-source = { registry = "https://pypi.org/simple" }
+version = "2.8.0rc2.dev17+g227a128b6"
+source = { git = "https://github.com/Pycord-Development/pycord.git#227a128b6ecf4266625cae70f406227a33558ef5" }
 dependencies = [
     { name = "aiohttp" },
     { name = "typing-extensions" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/0b/56/74d5a2c9e9c23c449a999b89abeaa2a77a2be56017d001218556d5886960/py_cord-2.7.1.tar.gz", hash = "sha256:100935f37e77ba8ac1e3eff0b180e6d69bcac083de81d4c83d42327d9a2eddee", size = 1132229, upload-time = "2026-02-09T08:54:59.949Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/25/ee/38f9707fd4d7381dea3257a5278de9d23f62d3b2781702b293ead12c0671/py_cord-2.7.1-py3-none-any.whl", hash = "sha256:d95301226f0642f6f3b23e21c31987ebbe23fdb7007cbc8143b010eb6780dec1", size = 1207918, upload-time = "2026-02-09T08:54:58.428Z" },
 ]
 
 [[package]]
@@ -609,7 +605,7 @@ dev = [
 requires-dist = [
     { name = "aiohttp", specifier = ">=3.11.18" },
     { name = "pillow" },
-    { name = "py-cord" },
+    { name = "py-cord", git = "https://github.com/Pycord-Development/pycord.git" },
     { name = "requests" },
     { name = "sqlitedict" },
     { name = "uicord", directory = "../UICord" },
