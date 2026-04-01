@@ -133,7 +133,7 @@ async def view_multi(ctx, prof, emojis, umas, uid, page):
                 display_em = decrease_rarity(em)
             fakes.append(display_em)
 
-        emojs = [view_state.emojis[a + "pull"] for a in fakes]
+        emojs = [view_state.emojis["shake_"+a] for a in fakes]
         names = ["???"]*10
 
         rolling_text = tr("page.gacha.result_multi_rolling", 0, prof,
@@ -158,7 +158,7 @@ async def view_multi(ctx, prof, emojis, umas, uid, page):
                 + list(emojs[i:])
             )
             if i in fake_index:
-                shown[i] = view_state.emojis["s" + emojs[i].name]
+                shown[i] = view_state.emojis["shake_s" + emojs[i].name.removeprefix("shake_")]
 
             rolling_text = tr("page.gacha.result_multi_rolling", 0, prof,
                           len(emojis), format_emojis(prof, shown, names))
