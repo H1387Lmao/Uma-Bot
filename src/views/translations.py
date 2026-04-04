@@ -120,6 +120,9 @@ TRANSLATIONS = {
         {"English": "Items"},
         {"English": "Badges", "Español": "Medalla"}
     ],
+    "page.storage.no_umas": [
+        {"English": "You don't have any umas!"},
+    ],
     "page.credits": [
         {"English": "CREDITS", "Español": "CRÉDITOS"},
         {"English": "Assets", "Español": "Recursos"},

@@ -1,4 +1,4 @@
-# storage.py
+    # storage.py
 from uicord import *
 from .translations import translator, tr
 from .pages import pagination_buttons
@@ -23,9 +23,23 @@ def storage(parent, prof, uid, page=0):
         back_factory=back_factory
     )
 
+    bot = view_state.bot
+
+    match page:
+        case 0:
+            list_umas = "\n".join(
+                f"{bot.get_uma(a)}**{a}** ×{b[0]}" for a, b in prof["inventory"]["umas"].items()
+            )
+            elements = [
+                Text(list_umas or tr("page.storage.no_umas"))
+            ]
+        case _:
+            elements=[]
+
     return View(
         Container(
-            Text(title),
+            Text(f"# {title}"),
+            *elements,
             *nav_buttons
         ), owner=uid
     )
