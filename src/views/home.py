@@ -164,7 +164,7 @@ def credits_page(prof, uid):
         f"# **{title}**{bot.get_em("ui_profile")}\n"
 
         f"## 🖼️ {assets}\n"
-        f"-# © CyGames — {sprites}\n\n"
+        f"-# © CyGames {sprites}\n\n"
 
         f"## 🖱️ {dev}\n"
         f"-# ***{prog_name}***\n**({prog})**\n\n"
