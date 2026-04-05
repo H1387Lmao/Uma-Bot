@@ -43,7 +43,7 @@ class Uma(bridge.Bot):
         self.database = Database()
         
         self.view_state = view_state
-        if not self.dev
+        if not self.dev:
             self.db_path = Path("database/db.pkl")
         else:
             self.db_path = Path("database/dev.pkl")
