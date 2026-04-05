@@ -4,7 +4,9 @@ from uicord import state, View, Container, MediaGallery, MediaGalleryItem, Text
 import discord
 import os, asyncio
 
-uma = Uma()
+uma = Uma(
+    dev="--dev" in sys.argv #wtf is this temporary shi
+)
 
 @uma.cmd(
     name="start",

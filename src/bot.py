@@ -9,8 +9,10 @@ from .views.translations import tr, SUPPORTED_LANGS
 from .utils import CleanerContext, safe_get_user
 from .db import Database
 
-PREFIXES = [
-    "uma ",
+MAIN_PRF = [
+    "uma "
+]
+DEV_PRF = [
     "dev "
 ]
 
@@ -20,12 +22,14 @@ Developers = [
 ]
 
 class Uma(bridge.Bot):
-    def __init__(self):
+    def __init__(self, dev=False):
         intents = discord.Intents.default()
         intents.message_content = True
         intents.members = True
         self.playing_status = discord.Game(name="Umamusume: Pretty Derby")
-
+        self.dev = dev
+        PREFIXES = DEV_PRF if self.dev else MAIN_PRF
+            
         super().__init__(
             command_prefix=commands.when_mentioned_or(*PREFIXES),
             intents=intents,
@@ -39,8 +43,10 @@ class Uma(bridge.Bot):
         self.database = Database()
         
         self.view_state = view_state
-        self.db_path = Path("database/db.pkl")
-
+        if not self.dev
+            self.db_path = Path("database/db.pkl")
+        else:
+            self.db_path = Path("database/dev.pkl")
         view_state.logger.print(f"[light blue]Loaded Temporary Database")
         self.database.temp_load(self.db_path)
     def save(self):
@@ -84,6 +90,10 @@ class Uma(bridge.Bot):
                     return
                 return await func(CleanerContext(ctx), *args, **kwargs)
             _name = kwargs.get("name") or func.__name__
+            if dev and not self.dev:
+                view_state.logger.print(f"[light red]Skipped Developer Branch Command: {_name}[reset]")
+                return
+
             view_state.logger.print(f"[light yellow]Adding: {_name}[reset]")
 
             aliases=[]
@@ -105,4 +115,8 @@ class Uma(bridge.Bot):
         return await safe_get_user(self, id)
     def run(self, t):
         print("running ts now")
+        if self.dev:
+            view_state.logger.print(f"[light cyan]Running branch [gold](Developer)[reset]")
+        else:
+            view_state.logger.print(f"[light cyan]Running branch [dark white](Main)[reset]")
         super().run(t)
