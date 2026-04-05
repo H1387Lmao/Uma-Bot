@@ -60,7 +60,10 @@ TRANSLATIONS = {
     ],
     "page.club.btns": [
         {"English": "Your Club",    "Español": "Tu Club", "_emoji": "ui_club"},
-        {"English": "Find Clubs",   "Español": "Buscar Club", "_emoji": "ui_search"},
+        {"English": "Find Clubs",   "Español": "Buscar Club", "_emoji": "ui_clubsearch"},
+    ],
+    "page.single_words": [
+        {"English": "Options"}
     ],
     "page.settings.options": [
         {"English": "Triangle Gacha", 
@@ -358,9 +361,61 @@ TRANSLATIONS = {
     "condition.ShiningBrightly":    [{"English": "Shining Brightly",  "Español": "Brillando Intensamente"}],
     "condition.Sharpener":          [{"English": "Sharpener",         "Español": "Afilador"}],
     "condition.NaturalTalent":      [{"English": "Natural Talent",    "Español": "Talento Natural"}],
+    
     "club.invite.accept":     [{"English": "Accept"}],
     "club.invite.decline":    [{"English": "Decline"}],
     "club.invite.invite_msg": [{"English": "You have been invited to **<0>**!"}],
+    "club.msg.success":       [{"English": "Successfully Responded."}],
+
+    "club.buttons.create": [{
+        "English": "Create"
+    }],
+    "club.buttons.view": [{
+        "English": "View Club"
+    }],
+    "club.buttons.view_stats": [{
+        "English": "View Statistics"
+    }],
+    "club.page.entrycount": [{
+        "English": "<0> Entries"
+    }],
+
+    "club.buttons.join": [{
+        "English": "Join Club"
+    }],
+    "club.buttons.leave": [{
+        "English": "Leave Club"
+    }],
+    "club.buttons.members": [{
+        "English": "View Statistics"
+    }],
+    "club.page.titles":[
+        {"English": "Info"},
+        {"English": "Members"},
+        {"English": "Statistics"}
+    ],
+
+    "club.create.title": [{
+        "English": "Create a club"
+    }],
+
+    "club.create.name": [{
+        "English": "Club Name"
+    }],
+    "club.create.description": [{
+        "English": "Club Description"
+    }],
+    "club.create.public": [{
+        "English": "Public",
+    }],
+    "club.create.public_desc": [{
+        "English": "Check this box to make it so your club is joinable without invites!",
+    }],
+    "club.create.photo": [{
+        "English": "Club Photo (512x512)"
+    }],
+    
+    "error.club.not_found":   [{"English": "You don't have a club, Create one?"}],
 }
 
 

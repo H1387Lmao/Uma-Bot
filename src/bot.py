@@ -3,9 +3,11 @@ import discord
 from uicord import *
 from pathlib import Path
 import json, sys
+import asyncio
 from .views.state import view_state
 from .views.translations import tr, SUPPORTED_LANGS
-from .utils import CleanerContext
+from .utils import CleanerContext, safe_get_user
+from .db import Database
 
 PREFIXES = [
     "uma ",
@@ -34,13 +36,25 @@ class Uma(bridge.Bot):
         )
         view_state.bot = self
 
-        self.database = {}
-        self.view_state = view_state
-
+        self.database = Database()
         
+        self.view_state = view_state
+        self.db_path = Path("database/db.pkl")
+
+        view_state.logger.print(f"[light blue]Loaded Temporary Database")
+        self.database.temp_load(self.db_path)
+    def save(self):
+        self.database.save(str(self.db_path))
+        view_state.logger.print(f"[light blue]Saved Database")
+
     async def on_ready(self):
         view_state.logger.print(f"[light purple]Ready as {self.user}[reset]")
-        
+
+        if self.db_path.exists():
+            view_state.logger.print(f"[light blue]Loading Database")
+            self.database = await Database.load(self, str(self.db_path))
+        else:
+            view_state.logger.print(f"[light blue]Created Database")
         emojis = await self.fetch_emojis()
         self.em = {v.name: v for v in emojis}
         self.em["carat"]=self.em["carats"] #use new version
@@ -87,3 +101,8 @@ class Uma(bridge.Bot):
             else:
                 self.command(**kwargs)(wrapper)
         return decorator
+    async def sfetch_user(self, id):
+        return await safe_get_user(self, id)
+    def run(self, t):
+        print("running ts now")
+        super().run(t)

@@ -1,4 +1,3 @@
-# home.py
 from uicord import *
 from .translations import translator, tr, SUPPORTED_LANGS, TRANSLATIONS, DISABLED_LANGS
 from .pages import pagination_buttons
@@ -7,6 +6,7 @@ from .storage import storage
 from .career import career_select, career
 from .state import view_state
 from .feedback import _send_feedback
+from .club import club, club_search
 import discord as dsc
 import signal, sys, atexit
 import asyncio
@@ -194,7 +194,7 @@ def home(prof, uid, page=0):
     main_btns = [
         {
             "label": tr("page.main.btns", i, lang),
-            "emoji": tr("page.main.btns", i, "_emoji")
+            "emoji": tr("page.main.btns", i, "_emoji"),
         } for i in range(len(TRANSLATIONS["page.main.btns"]))
     ]
     club_btns = [
@@ -237,7 +237,20 @@ def home(prof, uid, page=0):
                     view=career_select(prof, uid)
                 )
         case 1:
-            buttons = [Button(d['label'], emoji=bot.get_em(d['emoji'], "❔")) for d in club_btns]
+            buttons = [
+                Button(d['label'], emoji=bot.get_em(d['emoji'], "❔")) for d in club_btns
+            ]
+
+            @interaction(buttons[0])
+            async def _club(i):
+                await i.response.edit_message(
+                    view=club(prof, uid)
+                )
+            @interaction(buttons[1])
+            async def _search(i):
+                await i.response.edit_message(
+                    view=club_search(prof, uid)
+                )                
         case 2:
             current_row=[]
             for element in options:

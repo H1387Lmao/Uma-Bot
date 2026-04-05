@@ -9,6 +9,8 @@ dependencies = [
     "sqlitedict",
     "uicord>=3.1.0",
     "pillow",
+    "textual<0.86.0",
+    "textual-terminal>=0.3.0",
 ]
 
 [tool.uv.sources]

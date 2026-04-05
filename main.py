@@ -1,8 +1,8 @@
-from src import Uma, views, card, utils
+from src import Uma, views, card, utils, shell
 import sys, atexit, signal
 from uicord import state, View, Container, MediaGallery, MediaGalleryItem, Text
 import discord
-import os
+import os, asyncio
 
 uma = Uma()
 
@@ -67,6 +67,7 @@ async def prof(ctx, member: discord.Member|None=None):
     description="Restart the bot"
 )
 async def reset(ctx: utils.CleanerContext):
+    uma.save()
     await ctx.defer()
     await utils.CleanerContext.cleanup_all()
     os.execv(sys.executable, [sys.executable] + sys.argv)
@@ -74,12 +75,16 @@ async def reset(ctx: utils.CleanerContext):
 state.DEV_IDS.append(735679718506102881)
 
 def exit_handler():
-    pass
+    uma.save()
+    
 
 signal.signal(signal.SIGINT, lambda: sys.exit(1))
 atexit.register(exit_handler)
 
-uma.run(
-  "MTQ1NjMwMzc5NzY5NjU5NDA2MQ.GLVJd4.XP1fJE4WDLRwqY-cKFlpR_DuirBc41KUX_1hb0"
+asyncio.run(
+    shell.start_bot(
+        uma,
+        "MTQ1NjMwMzc5NzY5NjU5NDA2MQ.GLVJd4.XP1fJE4WDLRwqY-cKFlpR_DuirBc41KUX_1hb0"
+    )
 )
 

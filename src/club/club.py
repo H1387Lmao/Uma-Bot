@@ -2,90 +2,135 @@ from typing import Any
 import discord
 from ..utils import safe_get_user
 from uicord import View, Container, ActionRow, Button, interaction, Text
-from ..bot import Uma
 from ..views.translations import tr  # pyright: ignore[reportUnknownVariableType]
 from ..views.state import view_state
+import time
+from itertools import repeat
 
 InviteOnly = 0
 Public = 1
 
-primitives = str|bool|int
+primitives = str|bool|int|None
 
 class Club:
-	def __init__(
-		self,
-		owner_id: int,
-		member_ids: list[int],
-		info: dict[str, primitives]
-	):
+    def __init__(
+        self,
+        owner_id: int,
+        member_ids: list[int],
+        info: dict[str, primitives],
+        snapshots: list[
+            tuple[int, int] #(timestamp, fancount)
+        ],
+        color: int = 0x676767
+    ):
+        self.info=info
+        self.privacy: primitives = info['privacy']
+        self.name: primitives = info['name']
+        self.description: primitives = info['description'] or 'No Description'
+        self.photo: str = info['photo'] or "https://gametora.com/images/404.png"
+        self.owner = None
+        self.member_ids: list[int] = member_ids
+        self.members = []
+        self.owner_id: int = owner_id
+        self.snapshots=snapshots
+        self.color=color
 
-		self.privacy: primitives = info.setdefault('privacy', InviteOnly)
-		self.name: primitives = info['name']
-		self.description: primitives = info.setdefault('description', '')
+        self.bot = view_state.bot
+        self.calculate_fans()
 
-		self.owner = None
-		self.member_ids: list[int] = member_ids
-		self.members = []
-		self.owner_id: int = owner_id
+    async def load_members(self):
+        self.owner: discord.Member | None = await safe_get_user(self.bot, self.owner_id)
+        self.members: list[discord.User | discord.Member | None] = [ 
+            await safe_get_user(bot, member) for member in self.member_ids
+        ]
+    def __reduce__(self):
+        return (self.__class__,(
+            self.owner_id,
+            self.member_ids,
+            self.info,
+            self.snapshots,
+            self.color
+        ))
+    def calculate_fans(self):
+        self.fans = 0
+        for member_id in self.member_ids:
+            prof = self.bot.database[str(member_id)]
 
-		self.bot: Uma = view_state.bot
+            self.fans += prof['stats']['fans']
+        self.create_snapshot()
+    def create_snapshot(self):
+        self.snapshots.append((int(time.time()), self.fans))
+    def get_timespan(self, entries=7):
+        spans = []
+        prev_ts = None
+        prev_val = None
+    
+        for timestamp, snapshot in self.snapshots[max(0, len(
+            self.snapshots
+        )-entries):]:
+            if prev_ts is None:
+                prev_ts = timestamp
+                prev_val = snapshot
+                continue
+    
+            if abs(timestamp - prev_ts) > 86400 or snapshot != prev_val:
+                spans.append(snapshot)
+                if len(spans) == entries:
+                    break
+    
+            prev_ts = timestamp
+            prev_val = snapshot
+    
+        if spans:
+            if len(spans) < entries:
+                spans += [0] * (entries - len(spans))
+    
+        return spans
+    def invite_view(self, prof: dict[str, Any]) -> View:  # pyright: ignore[reportExplicitAny]
+        accept  = Button(tr('club.view.accept', 0, prof))
+        decline = Button(tr('club.view.decline', 0, prof))
 
-	async def load_members(self):
-		self.owner: discord.Member | None = await safe_get_user(self.bot, self.owner_id)
-		self.members: list[discord.User | discord.Member | None] = [ 
-			await safe_get_user(bot, member) for member in self.member_ids
-		]
-	def calculate_fans(self):
-		self.fans = 0
-		for member_id in self.member_ids:
-			prof = self.bot.database[str(member_id)]
+        @interaction(accept)  # pyright: ignore[reportUntypedFunctionDecorator]
+        async def _accept(ctx: discord.Interaction):  # pyright: ignore[reportUnusedFunction]
+            await ctx.response.edit_message(
+                view=View(
+                    Container(
+                        Text(tr("club.msg.success"))
+                    )
+                )
+            )
+            assert ctx.user is not None
+            self.members.append(ctx.user)
+            self.member_ids.append(ctx.user.id)
 
-			self.fans += prof['stats']['fans']
-	def invite_view(self, prof: dict[str, Any]) -> View:  # pyright: ignore[reportExplicitAny]
-		accept  = Button(tr('club.view.accept', 0, prof))
-		decline = Button(tr('club.view.decline', 0, prof))
+        @interaction(decline)  # pyright: ignore[reportUntypedFunctionDecorator]
+        async def _decline(ctx: discord.Interaction):  # pyright: ignore[reportUnusedFunction]
+            await ctx.response.edit_message(
+                view=View(
+                    Container(
+                        Text(tr("club.msg.success"))
+                    )
+                )
+            )
 
-		@interaction(accept)  # pyright: ignore[reportUntypedFunctionDecorator]
-		async def _accept(ctx: discord.Interaction):  # pyright: ignore[reportUnusedFunction]
-			await ctx.response.edit_message(
-				view=View(
-					Container(
-						Text("Successfully Responded!")
-					)
-				)
-			)
-			assert ctx.user is not None
-			self.members.append(ctx.user)
-			self.member_ids.append(ctx.user.id)
-
-		@interaction(decline)  # pyright: ignore[reportUntypedFunctionDecorator]
-		async def _decline(ctx: discord.Interaction):  # pyright: ignore[reportUnusedFunction]
-			await ctx.response.edit_message(
-				view=View(
-					Container(
-						Text("Successfully Responded!")
-					)
-				)
-			)
-
-		return View(
-			Container(
-				Text(f"# {tr('club.view.invite_msg', 0, prof)}"),
-				ActionRow(
-					accept, decline
-				)
-			)
-		)
-	async def invite_user(self, ctx, id: int):
-		user: discord.Member | None = await safe_get_user(bot, id)
-		if user is None:
-			return False
-		prof: dict[str, Any] = self.bot.database[str(user.id)]  # pyright: ignore[reportUnknownVariableType]
-		if prof['clubs'] != None:
-			return False
-		try:
-			_ = await user.send(view=self.invite_view(prof))  # pyright: ignore[reportCallIssue]
-		except discord.Forbidden:
-			return False
-		else:
-			return True
+        return View(
+            Container(
+                Text(f"# {tr('club.view.invite_msg', 0, prof)}"),
+                ActionRow(
+                    accept, decline
+                )
+            )
+        )
+    async def invite_user(self, ctx, id: int):
+        user: discord.Member | None = await safe_get_user(bot, id)
+        if user is None:
+            return False
+        prof: dict[str, Any] = self.bot.database[str(user.id)]  # pyright: ignore[reportUnknownVariableType]
+        if prof['clubs'] != None:
+            return False
+        try:
+            _ = await user.send(view=self.invite_view(prof))  # pyright: ignore[reportCallIssue]
+        except discord.Forbidden:
+            return False
+        else:
+            return True

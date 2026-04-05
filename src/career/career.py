@@ -58,9 +58,9 @@ class Career:
 
         self.over=False
 
-        self.advance() if self.turn == 0 else 0
+        self.advance() if self.turn == 0 else self.calc_date()
 
-        self.caches = {}
+        self.cache = {}
     def __reduce__(self):
         return (self.__class__, (
             self.owner,
@@ -73,9 +73,9 @@ class Career:
             self.skills,
             self.conditions,
             self.races_scheduled,
-            self.turn,
             self.support_cards,
             self.goals_done,
+            self.turn,
             self.seed,
             self.max_energy
         ))
@@ -98,10 +98,11 @@ class Career:
     def stat_to_index(self, stat):
         return stat_to_index[stat]
 
-    def rfc(self, id, current=0, offset=(0,1)):
+    def rfc(self, id, current=0, offset=(0,1), fn=None):
         if id not in self.cache:
             deduction = random.randrange(*offset)
             new = current-deduction
+            if fn is not None: new = fn(new)
             self.cache[id]=new
             return new
         else:
@@ -127,7 +128,10 @@ class Career:
                 else:
                     bonuses[effect[0]] = effect[1]
                 if effect[0] == 'energy':
-                    bonuses['failure_rate'] = self.failed(bonuses[effect[0]])
+                    bonuses['failure_rate'] = self.rfc(stat+effect[0],
+                        self.failed(bonuses[effect[0]]),
+                        (-0.02,0.04), lambda v: max(0, min(v, 100))
+                    )
                 continue
             if len(effect[0])==3: # check if its not SP
                 index = stat_to_index[effect[0]]
@@ -145,12 +149,16 @@ class Career:
 
     def advance(self):
         self.turn += 1
+
+        self.calc_date()
+        self.cache={}
+    def calc_date(self):
         self.month = (self.turn//2 + 3)%12 # start in april
         self.half = (self.turn-1)%2
         self.year = self.month//12
         
         self.update_current_goal()
-        self.cache={}
+
     def is_summer(self):
         if not self.year: return False
         return 6 <= self.month <= 7

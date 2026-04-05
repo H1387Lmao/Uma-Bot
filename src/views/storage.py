@@ -31,7 +31,7 @@ def storage(parent, prof, uid, page=0):
                 f"{bot.get_uma(a)}**{a}** ×{b[0]}" for a, b in prof["inventory"]["umas"].items()
             )
             elements = [
-                Text(list_umas or tr("page.storage.no_umas"))
+                Text(list_umas or tr("page.storage.no_umas", 0, prof))
             ]
         case _:
             elements=[]
