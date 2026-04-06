@@ -65,7 +65,7 @@ class Skill:
                 return "🟡"
     @property
     def value(self):
-        return 500 if self.rarity!="gold" else 1200
+        return 600 if self.rarity!="gold" else 1400
         
     def can_trigger(self, owner, race):
         if self.uses == "passive": return False

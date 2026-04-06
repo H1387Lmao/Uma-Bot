@@ -708,7 +708,7 @@ wheels = [
 
 [[package]]
 name = "uicord"
-version = "4.0.0"
+version = "4.0.1"
 source = { directory = "../UICord" }
 
 [package.metadata]

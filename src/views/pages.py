@@ -15,11 +15,16 @@ def error(prof, uid, label, back_button=None, back_view_factory=None):
 def pagination_buttons(parent_factory, max_pages, lang, current_page=0, loop=False, back_factory=None, far_buttons=False):
     components = []
     if back_factory: components.append(_create_back_button(lang, back_factory))
+    fr = view_state.bot.get_em("ui_farr")
+    fl = view_state.bot.get_em("ui_farl")
+    r = view_state.bot.get_em("ui_r")
+    l = view_state.bot.get_em("ui_l")
+
     if parent_factory:
-        first = Button("≪", disabled=(current_page == 0))
-        left = Button("◀", disabled=(current_page == 0 and not loop))
-        right = Button("▶", disabled=(current_page >= max_pages and not loop))
-        last = Button("≫", disabled=(current_page >= max_pages))
+        first = Button(None, disabled=(current_page == 0), emoji=fl)
+        left = Button(None, disabled=(current_page == 0 and not loop), emoji=l)
+        right = Button(None, disabled=(current_page >= max_pages and not loop),emoji=r)
+        last = Button(None, disabled=(current_page >= max_pages), emoji=fr)
 
         @interaction(first)
         async def _first(ctx): await ctx.response.edit_message(view=parent_factory(0))

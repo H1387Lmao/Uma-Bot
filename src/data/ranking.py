@@ -1,14 +1,6 @@
 from .constants import MAX_STATS
 from ..skills import SKILLS
 
-def get_rank_score(d):
-    SKILL_PTS = sum([SKILLS[i].value for i in d.get("skills", [])])
-    FANS = d.get("fans", 0)
-    GRADE = sum(d["stats"])
-    
-    return GRADE + SKILL_PTS + FANS
-
-
 def grade_stat(stat: int):
     stat = max(0, stat)
 

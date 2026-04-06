@@ -77,16 +77,21 @@ async def reset(ctx: utils.CleanerContext):
 state.DEV_IDS.append(735679718506102881)
 
 def exit_handler():
-    uma.save()
-    
+    if "--no-tui" in sys.argv:
+        uma.save()
+
+TOKEN = "MTQ1NjMwMzc5NzY5NjU5NDA2MQ.GLVJd4.XP1fJE4WDLRwqY-cKFlpR_DuirBc41KUX_1hb0"
 
 signal.signal(signal.SIGINT, lambda: sys.exit(1))
 atexit.register(exit_handler)
 
-asyncio.run(
-    shell.start_bot(
-        uma,
-        "MTQ1NjMwMzc5NzY5NjU5NDA2MQ.GLVJd4.XP1fJE4WDLRwqY-cKFlpR_DuirBc41KUX_1hb0"
+if "--no-tui" in sys.argv: #wtf is this temporary shi
+    uma.run(TOKEN)
+else:
+    asyncio.run(
+        shell.start_bot(
+            uma,
+            TOKEN
+        )
     )
-)
 

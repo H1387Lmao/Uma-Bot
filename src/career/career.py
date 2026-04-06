@@ -1,5 +1,9 @@
 from .goals import *
 from ..data.uma_database import UMAS
+from ..data.ranking import grade_score
+from ..skills import SKILLS
+from ..views.state import view_state
+
 import random
 
 stat_names = ['spd', 'stm', 'pwr', 'gut', 'wit', 'sp']
@@ -31,7 +35,9 @@ class Career:
         goals_done: int = 0,
         turn: int = 0,
         seed: int = None,
-        max_energy: int = 100
+        max_energy: int = 100,
+        over: bool=False,
+        has_bad: bool= False
     ):
         self.owner: int = owner
         self.name: str = name
@@ -56,11 +62,12 @@ class Career:
         self.update_current_goal()
         self.update_aptitudes()
 
-        self.over=False
+        self.over=over
 
         self.advance() if self.turn == 0 else self.calc_date()
 
         self.cache = {}
+        self.has_bad=has_bad
     def __reduce__(self):
         return (self.__class__, (
             self.owner,
@@ -77,7 +84,9 @@ class Career:
             self.goals_done,
             self.turn,
             self.seed,
-            self.max_energy
+            self.max_energy,
+            self.over,
+            self.has_bad
         ))
     def __repr__(self):
         return f"Career ({self.name})"
@@ -128,10 +137,7 @@ class Career:
                 else:
                     bonuses[effect[0]] = effect[1]
                 if effect[0] == 'energy':
-                    bonuses['failure_rate'] = self.rfc(stat+effect[0],
-                        self.failed(bonuses[effect[0]]),
-                        (-0.02,0.04), lambda v: max(0, min(v, 100))
-                    )
+                    bonuses['failure_rate'] = self.failed(bonuses[effect[0]])
                 continue
             if len(effect[0])==3: # check if its not SP
                 index = stat_to_index[effect[0]]
@@ -155,7 +161,7 @@ class Career:
     def calc_date(self):
         self.month = (self.turn//2 + 3)%12 # start in april
         self.half = (self.turn-1)%2
-        self.year = self.month//12
+        self.year = (self.turn//2 + 3)//12
         
         self.update_current_goal()
 
@@ -167,6 +173,8 @@ class Career:
         for goal in self.goals[self.goals_done:]:
             if goal.deadline >= self.turn:
                 return goal
+
+        self.over=True
     def get_avg(self):
         return sum(self.stats)//len(self.stats)
     def check_goal(self, goal_res):
@@ -177,4 +185,21 @@ class Career:
             elif gtype=="fans":
                 self.over=self.fans<self.current_goal.requirement
         self.advance()
-    
+    def complete(self, prof):
+        prof["career"]=None
+        prof["stats"]["fans"]+=self.fans
+
+        total_stats = sum(self.stats)
+        skill_grades = sum(
+            SKILLS[skid].value for skid in self.skills
+        )
+        grade = total_stats+skill_grades
+        res = {
+            "grade": grade,
+            "stats": total_stats,
+            "skills": self.skills,
+            "name": self.name,
+            "apts": self.apts,
+            "rank": grade_score(grade)
+        }
+        return res

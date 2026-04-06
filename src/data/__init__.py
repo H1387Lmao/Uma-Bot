@@ -1,7 +1,7 @@
 from .uma_database import UMAS, UMA_RARITIES, SAFE_TO_REAL, UMA_DB
 from .support_database import SUPPORTS, SC_RARITIES, SUPPORT_IDS, SC_DB
 from .constants import MAX_STATS, DEFAULT_STATS, SCALING, GET_SCALER
-from .ranking import get_rank_score, grade_stat, grade_score
+from .ranking import grade_stat, grade_score
 from .models import SCData, UmaData, RaceData, grade_map
 from .skill_database import DEFAULT_ULT
 from .race_datas import SCHEDULES, races_by_turn_name
@@ -14,7 +14,7 @@ __all__ = [
     # Constants
     'MAX_STATS', 'DEFAULT_STATS', 'SCALING', 'GET_SCALER',
     # Ranking functions
-    'get_rank_score', 'grade_stat', 'grade_score',
+    'grade_stat', 'grade_score',
     # Models
     'SCData', 'UmaData', 'RaceData', 'grade_map',
     # Skills

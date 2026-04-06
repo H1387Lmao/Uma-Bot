@@ -50,15 +50,15 @@ class Uma(bridge.Bot):
         view_state.logger.print(f"[light blue]Loaded Temporary Database")
         self.database.temp_load(self.db_path)
     def save(self):
-        self.database.save(str(self.db_path))
-        view_state.logger.print(f"[light blue]Saved Database")
+        self.database.save(self.db_path)
+        view_state.logger.print(f"\n\n[light blue]Saved Database")
 
     async def on_ready(self):
         view_state.logger.print(f"[light purple]Ready as {self.user}[reset]")
 
         if self.db_path.exists():
             view_state.logger.print(f"[light blue]Loading Database")
-            self.database = await Database.load(self, str(self.db_path))
+            self.database = await Database.load(self, self.db_path)
         else:
             view_state.logger.print(f"[light blue]Created Database")
         emojis = await self.fetch_emojis()

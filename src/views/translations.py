@@ -239,16 +239,26 @@ TRANSLATIONS = {
         {"English": "View Summary", "Español": "Ver resumen"},
     ],
     "career.summary.fans": [
-        {"English": "Total Fans", "Español": "Fans totales"},
+        {"English": "<0> Total Fans", "Español": "<0> Fans totales"},
     ],
     "career.attained_condition": [
         {"English": "You attained the condition **<0>**"},
+    ],
+    "career.removed_conditions": [
+        {"English": "Removed conditions"},
     ],
 
     "career.skillpoints.label": [
         {"English": "SP",
          "Español": "SP"
         },
+    ],
+
+    "career.skills.buy": [
+      {"English": "Buy Skills"}
+    ],
+    "career.skills.title": [
+      {"English": "Skill Shop"}
     ],
 
     "race.schedule.title": [

@@ -56,6 +56,9 @@ class UmamusumeTUI(App):
         self.bot = bot
         self.token = token
 
+    def on_unmount(self) -> None:
+        self.bot.save()
+
     def compose(self) -> ComposeResult:
         yield Header()
         with Vertical():

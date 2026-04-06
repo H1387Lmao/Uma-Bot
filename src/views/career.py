@@ -6,6 +6,8 @@ from .state import view_state
 from ..data import grade_map, grade_stat, SCHEDULES
 from ..race import *
 from .race import *
+from .skills import skill_shop
+from ..utils import get_stat_graph
 
 import random
 
@@ -76,7 +78,7 @@ def view_race_info(prof, uid, race, page):
             ActionRow(
                 _back_button(prof, lambda: race_schedule(prof, uid, page))
             )
-        )
+        ), owner=uid
     )
 
 def career_select(prof, uid, page=0):
@@ -283,7 +285,8 @@ def failed_training(prof, uid, stat):
     c.stats[stat_index]-=5
 
     if random.random() <= 0.45:
-        c.conditions.add(1)
+        c.conditions.add(0)
+        c.has_bad=True
         cond = tr('condition.PracticePoor', 0, prof)
         failed_info+=tr("career.attained_condition", 0, prof, cond)
 
@@ -368,12 +371,99 @@ def training(prof, uid, confirm_stat=None):
                 prof,
                 lambda: career(prof, uid)
             ))
-        )
+        ), owner=uid
+    )
+
+def completion_screen(prof, uid, result, fans, graph):
+    bot = view_state.bot
+    title = tr('errors.career.ended', 0, prof)
+    skills = [SKILLS[skid].display(bot) for skid in result["skills"]] or [tr("skills.none", 0, prof)]
+    return View(
+        Container(
+            Section(
+                Text(f"# **{title}**{bot.get_uma(result["name"])}"),
+                Text(f"-# **{tr("career.summary.fans",0,prof, fans)}**"),
+                Text("-# "+("\n-# ".join(skills))),
+                accessory=Thumbnail(
+                    url=bot.get_em(result["rank"]).url
+                )
+            ),
+            MediaGallery(MediaGalleryItem(
+                url=graph
+            )),
+            ActionRow(
+                _back_button(prof, lambda: view_state.views.home(prof, uid))
+            )
+        ),
+        owner=uid
     )
 
 def career_failure(prof, uid):
-    return View(Text("Your career is over, thanks for playing the demo!"))
+    _career = prof['career']
+    skills = Button(tr('career.btn.skills', 0, prof), emoji=view_state.bot.get_em("ui_skills"))
+    complete = Button(tr('career.btn.complete', 0, prof), emoji="🎉")
+    @interaction(skills)
+    async def _skills(i):
+        await i.response.edit_message(view=skill_shop(prof, uid))
 
+    stats_displayed = []
+
+    for stat, values in zip(stat_names, _career.stats):
+        st = tr(f'stats.{stat}', 0, prof)
+        stats_displayed.append((stat, st, values))
+    stats_displayed.append(('sp', tr('training.skill_pts_label', 0, prof), _career.skill_points))
+    graph=get_stat_graph(
+        [s[1:] for s in stats_displayed[:-1]]
+    )
+    
+    @interaction(complete)
+    async def _complete(i, graph=graph):
+        res = _career.complete(prof)
+        prof["old_careers"].append(
+            res
+        )
+        await i.response.edit_message(
+            view=completion_screen(prof, uid, res, _career.fans, graph)
+        )
+
+    return View(
+        Container(
+            Text(f"# **{tr("errors.career.ended", 0,prof)}**"),
+            Text(get_statline(
+                stats_displayed,
+                prof["settings"]["mobile_mode"]
+            )),
+            MediaGallery(MediaGalleryItem(
+                url=graph
+            )),
+            ActionRow(
+                skills, complete
+            )
+        ), owner=uid
+    )
+
+def career_heal(prof, uid):
+    _career = prof['career']
+    cleared=set()
+    for c in _career.conditions:
+        cond = CONDITIONS[c]
+        if cond.bad:
+            cleared.add(c)
+    _career.advance()
+    _career.has_bad=False
+    _career.conditions-=cleared
+    _cleared = [CONDITIONS[c].get_name(prof)+\
+                str(view_state.bot.get_em("mark_down"))\
+                for c in cleared
+            ] or ["nothing was cleared"]
+    return View(
+        Container(
+            Text(f"# **{tr("career.removed_conditions", 0, prof)}**"+f"\n-# {"\n-# ".join(_cleared)}"),
+            ActionRow(
+                _back_button(prof, lambda: career(prof, uid))
+            )
+        )
+    )
 def career(prof, uid, goal_only=False):
     _career = prof['career']
     if not _career:
@@ -402,11 +492,15 @@ def career(prof, uid, goal_only=False):
     race = Button(tr('career.btn.race', 0, prof), emoji=view_state.bot.get_em("ui_race"))
     sleep = Button(tr('career.btn.rest', 0, prof), emoji=view_state.bot.get_em("ui_rest"))
     recreation = Button(tr('career.btn.recreate', 0, prof), emoji=view_state.bot.get_em("ui_recreate"))
+    infirmary = Button(tr('career.btn.infirmary', 0, prof), emoji=view_state.bot.get_em("ui_infirmary"), disabled=not _career.has_bad)
     restcreation = Button(tr('career.btn.restcreate', 0, prof), emoji=view_state.bot.get_em("ui_restcreate"))
-    skills = Button(tr('career.btn.skills', 0, prof), emoji=view_state.bot.get_em("ui_skills"))
     @interaction(train)
     async def _train(i):
         await i.response.edit_message(view=training(prof, uid))
+    skills = Button(tr('career.btn.skills', 0, prof), emoji=view_state.bot.get_em("ui_skills"))
+    @interaction(skills)
+    async def _skills(i):
+        await i.response.edit_message(view=skill_shop(prof, uid))
     @interaction(race)
     async def _race(i):
         await i.response.edit_message(view=race_schedule(prof, uid))
@@ -431,10 +525,13 @@ def career(prof, uid, goal_only=False):
 
         _career.advance()
         await i.response.edit_message(view=career(prof, uid, goal_only))
+    @interaction(infirmary)
+    async def _heal(i):
+        await i.response.edit_message(view=career_heal(prof, uid))
     if not goal_only:
         slp = [sleep, recreation] if not _career.is_summer() else [restcreation]
         elements = ActionRow(
-            train, race, *slp
+            train, race, *slp, infirmary
         )
     else:
         elements = ActionRow(
@@ -461,3 +558,5 @@ def career(prof, uid, goal_only=False):
     ),
 
     owner=uid)
+    
+view_state.views.career=career

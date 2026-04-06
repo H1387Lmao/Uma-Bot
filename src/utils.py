@@ -3,7 +3,7 @@ from discord.ext import bridge
 from .views.state import view_state
 import discord
 import urllib.parse
-    
+import json    
 
 view_state.last_messages = {}
 view_state.all_messages = set()
@@ -90,7 +90,6 @@ async def safe_get_user(bot: discord.Client, id: int) -> discord.User | None:
     return user
 
 def get_fan_graph(timespan):
-    print(timespan)
     chart_config = {
         "type": "line",
         "data": {
@@ -108,7 +107,12 @@ def get_fan_graph(timespan):
             ]
         },
         "options": {
-            "legend": {"display": False},
+            "legend": {
+                "display": False,
+                "labels": {
+                    "fontColor": "white"
+                }
+            },
             "layout": {
                 "padding": {
                     "top": 20,
@@ -118,12 +122,67 @@ def get_fan_graph(timespan):
                 }
             },
             "scales": {
-                "x": { "display": False },
-                "y": { "display": True }
+                "x": { "display": False, "ticks": { "color": "white" } },
+                "y": { "display": True, "ticks": { "color": "white" } }
             }
         }
     }
     
-    chart_json = str(chart_config).replace("False", "false").replace("True", "true").replace("'", "\"")
+    chart_json = json.dumps(chart_config)
     encoded_chart = urllib.parse.quote(chart_json)
+    return f"https://quickchart.io/chart?bkg=%23121212&c={encoded_chart}"
+
+def get_stat_graph(stats):
+    labels = [name for name, _ in stats]
+    data = [value for _, value in stats]
+
+    colors = [
+        "rgba(54,162,235,0.9)",
+        "rgba(255,99,132,0.9)",
+        "rgba(255,159,64,0.9)",
+        "rgba(255,105,180,0.9)",
+        "rgba(75,192,192,0.9)",
+        "rgba(255,205,86,0.9)",
+    ]
+
+    chart_config = {
+        "type": "pie",
+        "data": {
+            "labels": labels,
+            "datasets": [{
+                "data": data,
+                "backgroundColor": colors[:len(data)],
+                "borderWidth": 0
+            }]
+        },
+        "options": {
+            "color": "white",
+            "legend": {
+                "labels": {
+                    "fontColor": "white"
+                }
+            },
+            "plugins": {
+                "legend": {
+                    "labels": {
+                        "color": "white"
+                    }
+                },
+
+                "tooltip": {
+                    "titleColor": "white",
+                    "bodyColor": "white"
+                },
+
+                "datalabels": {
+                    "color": "white",
+                    "formatter": "function(value){return value;}"
+                }
+            }
+        }
+    }
+
+    chart_json = json.dumps(chart_config)
+    encoded_chart = urllib.parse.quote(chart_json)
+
     return f"https://quickchart.io/chart?bkg=%23121212&c={encoded_chart}"
