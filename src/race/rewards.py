@@ -10,8 +10,22 @@ def give_career_rewards(bot, career, owner, winners: list) -> tuple[bool, dict]:
         fans   = random.randrange(50,  1000)
         sp     = random.randrange(30,  70)
         carats = random.randrange(50,  100)
-        career.fans        += fans
+
+        f_bonus = 1
+        r_bonus = 1
+
+        for sc in career.support_cards:
+            f_bonus*=(1+sc.f_bonus)
+            r_bonus*=(1+sc.r_bonus)
+        
+        career.fans        += int(fans*f_bonus)
         career.skill_points += sp
+
+        race_bonus=5 if not won else 15
+
+        for i in range(5):
+            career.stats[i]+=int(race_bonus*r_bonus)
+        
         bot.database[str(owner.id)]["stats"]["carats"] += carats
         return True, {"fans": fans, "sp": sp, "carats": carats}
     except Exception:

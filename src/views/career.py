@@ -3,12 +3,12 @@ from uicord import *
 from .translations import translator, tr, SUPPORTED_LANGS, TRANSLATIONS, typewriter
 from .pages import pagination_buttons, error, _back_button
 from .state import view_state
-from ..data import grade_map, grade_stat, SCHEDULES
+from ..data import grade_map, grade_stat, SCHEDULES, SC_BY_STAT, SUPPORT_IDS, SupportCard
 from ..race import *
 from .race import *
 from .skills import skill_shop
 from ..utils import get_stat_graph
-
+import discord
 import random
 
 MOOD_LEVELS = ['awful', 'bad', 'normal', 'good', 'great']
@@ -52,8 +52,140 @@ def get_goal_header(prof, uid):
     turn = tr("career.turns", index, prof, needed_turn) if needed_turn>0 else ""
     return tr("career.goal.header", 0, prof, title, turn)
 
-def support_card_select(prof, uid, selected=[]):
-    pass
+def support_card_select(
+    prof,
+    uid,
+    name,
+    selected=[None, None, None, None, None],
+    current_stat="spd",
+    selecting=None
+):
+    bot = view_state.bot
+    rb = RadioButtons(
+        options=[
+            RadioButtonOption(
+                label=tr(f"stats.{stat}", 0, prof),
+                default=stat==current_stat,
+                value=stat
+            )
+            for stat in ["spd", "stm", "pwr", "gut", "wit"]
+        ],
+        custom_on=view_state.bot.get_em("radio_on"),
+        custom_off=view_state.bot.get_em("radio_off")
+    )
+
+    continue_btn = Button(
+        tr("career.select.start", 0, prof),
+        color=Colors.Green
+    )
+
+    @interaction(continue_btn)
+    async def _start(i):
+        sps=[
+            SupportCard(SUPPORT_IDS[scid])
+            for scid in selected
+            if scid is not None
+        ]
+        prof["career"] = Career.create_new(name, str(uid), sps)
+        await i.response.edit_message(view=career(prof, uid))
+
+    if selecting is not None:
+        sc_options=[]
+        for sc in SC_BY_STAT[current_stat]:
+            if sc.img_id not in prof["inventory"]["supports"]: continue
+            if sc.img_id in selected: continue
+            if sc.name == name: continue
+            sc_options.append(
+                discord.SelectOption(
+                    label=sc.name,
+                    value=str(sc.img_id),
+                    emoji=sc.get_emoji(bot)
+                )
+            )
+        if sc_options:
+            sel = Choices(
+                options=sc_options
+            )
+        else:
+            sel = Choices(
+                options=[
+                    discord.SelectOption(
+                        label="hi"
+                    )
+                ]
+            )
+            sel.disabled=True
+        @interaction(sel)
+        async def _cont(i):
+            selected[selecting]=int(sel.picked)
+            await i.response.edit_message(
+                view=support_card_select(
+                    prof, uid, name,
+                    selected,
+                    "spd",
+                    None
+                )
+            )
+        @interaction(rb)
+        async def _change(i):
+            await i.response.edit_message(
+                view=support_card_select(
+                    prof, uid, name,
+                    selected, rb.value,
+                    selecting
+                )
+            )
+        selection_menu=[Container(
+            rb,
+            ActionRow(sel),
+        )]
+    else:
+        selection_menu=[]
+
+    elements = []
+
+    for id, raw in enumerate(selected):
+        if raw is None:
+            em=bot.get_em("mark_down")
+            thing = tr("career.support.none", 0, prof)
+        else:
+            sc = SUPPORT_IDS[raw]
+            thing = sc.name
+            em=sc.get_emoji(bot)
+        
+        btn = Button(thing, emoji=em)
+        @interaction(btn)
+        async def _btn(i, id=id):
+            await i.response.edit_message(
+                view=support_card_select(
+                    prof, uid, name,
+                    selected,
+                    current_stat,
+                    id
+                )
+            )
+        elements.append(btn)
+
+    elements=[
+        ActionRow(*elements),
+        Separator(),
+        ActionRow(
+            _back_button(
+                prof, lambda: career_select_confirm(
+                    prof, uid, name
+                )
+            ),
+            continue_btn
+        )
+    ]
+    
+    return View(
+        Container(
+            Text(f"# {tr("career.support.select", 0, prof)}"),
+            *elements
+        ),
+        *selection_menu
+    )
 
 def view_race_info(prof, uid, race, page):
     c: Career = prof['career']
@@ -105,13 +237,15 @@ def career_select(prof, uid, page=0):
 def career_select_confirm(prof, uid, name):
     count, level = _get_umas(prof).get(name, [0, 0])
     data_uma = UMAS[name]
-    start = Button(tr("career.select.start", 0, prof), emoji="🏁", color=Colors.Green)
+    start = Button(tr("global.buttons.next", 0, prof), color=Colors.Green)
 
     @interaction(start)
     async def _start(ctx):
-        prof["career"] = Career.create_new(name, str(uid), [])
-        await ctx.response.edit_message(view=career(prof, uid))
-    
+        await ctx.response.edit_message(
+            view=support_card_select(
+                prof, uid, name
+            )
+        )
     cols = 2
     rows = []
 
@@ -305,6 +439,9 @@ def failed_training(prof, uid, stat):
 
 def training(prof, uid, confirm_stat=None):
     _career = prof['career']
+    if _career.over or not _career.get_needed_goal():
+        return career_failure(prof, uid)
+
     if _career.current_goal is not None:
         goal = _career.current_goal
         if isinstance(goal, RaceGoal):
@@ -318,6 +455,15 @@ def training(prof, uid, confirm_stat=None):
 
     preview = _career.train(confirm_stat, True) if confirm_stat else {}
 
+    _friendships=set()
+    scs = ""
+
+
+    for sc in _career.support_cards:
+        if sc._current_stat in sc.stats and sc.gauge>=80:
+            _friendships.add(sc._current_stat)
+        if confirm_stat and sc._current_stat == confirm_stat:
+            scs+=str(sc.data.get_emoji(view_state.bot))+f" {min(100,sc.gauge)}🔥\n"
 
     energy_display = f"{_career.energy}/{_career.max_energy}"
     if preview:
@@ -330,8 +476,12 @@ def training(prof, uid, confirm_stat=None):
         else:
             stats_displayed.append((stat, st, values))
         if confirm_stat == stat:
-            st+=f' {(preview['failure_rate']*100):.0f}%'
-        btn = Button(tr('training.train_button', 0, prof, st), emoji=_stat_em(stat))
+            st+=f' {(max(0,preview['failure_rate']*100)):.0f}%'
+        btn = Button(
+            tr('training.train_button', 0, prof, st),
+            emoji=_stat_em(stat),
+            color=Colors.Blue if stat in _friendships else Colors.Grey
+        )
         training_btns.append(btn)
     
         @interaction(btn)
@@ -342,6 +492,8 @@ def training(prof, uid, confirm_stat=None):
                     res = lambda: failed_training(prof, uid, confirm_stat)
                 else:
                     _career.train(stat)
+                    for sc in _career.support_cards:
+                        sc.gauge+=5
                 return await i.response.edit_message(view=res())
             else:
                 return await i.response.edit_message(view=training(prof, uid, stat))
@@ -366,6 +518,7 @@ def training(prof, uid, confirm_stat=None):
             )
         ),
         Container(
+            *([Text(f"{scs}")] if scs else []),
             ActionRow(*training_btns)
         ),
         Container(

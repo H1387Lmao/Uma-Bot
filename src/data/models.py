@@ -1,6 +1,8 @@
 from .constants import DEFAULT_STATS
 from ..skills import Skill
 from enum import IntEnum
+import random
+
 """
 all aptitude grades
 """
@@ -65,18 +67,25 @@ class SCData:
         race_bonus=0,
         fan_bonus=0,
         training_effectiveness=0,
-        specialty_priority=0
+        specialty_priority=0,
+
+        stat_bonus=0,
+        friendship_bonus=0,
+        initial_gauge=0
     ):
         self.name = name
         self.rarity = rarity.lower()
-        self.stats = list(map(str.lower, stats))
+        self.stats = stats
         self.id = id
 
-        self.r_bonus=race_bonus
-        self.f_bonus=fan_bonus
-        self.tr_eff =training_effectiveness
-        self.s_prio =specialty_priority
-        self.img_id = len(self.rarity) * 10000 + self.id
+        self.r_bonus = race_bonus
+        self.f_bonus = fan_bonus
+        self.tr_eff  = training_effectiveness
+        self.s_prio  = specialty_priority
+        self.img_id  = len(self.rarity) * 10000 + self.id
+        self.s_bonus = stat_bonus
+        self.fr_bonus= friendship_bonus
+        self.gauge   = initial_gauge
 
         self._emoji=f"sc_{self.img_id}"
     def display(self, bot):
@@ -213,23 +222,26 @@ class SupportCard:
         self.stats = data.stats
         self.id = data.id
 
-        self.r_bonus=data.r_bonus
-        self.f_bonus=data.f_bonus
-        self.tr_eff =data.tr_eff
-        self.s_prio =data.s_prio
-        self.img_id =data.img_id
+        self.r_bonus =data.r_bonus
+        self.f_bonus =data.f_bonus
+        self.tr_eff  =data.tr_eff
+        self.s_prio  =data.s_prio
+        self.img_id  =data.img_id
+        self.s_bonus =data.s_bonus
+        self.fr_bonus=data.fr_bonus
+        
         self.data=data
 
         self._current_stat=cs or self.switch_lane()
-        self.gauge=gauge
+        self.gauge=gauge or data.gauge
     def switch_lane(self):
         if self.s_prio>random.random():
-            self._current_stat = random.choices(
+            self._current_stat = random.choice(
                 self.stats
             )
         else:
-            self._current_stat = random.choices(
-                ["spd", "stm", "pwr", "gut", "wit"]
+            self._current_stat = random.choice(
+                ["spd", "stm", "pwr", "gut", "wit", None]
             )
     def __reduce__(self):
         return (self.__class__, (

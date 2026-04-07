@@ -14,8 +14,8 @@ def add_uma_to_prof(prof, uma):
     prof["inventory"]["umas"][uma.name][0] += 1
 
 def add_sc_to_prof(prof, sc):
-    prof["inventory"]["supports"][sc.id] = prof["inventory"]["supports"].get(sc.id, [0, 0])
-    prof["inventory"]["supports"][sc.id][0] += 1
+    prof["inventory"]["supports"][sc.img_id] = prof["inventory"]["supports"].get(sc.img_id, [0, 0])
+    prof["inventory"]["supports"][sc.img_id][0] += 1
 
 async def roll(prof, check=True, sc=False):
     if check and prof["stats"]["carats"] < 150:

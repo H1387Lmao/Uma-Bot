@@ -303,7 +303,7 @@ TRANSLATIONS = {
         {"English": "Win the <0>", "Español": "Gana la <0>."},
     ],
     "goal.debut": [
-        {"English": "Win your debut race",     "Español": "Gana tu carrera de debut."},
+        {"English": "Participate in your debut race",     "Español": "Participar tu carrera de debut."},
     ],
     "goal.fans": [
         {"English": "Accumulate <0> fans",     "Español": "Acumula <0> fans."},
@@ -424,8 +424,19 @@ TRANSLATIONS = {
     "club.create.photo": [{
         "English": "Club Photo (512x512)"
     }],
+
+    "global.buttons.next": [
+        {"English": "Next"}
+    ],
     
     "error.club.not_found":   [{"English": "You don't have a club, Create one?"}],
+
+    "career.support.select": [
+        {"English": "Select support cards to use."}
+    ],
+    "career.support.none": [
+        {"English": "Not Assigned."}
+    ]
 }
 
 

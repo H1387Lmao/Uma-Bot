@@ -8,13 +8,13 @@ import random
 
 stat_names = ['spd', 'stm', 'pwr', 'gut', 'wit', 'sp']
 
-stat_to_index = {s: i for i, s in enumerate(stat_names)}
+stat_to_index = {s: i for i, s in enumerate(stat_names[:-1])}
 
 training_bonuses = {
     'spd': [('spd', 20), ('pwr', 10),          ('sp', 4), ('energy', -20)],
     'stm': [('stm', 20), ('gut', 10),          ('sp', 4), ('energy', -20)],
     'pwr': [('stm', 10), ('pwr', 20),          ('sp', 4), ('energy', -20)],
-    'gut': [('spd', 5),  ('pwr', 5),           ('gut', 20),         ('sp', 4), ('energy', 35)],
+    'gut': [('spd', 5),  ('pwr', 5),           ('gut', 20),         ('sp', 4), ('energy', -35)],
     'wit': [('wit', 20), ('sp', 10), ('energy', 5)]
 }
 
@@ -129,35 +129,65 @@ class Career:
     def train(self, stat, is_preview=False):
         if stat is None:
             return
-        bonuses = {}
-        for effect in training_bonuses[stat]:
-            if is_preview:
-                if effect[0] != 'sp':
-                    bonuses[effect[0]] = self.rfc(stat+effect[0], effect[1], (-3, 4)) #cache the fucking value
-                else:
-                    bonuses[effect[0]] = effect[1]
-                if effect[0] == 'energy':
-                    bonuses['failure_rate'] = self.failed(bonuses[effect[0]])
-                continue
-            if len(effect[0])==3: # check if its not SP
-                index = stat_to_index[effect[0]]
-                self.stats[index]+=self.rfc(stat+effect[0])
-            elif effect[0] == 'energy':
-                self.energy += self.rfc(stat+effect[0])
-                self.energy =  min(self.max_energy, self.energy)
-                self.energy =  max(0, self.energy)
-            elif effect[0] == 'sp':
-                self.skill_points+=self.rfc(stat+effect[0])
-        if not is_preview:
-            self.advance()
-        
-        return bonuses
 
+        base = {}
+        for s, val in training_bonuses[stat]:
+            base[s] = val
+
+        result = {}
+
+        acc_teff=0
+
+        for s, value in base.items():
+            if s == "energy":
+                v = value
+            elif s == "sp":
+                v = value
+            else:
+                v = value
+
+                for sc in self.support_cards:
+                    if (sc._current_stat == stat\
+                        and stat in sc.stats):
+                        
+                        v += sc.s_bonus
+                        acc_teff+=sc.tr_eff
+                        if sc.gauge > 80:
+                            v *= (1 + sc.fr_bonus)
+
+            if is_preview:
+                if s != "sp":
+                    v = self.rfc(stat + s, v, (-3, 4))
+            else:
+                v = self.rfc(stat + s, v, (-3, 4))
+
+            result[s] = int(v)
+
+        if is_preview:
+            if "energy" in result:
+                result["failure_rate"]  = self.failed(result["energy"])
+                result["failure_rate"] -= acc_teff
+            return result
+
+        for s, v in result.items():
+            if s in stat_to_index:
+                self.stats[stat_to_index[s]] += v
+            elif s == "energy":
+                self.energy += v
+                self.energy = min(self.max_energy, max(0, self.energy))
+            elif s == "sp":
+                self.skill_points += v
+
+        self.advance()
+    
     def advance(self):
         self.turn += 1
 
         self.calc_date()
         self.cache={}
+
+        for sc in self.support_cards:
+            sc.switch_lane()
     def calc_date(self):
         self.month = (self.turn//2 + 3)%12 # start in april
         self.half = (self.turn-1)%2
