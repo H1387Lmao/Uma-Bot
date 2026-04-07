@@ -52,6 +52,8 @@ def get_goal_header(prof, uid):
     turn = tr("career.turns", index, prof, needed_turn) if needed_turn>0 else ""
     return tr("career.goal.header", 0, prof, title, turn)
 
+def support_card_select(prof, uid, selected=[]):
+    pass
 
 def view_race_info(prof, uid, race, page):
     c: Career = prof['career']

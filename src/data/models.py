@@ -54,18 +54,37 @@ every model
 """
 
 class SCData:
-    def __init__(self, name, rarity, description, label=None, stat="SPD", id=1):
+    def __init__(
+        self,
+        name,
+        id=1,
+        rarity="R", 
+        stats=["spd"],
+
+        # benefits
+        race_bonus=0,
+        fan_bonus=0,
+        training_effectiveness=0,
+        specialty_priority=0
+    ):
         self.name = name
-        self.rarity = rarity
-        self.description = description
-        self.label = f"({label})" if label else ""
-        self.stat = stat.lower()
+        self.rarity = rarity.lower()
+        self.stats = list(map(str.lower, stats))
         self.id = id
+
+        self.r_bonus=race_bonus
+        self.f_bonus=fan_bonus
+        self.tr_eff =training_effectiveness
+        self.s_prio =specialty_priority
         self.img_id = len(self.rarity) * 10000 + self.id
-    
+
+        self._emoji=f"sc_{self.img_id}"
     def display(self, bot):
-        return f"{bot.em[self.stat.upper()]}{self.name} {self.label}"
-    
+        return f"{bot.get_em(self.stat.upper())}{self.name}"
+
+    def get_emoji(self, bot):
+        return bot.get_em(self._emoji)
+        
     def get_id(self):
         return self.img_id
     
@@ -186,3 +205,36 @@ class RaceData:
 
     def display(self, separator='\n'):
         return f"{self.get_emoji() or ''} {self.name}{separator}{self.race_name} {self.distance}m"
+
+class SupportCard:
+    def __init__(self, data, cs=None, gauge=0):
+        self.name = data.name
+        self.rarity = data.rarity
+        self.stats = data.stats
+        self.id = data.id
+
+        self.r_bonus=data.r_bonus
+        self.f_bonus=data.f_bonus
+        self.tr_eff =data.tr_eff
+        self.s_prio =data.s_prio
+        self.img_id =data.img_id
+        self.data=data
+
+        self._current_stat=cs or self.switch_lane()
+        self.gauge=gauge
+    def switch_lane(self):
+        if self.s_prio>random.random():
+            self._current_stat = random.choices(
+                self.stats
+            )
+        else:
+            self._current_stat = random.choices(
+                ["spd", "stm", "pwr", "gut", "wit"]
+            )
+    def __reduce__(self):
+        return (self.__class__, (
+            self.data,
+            self._current_stat,
+            self.gauge
+        ))
+

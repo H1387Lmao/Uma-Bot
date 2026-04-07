@@ -84,37 +84,19 @@ async def prof(ctx, data, uid: int, ulang="English", respond=True):
             "inventory":    {
                 "umas":     {},
                 "items":    {},
-                "supports": []
+                "supports": {}
             },
             "badges":       [],
             "old_careers":  [],
             "career":       None,
             "club":         None,
-            "stats":        {"fans": 0, "exp": 0, "tp": 100, "carats": 1500},
+            "stats":        {"fans": 0, "exp": 0, "tp": 100, "carats": 5000},
             "inboxes_read": [],
             "settings": {
                 "lang":         ulang,
             }
         })
 
-        options = [
-            {
-                "name": tr("page.settings.options", i, ulang),
-                "id": tr("page.settings.options", i, "_id"),
-                "default": tr("page.settings.options", i, "_default"),
-                "value": tr("page.settings.options", i, "_values"),
-                "type": tr("page.settings.options", i, "_type")
-
-            } for i in range(len(TRANSLATIONS["page.settings.options"]))
-        ]
-
-        for element in options:
-            name     = element["name"]
-            id       = element["id"]
-            values   = element["value"]
-            default  = prof["settings"].setdefault(
-                id, element["default"]
-            )
         print(f"Created profile for {ctx.user}")
         await create_loading(
             ctx, home, prof, uid
@@ -213,6 +195,15 @@ def home(prof, uid, page=0):
 
         } for i in range(len(TRANSLATIONS["page.settings.options"]))
     ]
+
+    for element in options:
+        name     = element["name"]
+        id       = element["id"]
+        values   = element["value"]
+        default  = prof["settings"].setdefault(
+            id, element["default"]
+        )
+
     elements = []
     buttons = []
     
@@ -257,9 +248,7 @@ def home(prof, uid, page=0):
                 name     = element["name"]
                 id       = element["id"]
                 values   = element["value"]
-                default  = prof["settings"].setdefault(
-                    id, element["default"]
-                )
+                default  = prof["settings"][id]
                 if len(current_row)==5:
                     elements.append(ActionRow(
                         *current_row
