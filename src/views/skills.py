@@ -5,10 +5,8 @@ from ..skills import MOST_EXPENSIVE_SKILLS
 from .state import view_state
 
 def create_skill_container(
-    prof, uid, page, skill, skills_buying, total
+    prof, uid, page, skill, skills_buying, **kwargs
 ):
-
-    n_total=total
     sp=prof["career"].skill_points
     bot = view_state.bot
     inc = Button(
@@ -36,13 +34,13 @@ def create_skill_container(
     @interaction(inc)
     async def _inc(i):
         skills_buying.setdefault(skill.id, 0)
-        n_total+=skills.price
+        kwargs["total"]+=skills.price
         skills_buying[skill.id]+=1
         await update_shop(i)
     @interaction(dec)
     async def _dec(i):
         skills_buying[skill.id]-=1
-        n_total-=skills.price
+        kwargs["total"]-=skills.price
         await update_shop(i)
 
     return Container(
@@ -61,7 +59,7 @@ def create_skill_container(
         )
     )
 
-def skill_shop(prof, uid, page=0, skills_buying={}, total=0):
+def skill_shop(prof, uid, page=0, skills_buying={}, **kwargs):
     per_page = 2
 
     skills_displayed = MOST_EXPENSIVE_SKILLS[
@@ -72,11 +70,11 @@ def skill_shop(prof, uid, page=0, skills_buying={}, total=0):
     containers=[]
 
     for skill in skills_displayed:
-        skill = create_skill_container(prof, uid, page, skill, skills_buying, total)
+        skill = create_skill_container(prof, uid, page, skill, skills_buying, **kwargs)
         containers.append(skill)
         
     PActionRow=pagination_buttons(
-        lambda p: skill_shop(prof, uid, p, skills_buying, total),
+        lambda p: skill_shop(prof, uid, p, skills_buying, **kwargs),
         len(MOST_EXPENSIVE_SKILLS)//per_page,
         prof,
         page,

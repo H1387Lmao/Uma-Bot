@@ -65,6 +65,21 @@ SC_DB = [
       stat_bonus=5,
       friendship_bonus=0.15,
       initial_gauge=15
+    ),
+
+    SCData(
+      name="Jimmy Beast",
+      id=969999,
+      rarity="SSR",
+      stats=["spd", "stm", "pwr", "gut", "wit"],
+      race_bonus=2,
+      fan_bonus=2,
+      training_effectiveness=1,
+      specialty_priority=1,
+      stat_bonus=20,
+      friendship_bonus=2,
+      initial_gauge=30,
+      _u=True
     )
 ]
 
@@ -74,7 +89,7 @@ SUPPORT_IDS = {u.img_id: u for u in SC_DB}
 SC_BY_STAT = {"spd":[], "stm":[], "pwr":[], "gut":[], "wit":[]}
 
 
-[SC_RARITIES[v.rarity].setdefault(k, v) for k, v in SUPPORTS.items()]
+[SC_RARITIES[v.rarity].setdefault(k, v) for k, v in SUPPORTS.items() if not v._u]
 
 for sc in SC_DB:
   for stat in sc.stats:

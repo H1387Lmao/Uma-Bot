@@ -71,7 +71,9 @@ class SCData:
 
         stat_bonus=0,
         friendship_bonus=0,
-        initial_gauge=0
+        initial_gauge=0,
+
+        _u=False
     ):
         self.name = name
         self.rarity = rarity.lower()
@@ -86,6 +88,8 @@ class SCData:
         self.s_bonus = stat_bonus
         self.fr_bonus= friendship_bonus
         self.gauge   = initial_gauge
+
+        self._u=_u
 
         self._emoji=f"sc_{self.img_id}"
     def display(self, bot):
@@ -119,13 +123,15 @@ class UmaData:
             G,
             G
         ], 
-        skill=None
+        skill=None,
+        _u=False
     ):
         self.name = name
         self.rarity = rarity
         self.stats = stats
         self.ult = skill
         self.aptitude = aptitude
+        self._u=_u
 
         self.best_distance_aptitude = distances_apt[sorted(enumerate(aptitude[6:10]), key=lambda d: d[1])[-1][0]]
 

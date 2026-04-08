@@ -32,5 +32,6 @@ SAFE_TO_REAL = {
 
 # Populate uma rarities (excluding unobtainable)
 for k, v in UMAS.items():
-    UMA_RARITIES[v.rarity].setdefault(k, v)
+    if not v._u:
+        UMA_RARITIES[v.rarity].setdefault(k, v)
 

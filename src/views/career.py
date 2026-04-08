@@ -559,7 +559,7 @@ def career_failure(prof, uid):
     complete = Button(tr('career.btn.complete', 0, prof), emoji="🎉")
     @interaction(skills)
     async def _skills(i):
-        await i.response.edit_message(view=skill_shop(prof, uid))
+        await i.response.edit_message(view=skill_shop(prof, uid, total=0))
 
     stats_displayed = []
 
@@ -655,7 +655,7 @@ def career(prof, uid, goal_only=False):
     skills = Button(tr('career.btn.skills', 0, prof), emoji=view_state.bot.get_em("ui_skills"))
     @interaction(skills)
     async def _skills(i):
-        await i.response.edit_message(view=skill_shop(prof, uid))
+        await i.response.edit_message(view=skill_shop(prof, uid, total=0))
     @interaction(race)
     async def _race(i):
         await i.response.edit_message(view=race_schedule(prof, uid))
