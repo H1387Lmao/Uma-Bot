@@ -28,19 +28,19 @@ def create_skill_container(
                 uid,
                 page,
                 skills_buying,
-                n_total
+                **kwargs
             )
         )
     @interaction(inc)
     async def _inc(i):
         skills_buying.setdefault(skill.id, 0)
-        kwargs["total"]+=skills.price
+        kwargs["total"]+=skill.price
         skills_buying[skill.id]+=1
         await update_shop(i)
     @interaction(dec)
     async def _dec(i):
         skills_buying[skill.id]-=1
-        kwargs["total"]-=skills.price
+        kwargs["total"]-=skill.price
         await update_shop(i)
 
     return Container(
@@ -78,6 +78,7 @@ def skill_shop(prof, uid, page=0, skills_buying={}, **kwargs):
         len(MOST_EXPENSIVE_SKILLS)//per_page,
         prof,
         page,
+        loop=True,
         back_factory = lambda: view_state.views.career(
             prof, uid
         )
@@ -86,17 +87,17 @@ def skill_shop(prof, uid, page=0, skills_buying={}, **kwargs):
     Checkout=Button(
         tr("career.skills.buy", 0, prof),
         color=Colors.Green,
-        disabled=total==0
+        disabled=kwargs["total"]==0
     )
 
     @interaction(Checkout)
     async def _checkout(i):
-        for skid, am in skills_buying:
+        for skid, am in skills_buying.items():
             if not am: continue
             career.skills.append(skid)
-        career.skill_points-=total
+        career.skill_points-=kwargs["total"]
         await i.response.edit_message(
-            view=skill_shop(prof, uid, p)
+            view=skill_shop(prof, uid, page, total=0)
         )
     career = prof["career"]
 
@@ -106,7 +107,7 @@ def skill_shop(prof, uid, page=0, skills_buying={}, **kwargs):
     return View(
         Container(
             Text(f"# {tr("career.skills.title", 0, prof)}\n"
-                f"-# **{career.skill_points-total} {tr("training.skill_pts_label", 0, prof)}**"
+                f"-# **{career.skill_points-kwargs["total"]} {tr("training.skill_pts_label", 0, prof)}**"
             ),
         ),
         *containers,

@@ -61,7 +61,7 @@ TRANSLATIONS = {
         {"English": "Triangle Gacha", "Español": "Gacha triangular", "_default": True, "_type": "toggle", "_id": "triangle_gacha"},
         {"English": "Skip Gacha", "Español": "Saltar gacha", "_default": False, "_type": "toggle", "_id": "skip_gacha"},
         {"English": "Compact UI", "Español": "Interfaz compacta", "_default": True, "_type": "toggle", "_id": "mobile_mode"},
-        {"English": "Skip race", "Español": "Saltar carrera", "_default": False, "_type": "toggle", "_id": "skip_race"},
+        {"English": "Skip race", "Español": "Saltar carrera", "_default": True, "_type": "toggle", "_id": "skip_race"},
         {"English": "Language", "Español": "Idioma", "_default": "English", "_type": "choices", "_id": "lang", "_values": SUPPORTED_LANGS}
     ],
     "page.gacha.titles": [
