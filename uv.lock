@@ -708,10 +708,14 @@ wheels = [
 
 [[package]]
 name = "uicord"
-version = "4.0.1"
+version = "5.0.1"
 source = { directory = "../UICord" }
+dependencies = [
+    { name = "py-cord" },
+]
 
 [package.metadata]
+requires-dist = [{ name = "py-cord", specifier = ">=2.7" }]
 
 [package.metadata.requires-dev]
 dev = [{ name = "uicord", editable = "../UICord" }]

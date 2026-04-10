@@ -1,8 +1,12 @@
-from src import Uma, views, card, utils, shell
+from src import Uma, views, card, utils, shell, dev
 import sys, atexit, signal
 from uicord import state, View, Container, MediaGallery, MediaGalleryItem, Text
 import discord
 import os, asyncio
+import io
+import textwrap
+import traceback
+from contextlib import redirect_stdout
 
 uma = Uma(
     dev="--dev" in sys.argv #wtf is this temporary shi
@@ -73,6 +77,18 @@ async def reset(ctx: utils.CleanerContext):
     await ctx.defer()
     await utils.CleanerContext.cleanup_all()
     os.execv(sys.executable, [sys.executable] + sys.argv)
+
+@uma.cmd(
+    name="panel",
+    dev=True,
+    no_exclude=True,
+    no_delete=True,
+    description="Panel for developers"
+)
+async def panel(ctx):
+    await dev.Panel(
+        dev.DEV_CMDS
+    ).show(ctx)
 
 state.DEV_IDS.append(735679718506102881)
 

@@ -7,7 +7,7 @@ from ..data import grade_map, grade_stat, SCHEDULES, SC_BY_STAT, SUPPORT_IDS, Su
 from ..race import *
 from .race import *
 from .skills import skill_shop
-from ..utils import get_stat_graph
+from ..utils import get_stat_graph, get_bar_tiles
 import discord
 import random
 
@@ -20,6 +20,15 @@ def _stat_em(stat): return view_state.bot.get_em(stat.upper()) or ":bulb:"
 
 def _get_umas(prof) -> dict[str, list]:
     return prof.get("inventory", {}).get("umas", {})
+
+def get_prog(c):
+    percentage = c.energy/c.max_energy
+    return "".join(
+        map(
+            lambda a: str(view_state.bot.get_em(a)),
+            get_bar_tiles(percentage)
+        )
+    )
 
 def get_goal_header(prof, uid):
     career = prof['career']
@@ -509,7 +518,7 @@ def training(prof, uid, confirm_stat=None):
     return View(
         Container(
             Section(
-                Text(f"## {training_header}"),
+                Text(f"## {training_header}\n-# {get_prog(_career)}"),
                 Text(f"-# **{get_goal_header(prof, uid)}**"),
                 Text(stat_line),
                 accessory=Thumbnail(
@@ -698,7 +707,7 @@ def career(prof, uid, goal_only=False):
             Text(
                 tr("career.header", 0, prof, em, _career.name, training_header, year, month, half)
             ),
-            Text(f"-# **{get_goal_header(prof, uid)}**"),
+            Text(f"{get_prog(_career)}\n-# **{get_goal_header(prof, uid)}**"),
             accessory=Thumbnail(
                 url=mood.url
             )

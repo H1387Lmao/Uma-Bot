@@ -186,3 +186,27 @@ def get_stat_graph(stats):
     encoded_chart = urllib.parse.quote(chart_json)
 
     return f"https://quickchart.io/chart?bkg=%23121212&c={encoded_chart}"
+
+def get_bar_tiles(percentage, precision=7, total_tiles=7, remainder_tiles=[6]):
+    percentage = max(0.0, min(1.0, percentage))
+    filled_tiles = percentage * total_tiles
+
+    remainder_tiles = set(remainder_tiles or [])
+    result = []
+
+    for i in range(total_tiles):
+        relative = filled_tiles - i
+
+        if i in remainder_tiles:
+            state = 1 if relative >= 1 else 0
+        else:
+            if relative >= 1:
+                state = precision
+            elif relative <= 0:
+                state = 0
+            else:
+                state = int(relative * precision)
+
+        result.append(f"bar_{i}_{state}")
+
+    return result

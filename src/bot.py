@@ -84,13 +84,17 @@ class Uma(bridge.Bot):
    
     def cmd(self, **kwargs):
         dev = kwargs.pop("dev", False)
+        no_delete = kwargs.pop("no_delete", False)
+        no_remove = kwargs.pop("no_exclude", False)
         def decorator(func):
             async def wrapper(ctx: bridge.Context, *args, **kwargs):
                 if dev and ctx.author.id not in Developers:
                     return
+                if no_delete:
+                    return await func(ctx, *args, **kwargs)
                 return await func(CleanerContext(ctx), *args, **kwargs)
             _name = kwargs.get("name") or func.__name__
-            if dev and not self.dev:
+            if dev and not self.dev and not no_remove:
                 view_state.logger.print(f"[light red]Skipped Developer Branch Command: {_name}[reset]")
                 return
 
