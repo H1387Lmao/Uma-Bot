@@ -167,7 +167,7 @@ class Panel(View):
             await cmd(ctx, *args)
         await ctx.response.send_modal(modal)
     async def show(self, ctx):
-        view.owner=ctx.author.id
+        self.owner=ctx.author.id
         await ctx.respond(
             view=self, ephemeral=True
         )
