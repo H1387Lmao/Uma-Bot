@@ -7,7 +7,7 @@ from .state import view_state
 def create_skill_container(
     prof, uid, page, skill, skills_buying, **kwargs
 ):
-    sp=prof["career"].skill_points
+    sp=prof["career"].skill_points-kwargs["total"]
     bot = view_state.bot
     inc = Button(
         text=None, emoji=bot.get_em("ui_inc"),
