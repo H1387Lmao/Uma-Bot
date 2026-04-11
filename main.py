@@ -1,4 +1,4 @@
-from src import Uma, views, card, utils, shell, dev
+from src import Uma, views, card, utils, shell, dev, debug
 import sys, atexit, signal
 from uicord import state, View, Container, MediaGallery, MediaGalleryItem, Text
 import discord
@@ -11,6 +11,24 @@ from contextlib import redirect_stdout
 uma = Uma(
     dev="--dev" in sys.argv #wtf is this temporary shi
 )
+
+TOKEN = "MTQ1NjMwMzc5NzY5NjU5NDA2MQ.GLVJd4.XP1fJE4WDLRwqY-cKFlpR_DuirBc41KUX_1hb0"
+
+def main():
+    if "--no-tui" in sys.argv: #wtf is this temporary shi
+        uma.run(TOKEN)
+    else:
+        asyncio.run(
+            shell.start_bot(
+                uma,
+                TOKEN
+            )
+        )
+
+
+if "--no-cmds" in sys.argv:
+    main()
+    sys.exit()
 
 @uma.cmd(
     name="start",
@@ -95,19 +113,8 @@ state.DEV_IDS.append(735679718506102881)
 def exit_handler():
     if "--no-tui" in sys.argv:
         uma.save()
-
-TOKEN = "MTQ1NjMwMzc5NzY5NjU5NDA2MQ.GLVJd4.XP1fJE4WDLRwqY-cKFlpR_DuirBc41KUX_1hb0"
-
+        
 signal.signal(signal.SIGINT, lambda: sys.exit(1))
 atexit.register(exit_handler)
 
-if "--no-tui" in sys.argv: #wtf is this temporary shi
-    uma.run(TOKEN)
-else:
-    asyncio.run(
-        shell.start_bot(
-            uma,
-            TOKEN
-        )
-    )
-
+main()

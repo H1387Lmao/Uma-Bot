@@ -1,4 +1,4 @@
-from discord.ext import bridge, commands
+from discord.ext import bridge, commands, tasks
 import discord
 from uicord import *
 from pathlib import Path
@@ -49,6 +49,16 @@ class Uma(bridge.Bot):
             self.db_path = Path("database/dev.pkl")
         view_state.logger.print(f"[light blue]Loaded Temporary Database")
         self.database.temp_load(self.db_path)
+    @tasks.loop(seconds=30)
+    async def _save(self):
+        self.save()
+        print("Backed up")
+        
+    @_save.before_loop
+    async def before_auto_save():
+        await bot.wait_until_ready()
+        await asyncio.sleep(30)
+    
     def save(self):
         self.database.save(self.db_path)
         view_state.logger.print(f"\n\n[light blue]Saved Database")
@@ -87,12 +97,12 @@ class Uma(bridge.Bot):
         no_delete = kwargs.pop("no_delete", False)
         no_remove = kwargs.pop("no_exclude", False)
         def decorator(func):
-            async def wrapper(ctx: bridge.Context, *args, **kwargs):
+            async def wrapper(ctx: bridge.Context):
                 if dev and ctx.author.id not in Developers:
                     return
                 if no_delete:
-                    return await func(ctx, *args, **kwargs)
-                return await func(CleanerContext(ctx), *args, **kwargs)
+                    return await func(ctx)
+                return await func(CleanerContext(ctx))
             _name = kwargs.get("name") or func.__name__
             if dev and not self.dev and not no_remove:
                 view_state.logger.print(f"[light red]Skipped Developer Branch Command: {_name}[reset]")
