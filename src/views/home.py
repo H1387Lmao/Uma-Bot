@@ -220,7 +220,7 @@ def home(prof, uid, page=0):
             @interaction(buttons[0])
             async def _storage(ctx):
                 await ctx.response.edit_message(
-                    view=storage(home, prof, uid)
+                    view=storage(prof, uid)
                 )
             @interaction(buttons[1])
             async def _career(ctx):

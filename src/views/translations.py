@@ -95,7 +95,7 @@ TRANSLATIONS = {
         {"English": "Badges", "Español": "Insignias"}
     ],
     "page.storage.no_umas": [
-        {"English": "You don't have any umas!", "Español": "¡No tienes ninguna Uma!"},
+        {"English": "You don't have anything!", "Español": "¡No tienes nada!"},
     ],
     "page.credits": [
         {"English": "CREDITS", "Español": "CRÉDITOS"},
@@ -374,7 +374,17 @@ TRANSLATIONS = {
 
     "career.support.select": [{"English": "Select support cards to use.",
                                "Español": "Selecciona las cartas de apoyo que quieres usar."}],
-    "career.support.none": [{"English": "Not Assigned.", "Español": "Sin asignar."}]
+    "career.support.none": [{"English": "Not Assigned.", "Español": "Sin asignar."}],
+
+    "page.storage.upgrade": [
+        {"English": "Upgrade"}
+    ],
+    "page.storage.show_umas": [
+        {"English": "Your Umamusumes"}
+    ],
+    "page.storage.show_supports": [
+        {"English": "Your Support Cards"}
+    ]
 }
 
 class TranslationSection:

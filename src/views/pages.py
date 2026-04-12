@@ -14,6 +14,8 @@ def error(prof, uid, label, back_button=None, back_view_factory=None):
 
 def pagination_buttons(parent_factory, max_pages, lang, current_page=0, loop=False, back_factory=None, far_buttons=False):
     components = []
+    if max_pages== 0:
+        loop=False
     if back_factory: components.append(_create_back_button(lang, back_factory))
     fr = view_state.bot.get_em("ui_farr")
     fl = view_state.bot.get_em("ui_farl")

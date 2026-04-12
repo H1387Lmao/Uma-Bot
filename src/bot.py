@@ -49,14 +49,16 @@ class Uma(bridge.Bot):
             self.db_path = Path("database/dev.pkl")
         view_state.logger.print(f"[light blue]Loaded Temporary Database")
         self.database.temp_load(self.db_path)
+
+        self._save.start()
     @tasks.loop(seconds=30)
     async def _save(self):
         self.save()
         print("Backed up")
         
     @_save.before_loop
-    async def before_auto_save():
-        await bot.wait_until_ready()
+    async def before_auto_save(self):
+        await self.wait_until_ready()
         await asyncio.sleep(30)
     
     def save(self):
