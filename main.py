@@ -15,7 +15,7 @@ uma = Uma(
 TOKEN = "MTQ1NjMwMzc5NzY5NjU5NDA2MQ.GLVJd4.XP1fJE4WDLRwqY-cKFlpR_DuirBc41KUX_1hb0"
 
 def main():
-    if "--no-tui" in sys.argv: #wtf is this temporary shi
+    if "--dev" not in sys.argv or "--no-tui" in sys.argv: #wtf is this temporary shi
         uma.run(TOKEN)
     else:
         asyncio.run(
@@ -110,11 +110,21 @@ async def panel(ctx):
 
 state.DEV_IDS.append(735679718506102881)
 
-def exit_handler():
-    if "--no-tui" in sys.argv:
-        uma.save()
+def exit_handler(*args):
+    uma.save()
+    try:
+        asyncio.run(
+            uma.close()
+        )
+    except:
+        uma.loop.create_task(
+            uma.close()
+        )
         
-signal.signal(signal.SIGINT, lambda: sys.exit(1))
+signal.signal(signal.SIGINT, exit_handler)
+if os.name!="nt":
+    signal.signal(signal.SIGTSTP, exit_handler)
+
 atexit.register(exit_handler)
 
 main()

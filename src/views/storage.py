@@ -100,7 +100,7 @@ def show_supports(prof, uid, page=0, upgrading={}):
         )
     if not umas_displayed:
         umas_displayed = [
-            Text(tr("page.storage.no_umas", 0, prof)
+            Text(tr("page.storage.no_umas", 0, prof))
         ]
 
     return View(
@@ -155,7 +155,7 @@ def storage(prof, uid, page=0):
     title = tr("page.storage.titles", page, prof)
     
     parent_factory = lambda page: storage(prof, uid, page=page)
-    back_factory = lambda: view_state.home(prof, uid)
+    back_factory = lambda: view_state.views.home(prof, uid)
     nav_buttons = pagination_buttons(
         parent_factory=parent_factory,
         max_pages=3,

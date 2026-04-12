@@ -1,6 +1,7 @@
 from collections import UserDict
 import discord
 import pickle, re
+import os, tempfile
 
 def safenize(old, step=0):
     _new={}
@@ -41,8 +42,10 @@ class Database(UserDict):
         super().__setitem__(str(key), value)
     def save(self, fp):
         _data = safenize(self.data)
-        with open(fp, 'wb') as f:
-            pickle.dump(_data, f, pickle.HIGHEST_PROTOCOL)
+        with tempfile.NamedTemporaryFile("wb", delete=False) as tmp:
+            pickle.dump(self.data, tmp)
+            temp_name = tmp.name
+        os.replace(temp_name, fp)
             
     def temp_load(self, fp):
         if fp.exists():

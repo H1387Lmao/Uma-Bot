@@ -467,12 +467,17 @@ def training(prof, uid, confirm_stat=None):
     _friendships=set()
     scs = ""
 
-
     for sc in _career.support_cards:
-        if sc._current_stat in sc.stats and sc.gauge>=80:
-            _friendships.add(sc._current_stat)
+        if sc._current_stat in sc.stats:
+            if sc.gauge>=80:
+                t ="🔥"
+                _friendships.add(sc._current_stat)
+            else:
+                t = "❗"
+        else:
+            t = ""
         if confirm_stat and sc._current_stat == confirm_stat:
-            scs+=str(sc.data.get_emoji(view_state.bot))+f" {min(100,sc.gauge)}🔥\n"
+            scs+=str(sc.data.get_emoji(view_state.bot))+f" {min(100,sc.gauge)}{t}\n"
 
     energy_display = f"{_career.energy}/{_career.max_energy}"
     if preview:
