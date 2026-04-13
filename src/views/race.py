@@ -111,20 +111,23 @@ def _placement_line(race: Race, lang) -> str:
 
 
 def _push_career_result(race: Race, lang) -> None:
-    won, rewards = give_career_rewards(race.bot, race.career, race.owner, race.winners)
+    won, rewards = give_career_rewards(race, race.bot, race.career, race.owner, race.winners)
     place_line   = _placement_line(race, lang)
+    detail=""
+    for item, am in rewards.get("items", ()):
+        detail+=f"-# {race.bot.get_item_em(item)} × {am}\n"
     if won:
         title  = tr("race.result.won",           0, lang)
-        detail = tr("race.result.reward.career",  0, lang,
+        detail += tr("race.result.reward.career",  0, lang,
                     rewards.get("fans", 0), rewards.get("sp", 0), rewards.get("carats", 0))
     else:
         title  = tr("race.result.lost", 0, lang)
-        detail = str(race.bot.em["Tazuna"])
+        detail += str(race.bot.em["Tazuna"])
     race.push_event(f"{title} {place_line}\n{detail}")
 
 
 def _push_daily_result(race: Race, lang) -> None:
-    won, rewards = give_daily_rewards(race.bot, race.owner, race.winners)
+    won, rewards = give_daily_rewards(race, race.bot, race.owner, race.winners)
     place_line   = _placement_line(race, lang)
     if won:
         title  = tr("race.result.won",          0, lang)

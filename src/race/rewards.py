@@ -2,7 +2,7 @@ import random
 import traceback
 
 
-def give_career_rewards(bot, career, owner, winners: list) -> tuple[bool, dict]:
+def give_career_rewards(race, bot, career, owner, winners: list) -> tuple[bool, dict]:
     won = bool(winners) and winners[0].is_player
     if not won:
         return False, {}
@@ -17,33 +17,43 @@ def give_career_rewards(bot, career, owner, winners: list) -> tuple[bool, dict]:
         for sc in career.support_cards:
             f_bonus*=(1+sc.f_bonus)
             r_bonus*=(1+sc.r_bonus)
+
+        shoe_count = random.randrange(2,8)
+
+        shoe_id = f"{race.race_data.distance}_shoe"
         
         career.fans        += int(fans*f_bonus)
         career.skill_points += sp
 
         race_bonus=5 if not won else 15
 
+        prof = bot.database[str(owner.id)]
+
         for i in range(5):
             career.stats[i]+=int(race_bonus*r_bonus)
         
-        bot.database[str(owner.id)]["stats"]["carats"] += carats
-        return True, {"fans": fans, "sp": sp, "carats": carats}
+        prof["stats"]["carats"] += carats
+        prof["inventory"]["items"].setdefault(shoe_id, 0)
+        prof["inventory"]["items"][shoe_id]+=shoe_count
+        return True, {"fans": fans, "sp": sp, "carats": carats, "items":(
+            (shoe_id, shoe_count),
+        )}
     except Exception:
         traceback.print_exc()
         return True, {}
 
 
-def give_daily_rewards(bot, owner, winners: list) -> tuple[bool, dict]:
+def give_daily_rewards(race, bot, owner, winners: list) -> tuple[bool, dict]:
     won = bool(winners) and winners[0].is_player
     if not won:
         return False, {}
     try:
         carats = random.randrange(400, 1000)
         exp    = random.randrange(500, 1000)
-        prof            = bot.database[str(owner.id)]["stats"]
-        prof["carats"] += carats
-        prof["exp"]    += exp
-        prof["level"]   = prof["exp"] // 10000
+        prof   = bot.database[str(owner.id)]["stats"]
+        prof["stats"]["carats"] += carats
+        prof["stats"]["exp"]    += exp
+        prof["stats"]["level"]   = prof["exp"] // 10000
         return True, {"carats": carats, "exp": exp}
     except Exception:
         traceback.print_exc()

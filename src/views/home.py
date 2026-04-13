@@ -311,10 +311,31 @@ def home(prof, uid, page=0):
     )
 
     thumb_url = "https://raw.githubusercontent.com/H1387Lmao/H1387Lmao/refs/heads/main/resources/umabot-logo.png" if page%3==0 else bot.get_em(emoji).url
+
+    if page==0:
+        items=[
+            Grid(
+                rows=2,
+                cols=2,
+                texts=[
+                    GridItem(
+                        str(prof["stats"]["carats"]),
+                        bot.get_em("carats")
+                    ),
+                    GridItem(
+                        str(bot.get_item(prof, "monies", 50000)),
+                        bot.get_item_em("monies")
+                    )
+                ]
+            ).build()
+        ]
+    else:
+        items=[]
     return View(
         Container(
             Section(
                 page_title,
+                items,
                 accessory=Thumbnail(
                     url=thumb_url
                 )

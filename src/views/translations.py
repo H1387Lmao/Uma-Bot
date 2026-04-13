@@ -250,8 +250,8 @@ TRANSLATIONS = {
         {"English": "— <0> Place", "Español": "— puesto <0>"},
     ],
     "race.result.reward.career": [
-        {"English": "-# You gained **<0>** fans, **<1>** SP, and **<2>** carats!",
-         "Español": "-# ¡Ganaste **<0>** fans, **<1>** SP y **<2>** carats!"},
+        {"English": "-# You gained **<0>** fans, **<1>** SP, and **<2>** carats!\n",
+         "Español": "-# ¡Ganaste **<0>** fans, **<1>** SP y **<2>** carats!\n"},
     ],
     "race.result.reward.daily": [
         {"English": "-# You gained **<0>** carats and **<1>** exp!",

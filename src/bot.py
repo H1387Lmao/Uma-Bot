@@ -54,7 +54,6 @@ class Uma(bridge.Bot):
     @tasks.loop(seconds=30)
     async def _save(self):
         self.save()
-        print("Backed up")
         
     @_save.before_loop
     async def before_auto_save(self):
@@ -63,7 +62,6 @@ class Uma(bridge.Bot):
     
     def save(self):
         self.database.save(self.db_path)
-        view_state.logger.print(f"\n\n[light blue]Saved Database")
 
     async def on_ready(self):
         view_state.logger.print(f"[light purple]Ready as {self.user}[reset]")
@@ -93,7 +91,10 @@ class Uma(bridge.Bot):
             uma_name.replace(" ", "_").lower(),
             ":horse:"
         )
-   
+    def get_item(self, prof, id, default=0):
+        return prof["inventory"]["items"].setdefault(id, default)
+    def get_item_em(self, id):
+        return self.get_em("items_"+id)
     def cmd(self, **kwargs):
         dev = kwargs.pop("dev", False)
         no_delete = kwargs.pop("no_delete", False)

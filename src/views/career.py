@@ -35,6 +35,8 @@ def get_goal_header(prof, uid):
     goal_info = career.get_needed_goal()
 
     args = []
+
+    tr_identif="676767"
     
     if isinstance(goal_info, FanGoal):
        tr_identif = "goal.fans"
