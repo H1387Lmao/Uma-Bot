@@ -1,6 +1,6 @@
 from src import Uma, views, card, utils, shell, dev, debug
 import sys, atexit, signal
-from uicord import state, View, Container, MediaGallery, MediaGalleryItem, Text
+from uicord import *
 import discord
 import os, asyncio
 import io

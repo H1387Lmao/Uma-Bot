@@ -310,7 +310,7 @@ def home(prof, uid, page=0):
         loop=True
     )
 
-    thumb_url = "https://raw.githubusercontent.com/H1387Lmao/H1387Lmao/refs/heads/main/resources/umabot-logo.png" if page%3==0 else bot.get_em(emoji).url
+    thumb_url = bot.user.avatar.url if page%3==0 else bot.get_em(emoji).url
 
     if page==0:
         items=[
