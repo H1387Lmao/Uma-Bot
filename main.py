@@ -12,7 +12,7 @@ uma = Uma(
     dev="--dev" in sys.argv #wtf is this temporary shi
 )
 
-TOKEN = "MTQ1NjMwMzc5NzY5NjU5NDA2MQ.GLVJd4.XP1fJE4WDLRwqY-cKFlpR_DuirBc41KUX_1hb0"
+TOKEN = "i already reset the token so its fine"
 
 def main():
     if "--dev" not in sys.argv or "--no-tui" in sys.argv: #wtf is this temporary shi
