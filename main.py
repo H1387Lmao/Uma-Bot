@@ -7,12 +7,15 @@ import io
 import textwrap
 import traceback
 from contextlib import redirect_stdout
+from dotenv import load_dotenv
+
+load_dotenv()
 
 uma = Uma(
     dev="--dev" in sys.argv #wtf is this temporary shi
 )
 
-TOKEN = "i already reset the token so its fine"
+TOKEN = os.getenv("TOKEN")
 
 def main():
     if "--dev" not in sys.argv or "--no-tui" in sys.argv: #wtf is this temporary shi
