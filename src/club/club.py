@@ -6,6 +6,7 @@ from ..views.translations import tr  # pyright: ignore[reportUnknownVariableType
 from ..views.state import view_state
 import time
 from itertools import repeat
+from uicord import Colors
 
 InviteOnly = 0
 Public = 1
@@ -21,7 +22,8 @@ class Club:
         snapshots: list[
             tuple[int, int] #(timestamp, fancount)
         ],
-        color: int = 0x676767
+        color: int = 0x676767,
+        index: int = 0
     ):
         self.info=info
         self.privacy: primitives = info['privacy']
@@ -34,6 +36,7 @@ class Club:
         self.owner_id: int = owner_id
         self.snapshots=snapshots
         self.color=color
+        self.index=index
 
         self.bot = view_state.bot
         self.calculate_fans()
@@ -43,19 +46,23 @@ class Club:
         self.members: list[discord.User | discord.Member | None] = [ 
             await safe_get_user(bot, member) for member in self.member_ids
         ]
+    def get_member_ids(self):
+        return [self.owner_id, *self.member_ids]
     def __reduce__(self):
         return (self.__class__,(
             self.owner_id,
             self.member_ids,
             self.info,
             self.snapshots,
-            self.color
+            self.color,
+            self.index
         ))
     def calculate_fans(self):
         self.fans = 0
         for member_id in self.member_ids:
-            prof = self.bot.database[str(member_id)]
-
+            try:
+                prof = self.bot.database[str(member_id)]
+            except KeyError: continue
             self.fans += prof['stats']['fans']
         self.create_snapshot()
     def create_snapshot(self):
@@ -87,49 +94,49 @@ class Club:
     
         return spans
     def invite_view(self, prof: dict[str, Any]) -> View:  # pyright: ignore[reportExplicitAny]
-        accept  = Button(tr('club.view.accept', 0, prof))
-        decline = Button(tr('club.view.decline', 0, prof))
+        accept  = Button(tr('club.invite.accept', 0, prof), color=Colors.Green)
+        decline = Button(tr('club.invite.decline', 0, prof), color=Colors.Red)
 
         @interaction(accept)  # pyright: ignore[reportUntypedFunctionDecorator]
         async def _accept(ctx: discord.Interaction):  # pyright: ignore[reportUnusedFunction]
             await ctx.response.edit_message(
                 view=View(
                     Container(
-                        Text(tr("club.msg.success"))
+                        Text(tr("club.msg.success", 0, prof))
                     )
                 )
             )
             assert ctx.user is not None
             self.members.append(ctx.user)
             self.member_ids.append(ctx.user.id)
+            prof["club"]=self.index
 
         @interaction(decline)  # pyright: ignore[reportUntypedFunctionDecorator]
         async def _decline(ctx: discord.Interaction):  # pyright: ignore[reportUnusedFunction]
             await ctx.response.edit_message(
                 view=View(
                     Container(
-                        Text(tr("club.msg.success"))
+                        Text(tr("club.msg.success", 0, prof))
                     )
                 )
             )
 
         return View(
             Container(
-                Text(f"# {tr('club.view.invite_msg', 0, prof)}"),
+                Text(f"# {tr('club.invite.invite_msg', 0, prof, self.name)}"),
                 ActionRow(
                     accept, decline
                 )
             )
         )
-    async def invite_user(self, ctx, id: int):
-        user: discord.Member | None = await safe_get_user(bot, id)
+    async def invite_user(self, user=None):
         if user is None:
             return False
         prof: dict[str, Any] = self.bot.database[str(user.id)]  # pyright: ignore[reportUnknownVariableType]
-        if prof['clubs'] != None:
+        if prof['club'] != None:
             return False
         try:
-            _ = await user.send(view=self.invite_view(prof))  # pyright: ignore[reportCallIssue]
+            await user.send(view=self.invite_view(prof))
         except discord.Forbidden:
             return False
         else:

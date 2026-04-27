@@ -3,7 +3,7 @@ import discord
 from uicord import *
 import asyncio
 
-DEBUG_CHANNEL = 1475834783337807963
+DEBUG_CHANNEL = 1476406061874286674
 
 async def send_ch(bot, *args, **kwargs):
     try:

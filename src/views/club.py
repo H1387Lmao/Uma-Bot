@@ -1,9 +1,10 @@
 from .state import view_state
 from uicord import *
 from .translations import tr
-from .pages import _back_button, pagination_buttons
+from .pages import _back_button, pagination_buttons, error
 from ..club import Club
 from ..utils import get_fan_graph
+from .lb import leaderboard
 import hashlib
 import discord
 
@@ -51,11 +52,12 @@ class CreateClub(Modal):
             "photo": None if len(self.values[2])==0 else self.values[2][0].url
         }
         h=hashlib.md5(str(info["photo"]).encode('utf-8')).hexdigest()
+        c = view_state.bot.database.setdefault("clubs", {})
         _formed_club = Club(
             ctx.user.id, [], info, [],
-            color=int(h[:6], 16)
+            color=int(h[:6], 16),
+            index=len(c)
         )
-        c = view_state.bot.database.setdefault("clubs", {})
         c[len(c)]=_formed_club
 
         self.prof["club"]=len(c)-1
@@ -138,15 +140,90 @@ def club_stats(prof, uid, page, is_view, current=7, _club=None):
         )
     )
 
-def club(prof, uid, page=0, is_view=False):
-    if prof['club'] is None:
+def club(prof, uid, page=0, is_view=False, _passed_club_id=None):
+    if not is_view and prof['club'] is None:
         return no_club(prof, uid)
-    _club = view_state.bot.database["clubs"][prof['club']]
+
+    _club = view_state.bot.database["clubs"][
+        _passed_club_id or prof["club"]
+    ]
 
     elements = []
     containers = []
 
+    bot=view_state.bot
+
+    if not is_view:
+        leave  = Button("Leave", color=Colors.Red)
+        invite = Button("Invite")
+        
+        @interaction(leave)
+        async def _leave(i):
+            if _club.member_ids and i.user.id==_club.owner_id:
+                return await i.response.edit_message(
+                    view=error(
+                        prof, uid, "club.cant_leave",
+                        back_view_factory=lambda: club(prof, uid, page, is_view)
+                    )
+                )
+            prof["club"]=None
+            await ctx.response.edit_message(
+                view=club(prof, uid, page, True, _club.index)
+            )
+        @interaction(invite)
+        async def _invite(i):
+            invite_modal = Modal("Invite a user")
+            a=Choices(discord.ComponentType.user_select, required=True)
+            invite_modal.add_item(
+                "User",
+                item=a
+            )
+            @interaction(invite_modal)
+            async def _inv(ctx):
+                if await _club.invite_user(a.picked):
+                    await ctx.response.edit_message(
+                        view=club(prof, uid, page, is_view)
+                    )
+                else:
+                    return await ctx.response.edit_message(
+                        view=error(
+                            prof, uid, "club.cant_invite",
+                            back_view_factory=lambda: club(prof, uid, page, is_view)
+                        )
+                    )
+            await i.response.send_modal(
+                modal=invite_modal
+            )
+    else:
+        invite=None
+        leave = Button(
+            "Join",
+            color=Colors.Green,
+            disabled=not _passed_club.privacy
+        )
+        @interaction(leave)
+        async def _join(i):
+            prof["club"]=_passed_club_id
+            await i.response.edit_message(
+                view=club(prof, uid, page)
+            )
+
     match page:
+        case 0:
+            lb = Button(tr("page.club.btns", 2, prof))
+            @interaction(lb)
+            async def _view_lb(i):
+                await i.response.edit_message(
+                    view=leaderboard(
+                        prof,
+                        uid,
+                        lambda: club(prof, uid, page, is_view, ),
+                        2
+                    )
+                )
+            elements.append(
+                ActionRow(lb)
+            )
         case 2:
             stats = Button(tr("club.buttons.view_stats", 0, prof))
             @interaction(stats)
@@ -169,6 +246,9 @@ def club(prof, uid, page=0, is_view=False):
         ),
         *containers,
         Container(
+            ActionRow(
+                invite, leave
+            ),
             *pagination_buttons(
                 lambda p: club(prof, uid, p, is_view),
                 2,

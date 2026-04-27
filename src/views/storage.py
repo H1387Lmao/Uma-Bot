@@ -4,7 +4,7 @@ from .translations import translator, tr
 from .pages import pagination_buttons
 from .state import view_state
 from ..data import SUPPORT_IDS
-
+from .request_item import request
 support_costs = [1,2,3,4]
 uma_costs = [2,4,8,16]
 
@@ -187,6 +187,19 @@ def storage(prof, uid, page=0):
                 )
             elements = [
                 ActionRow(show_list)
+            ]
+        case 3:
+            req_item = Button(
+                "Request Item",
+                color=Colors.Green
+            )
+            @interaction(req_item)
+            async def _show(ctx):
+                await ctx.response.edit_message(
+                    view=request(prof, uid)
+                )
+            elements = [
+                ActionRow(req_item)
             ]
         case _:
             elements=[

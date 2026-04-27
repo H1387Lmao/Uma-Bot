@@ -53,6 +53,7 @@ TRANSLATIONS = {
     "page.club.btns": [
         {"English": "Your Club", "Español": "Tu club", "_emoji": "ui_club"},
         {"English": "Find Clubs", "Español": "Buscar clubes", "_emoji": "ui_clubsearch"},
+        {"English": "Leaderboards", "Español": "Ránking", "_emoji": None},
     ],
     "page.single_words": [
         {"English": "Options", "Español": "Opciones"}
@@ -320,7 +321,14 @@ TRANSLATIONS = {
         {"English": "Purchase Failed", "Español": "Compra fallida"},
         {"English": "Not enough skill points!", "Español": "¡No tienes suficientes puntos de habilidad!"},
     ],
-
+    "errors.club.cant_leave": [
+        {"English": "Unable to leave!"},
+        {"English": "Please transfer you club first!"},
+    ],
+    "errors.club.cant_invite": [
+        {"English": "Unable to invite!"},
+        {"English": "Cannot DM target user!"},
+    ],
     "condition.PracticePoor": [{"English": "Practice Poor", "Español": "Práctica deficiente"}],
     "condition.Migraine": [{"English": "Migraine", "Español": "Migraña"}],
     "condition.NightOwl": [{"English": "Night Owl", "Español": "Noctámbulo"}],

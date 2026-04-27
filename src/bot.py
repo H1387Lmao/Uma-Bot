@@ -8,6 +8,7 @@ from .views.state import view_state
 from .views.translations import tr, SUPPORTED_LANGS
 from .utils import CleanerContext, safe_get_user
 from .db import Database
+import traceback
 
 MAIN_PRF = [
     "uma "
@@ -78,7 +79,17 @@ class Uma(bridge.Bot):
         view_state.logger.print(f"[light purple]Fetched Emojis | Count: {len(self.em)}[reset]")
 
         view_state.emojis = self.em
+    async def on_error(self, event_name, *args, **kwargs):
+        print(f"Error in {event_name}: {args[0]}")
+    async def on_interaction(self, interaction):
+        if interaction.type == discord.InteractionType.component:
+            cid = interaction.data.get("custom_id")
+            if cid.startswith("request_item:"):
+                _, uid, item = cid.split(":")
 
+                await interaction.respond(f"hi {uid}, {item}")
+                return
+        await self.process_application_commands(interaction)
     def get_em(self, emoji_name, default=None):
         return view_state.emojis.get(emoji_name, default)
 
@@ -95,6 +106,10 @@ class Uma(bridge.Bot):
         return prof["inventory"]["items"].setdefault(id, default)
     def get_item_em(self, id):
         return self.get_em("items_"+id)
+    def on_error(self, e):
+        print("\033[31m", end="")
+        traceback.print_exc()
+        print("\033[0m", end="")
     def cmd(self, **kwargs):
         dev = kwargs.pop("dev", False)
         no_delete = kwargs.pop("no_delete", False)

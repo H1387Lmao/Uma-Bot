@@ -7,6 +7,8 @@ from .career import career_select, career
 from .state import view_state
 from .feedback import _send_feedback
 from .club import club, club_search
+from .lb import leaderboard
+
 import discord as dsc
 import signal, sys, atexit
 import asyncio
@@ -241,7 +243,16 @@ def home(prof, uid, page=0):
             async def _search(i):
                 await i.response.edit_message(
                     view=club_search(prof, uid)
-                )                
+                )
+            @interaction(buttons[2])
+            async def _leaderboard(i):
+                await i.response.edit_message(
+                    view=leaderboard(
+                        prof,
+                        uid,
+                        lambda: home(prof, uid, page)
+                    )
+                )
         case 2:
             current_row=[]
             for element in options:
@@ -304,7 +315,7 @@ def home(prof, uid, page=0):
     parent_factory = lambda page: home(prof, uid, page=page)
     nav_buttons = pagination_buttons(
         parent_factory=parent_factory,
-        max_pages=3,
+        max_pages=2,
         lang=lang,
         current_page=page,
         loop=True
