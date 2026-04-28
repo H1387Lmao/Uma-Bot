@@ -8,6 +8,8 @@ from .views.state import view_state
 from .views.translations import tr, SUPPORTED_LANGS
 from .utils import CleanerContext, safe_get_user
 from .db import Database
+from .data import ITEMS_BY_ID
+
 import traceback
 
 MAIN_PRF = [
@@ -85,10 +87,48 @@ class Uma(bridge.Bot):
         if interaction.type == discord.InteractionType.component:
             cid = interaction.data.get("custom_id")
             if cid.startswith("request_item:"):
-                _, uid, item = cid.split(":")
+                if not str(interaction.user.id) in self.database:
+                    return await interaction.respond(f"You have no account to donate, please use `uma start`!", ephemeral=True)
+                _, uid, item_id, timestamp, donators = cid.split(":")
+                if str(interaction.user.id)==uid:
+                    return await interaction.respond(f"You cant donate to yourself!", ephemeral=True)
+                item = ITEMS_BY_ID[item_id]
+                print(donators)
+                donators = dict(
+                    (uid, int(amount))
+                    for entry in donators.split(",")
+                    if entry
+                    for uid, amount in [entry.split(";")]
+                ) if donators else {}
+                amounted = donators.setdefault(
+                    str(interaction.user.id), 0
+                )
+                total = sum(donators.values())
+                
+                # donator profile
+                dprof = self.database[str(interaction.user.id)]
+                
+                # receiver profile
+                rprof = self.database[str(uid)]
+                
+                donated = min(item.capacity-total,min(dprof["inventory"]["items"].get(item_id, 0), item.capacity//5))
+                if not donated:
+                    return await interaction.respond("Unable to donate!", ephemeral=True)
+                donators[str(interaction.user.id)]+=donated
+                ditems = dprof["inventory"]["items"]
+                ritems = rprof["inventory"]["items"]
 
-                await interaction.respond(f"hi {uid}, {item}")
-                return
+                ritems.setdefault(item_id, 0)
+                ritems[item_id]+=donated
+                ditems[item_id]-=donated
+                
+                await interaction.message.edit(
+                    view=view_state.views.RequestView(
+                        await self.sfetch_user(uid), item_id, int(timestamp), donators
+                    )
+                )
+                return await interaction.respond(f"Thanks for donating {donated}{item.emoji}", ephemeral=True)
+
         await self.process_application_commands(interaction)
     def get_em(self, emoji_name, default=None):
         return view_state.emojis.get(emoji_name, default)

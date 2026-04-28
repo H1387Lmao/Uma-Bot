@@ -5,7 +5,7 @@ from .ranking import grade_stat, grade_score
 from .models import SCData, UmaData, RaceData, grade_map, SupportCard
 from .skill_database import DEFAULT_ULT
 from .race_datas import SCHEDULES, races_by_turn_name
-from .items import ITEMS
+from .items import ITEMS, ITEMS_BY_ID
 __all__ = [
     # Uma related
     'UMAS', 'UMA_RARITIES', 'SAFE_TO_REAL', 'UMA_DB',
@@ -22,5 +22,6 @@ __all__ = [
     # Race Data
     'SCHEDULES', 'races_by_turn_name',
     # Items
-    'ITEMS'
+    'ITEMS', 'ITEMS_BY_ID'
+
 ]

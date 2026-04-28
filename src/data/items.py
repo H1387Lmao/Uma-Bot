@@ -10,13 +10,13 @@ Items=[
     "dirt_shoe"
 ]
 
-ITEM_BY_NAME=dict()
+ITEMS_BY_ID=dict()
 
 class Item:
     def __init__(
         self, id, capacity
     ):
-        ITEM_BY_NAME[id]=self
+        ITEMS_BY_ID[id]=self
         print("added item", id, capacity)
         self.name = id.replace("_", " ").title()
         self.id = id
