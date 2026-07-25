@@ -179,7 +179,18 @@ class Uma(bridge.Bot):
                     view_state.logger.print(f"[light green]added translation [{lang}]: {name}[reset]")
             kwargs['aliases'] = aliases
             if not dev:
-                self.bridge_command(**kwargs)(wrapper)
+                self.bridge_command(
+                    integration_types={
+                        discord.IntegrationType.guild_install, 
+                        discord.IntegrationType.user_install
+                    },
+                    contexts={
+                        discord.InteractionContextType.guild,
+                        discord.InteractionContextType.bot_dm,
+                        discord.InteractionContextType.private_channel
+                    },
+                    **kwargs
+                )(wrapper)
             else:
                 self.command(**kwargs)(wrapper)
         return decorator
