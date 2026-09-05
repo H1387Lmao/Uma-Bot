@@ -21,6 +21,9 @@ UMA_DB = [
     UmaData("Special Week", "ssr", (83, 88, 98, 90, 91), [
         A, G, G, A, A, C, F, C, A, A
     ]),
+    UmaData("Mejiro McQueen", "ssr", (71, 111, 71, 103, 94), [
+        A, E, B, A, D, F, G, F, A, A
+    ])
 ]
 
 UMAS = {u.name: u for u in UMA_DB}

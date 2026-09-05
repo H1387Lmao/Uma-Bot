@@ -3,3 +3,4 @@ from . import views
 from .profile import *
 from .utils import *
 from .debug import *
+from .arcade import *

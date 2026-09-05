@@ -66,6 +66,16 @@ class Uma(bridge.Bot):
     def save(self):
         self.database.save(self.db_path)
 
+    def get_user_prof(self, user):
+        if isinstance(user, discord.User):
+            p=user.id
+        elif isinstance(user, int):
+            p=user
+        else:
+            return None
+        prof = self.database.get(str(p))
+        return prof
+
     async def on_ready(self):
         view_state.logger.print(f"[light purple]Ready as {self.user}[reset]")
 
