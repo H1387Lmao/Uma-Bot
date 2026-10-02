@@ -2,6 +2,9 @@ from collections import UserDict
 import discord
 import pickle, re
 import os, tempfile
+from pathlib import Path
+
+SCRIPT_DIR = Path(__file__).resolve().parent
 
 def safenize(old, step=0):
     _new={}
@@ -36,13 +39,13 @@ async def desafenize(bot, data):
     return _new
 
 class Database(UserDict):
-    def __init__(self, data=None):
+    def __init__(self, data=None, fp=None):
         super().__init__(data)
     def __setitem__(self, key, value):
         super().__setitem__(str(key), value)
     def save(self, fp):
         _data = safenize(self.data)
-        with tempfile.NamedTemporaryFile("wb", delete=False) as tmp:
+        with tempfile.NamedTemporaryFile("wb", dir=SCRIPT_DIR, delete=False) as tmp:
             pickle.dump(self.data, tmp)
             temp_name = tmp.name
         os.replace(temp_name, fp)
@@ -114,7 +117,7 @@ class Database(UserDict):
                         return result
         return None
     @classmethod         
-    async def load(cls, bot, fp):
+    async def load(cls, bot,fp):
         with open(fp, 'rb') as f:
             data = pickle.load(f)
         _data = await desafenize(

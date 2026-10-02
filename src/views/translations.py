@@ -278,9 +278,13 @@ TRANSLATIONS = {
     "goal.fans": [
         {"English": "Accumulate <0> fans", "Español": "Acumula <0> fans"},
     ],
+    "goal.grade": [
+        {"English": "Place <0> at <1> races <2> times."}
+    ],
     "goal.req.participate": [{"English": "Participate <0>", "Español": "Participa en <0>"}],
     "goal.req.top5": [{"English": "Finish top 5 <0>", "Español": "Termina entre los 5 primeros en <0>"}],
     "goal.req.top3": [{"English": "Finish top 3 <0>", "Español": "Termina entre los 3 primeros en <0>"}],
+    "goal.req.top2": [{"English": "Finish top 2 <0>", "Español": "Termina entre los 2 primeros en <0>"}],
     "goal.req.win": [{"English": "Win <0>", "Español": "Gana <0>"}],
 
     "errors.career.no_uma": [

@@ -98,7 +98,7 @@ async def show_results(prof, uid, race: Race, ctx, back_function) -> None:
     else:
         _push_career_result(race, lang)
     prof["career"].check_goal(
-        {"goal_type": "race", "placement": race.career_placement}
+        {"goal_type": "race", "placement": race.career_placement, "grade": race.race_data.grade}
     )
 
     await ctx.edit_original_response(view=build_race_view(prof, uid, race, back=back_function))

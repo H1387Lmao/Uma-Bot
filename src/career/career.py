@@ -33,7 +33,7 @@ class Career:
         races_scheduled: dict[int, RaceData] = {},
         support_cards: list[int] = [],
         goals_done: int = 0,
-        turn: int = 0,
+        turn: int = 8,
         seed: int = None,
         max_energy: int = 100,
         over: bool=False,
@@ -102,6 +102,8 @@ class Career:
         for goal in self.goals[self.goals_done:]:
             if goal.deadline == self.turn:
                 self.current_goal = goal
+                if goal.goal_type=="grade":
+                    self.grade_counter=goal.count
                 return
         self.current_goal=None
     def stat_to_index(self, stat):
@@ -189,9 +191,9 @@ class Career:
         for sc in self.support_cards:
             sc.switch_lane()
     def calc_date(self):
-        self.month = (self.turn//2 + 3)%12 # start in april
-        self.half = (self.turn-1)%2
-        self.year = (self.turn//2 + 3)//12
+        self.month = (self.turn//2)%12
+        self.half = (self.turn)%2
+        self.year = self.turn//24
         
         self.update_current_goal()
 
@@ -211,7 +213,13 @@ class Career:
         if self.current_goal is not None:
             gtype=goal_res["goal_type"]
             if gtype=="race":
-                self.over=goal_res["placement"]>self.current_goal.placement
+                if self.current_goal.goal_type="grade":
+                    if goal_res["grade"]==self.current_goal.race_grade:
+                        if goal_res["placement"]>=self.current_goal.placement:
+                            self.grade_counter-=1
+                    self.over=self.grade_counter==0
+                else:
+                    self.over=goal_res["placement"]>self.current_goal.placement
             elif gtype=="fans":
                 self.over=self.fans<self.current_goal.requirement
         self.advance()

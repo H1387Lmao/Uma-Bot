@@ -11,6 +11,8 @@ from ..utils import get_stat_graph, get_bar_tiles
 import discord
 import random
 
+print(GOAL_DB)
+
 MOOD_LEVELS = ['awful', 'bad', 'normal', 'good', 'great']
 
 def _lang(prof): return prof["settings"]["lang"]
@@ -48,6 +50,8 @@ def get_goal_header(prof, uid):
             match goal_info.placement:
                 case 1:
                     tr_identif = "goal.req.win"
+                case 2:
+                    tr_identif = "goal.req.top2"
                 case 3:
                     tr_identif = "goal.req.top3"
                 case 5:
@@ -55,6 +59,32 @@ def get_goal_header(prof, uid):
                 case 99:
                     tr_identif = "goal.req.participate"
         args.append(goal_info.race_data.name)
+    elif isinstance(goal_info, GradeGoal):
+        tr_identif = "goal.grade"
+        grade=None
+        placement=None
+        match goal_info.race_grade:
+            case 1:
+                grade="PRE_OP"
+            case 2:
+                grade="OP"
+            case 3:
+                grade="G3"
+            case 4:
+                grade="G2"
+            case 5:
+                grade="G1"
+        match goal_info.placement:
+            case 1:
+                placement=goal_info.placement+"st"
+            case 2:
+                placement=goal_info.placement+"nd"
+            case 3:
+                placement=goal_info.placement+"rd"
+            case 5:
+                placement=goal_info.placement+"th"
+
+        args += [placement, grade, goal_info.count]
     elif goal_info is None:
         return tr("career.goal.completed", 0, prof)
     title = tr(tr_identif, 0, prof, *args)
@@ -350,13 +380,15 @@ def create_race_button(prof, uid, race, page, d_ev, g_ev):
 
 def race_schedule(prof, uid, page=0):
     _career: Career = prof['career']
+    if _career.over or not _career.get_needed_goal():
+        return career_failure(prof, uid)
 
     _displaying_turn = _career.turn+page
 
     _month = _displaying_turn//2
     _half = (_displaying_turn-1)%2
     _year = _month//12
-    month = tr('career.months', (_month+3)%12, prof)
+    month = tr('career.months', _month%12, prof)
     early = "late" if _half == 0 else "early"
     half = tr(f'career.half.{early}', 0, prof)
     year = tr(f'career.year', _year, prof)

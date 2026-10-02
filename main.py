@@ -20,6 +20,14 @@ async def main():
     TOKEN = os.getenv("TOKEN")
 
     @uma.cmd(
+        name="carats_add",
+        forced_prefixcmd=True
+    )
+    @uma.dev_only
+    async def add_c(ctx, target: discord.Member, amount: int=500):
+        uma.database[str(target.id)]["stats"]["carats"]+=amount
+
+    @uma.cmd(
         name="start",
         description="Start Your Career as a Trainer!",
         dev=False
@@ -106,9 +114,7 @@ async def main():
                 uma.close()
             )
         except:
-            uma.loop.create_task(
-                uma.close()
-            )
+            exit()
         
     signal.signal(signal.SIGINT, exit_handler)
     if os.name!="nt":

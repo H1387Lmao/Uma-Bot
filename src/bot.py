@@ -9,6 +9,7 @@ from .views.translations import tr, SUPPORTED_LANGS
 from .utils import CleanerContext, safe_get_user
 from .db import Database
 from .data import ITEMS_BY_ID
+from functools import wraps
 
 import traceback
 
@@ -42,14 +43,14 @@ class Uma(bridge.Bot):
             case_insensitive=True
         )
         view_state.bot = self
-
-        self.database = Database()
-        
-        self.view_state = view_state
         if not self.dev:
             self.db_path = Path("database/db.pkl")
         else:
             self.db_path = Path("database/dev.pkl")
+
+        self.database = Database(None, self.db_path)
+        
+        self.view_state = view_state
         view_state.logger.print(f"[light blue]Loaded Temporary Database")
         self.database.temp_load(self.db_path)
 
@@ -162,15 +163,18 @@ class Uma(bridge.Bot):
         print("\033[0m", end="")
     def cmd(self, **kwargs):
         dev = kwargs.pop("dev", False)
+        is_prefix_forced = kwargs.pop("force_prefixcmd", False)
         no_delete = kwargs.pop("no_delete", False)
         no_remove = kwargs.pop("no_exclude", False)
         def decorator(func):
-            async def wrapper(ctx: bridge.Context):
+            @wraps(func)
+            async def wrapper(*args, **kwargs):
+                ctx, args=args[0], args[1:]
                 if dev and ctx.author.id not in Developers:
                     return
                 if no_delete:
-                    return await func(ctx)
-                return await func(CleanerContext(ctx))
+                    return await func(*args, **kwargs)
+                return await func(CleanerContext(ctx), *args, **kwargs)
             _name = kwargs.get("name") or func.__name__
             if dev and not self.dev and not no_remove:
                 view_state.logger.print(f"[light red]Skipped Developer Branch Command: {_name}[reset]")
@@ -188,7 +192,7 @@ class Uma(bridge.Bot):
                     aliases.append(name)
                     view_state.logger.print(f"[light green]added translation [{lang}]: {name}[reset]")
             kwargs['aliases'] = aliases
-            if not dev:
+            if not is_prefix_forced and not dev:
                 self.bridge_command(
                     integration_types={
                         discord.IntegrationType.guild_install, 
@@ -213,3 +217,15 @@ class Uma(bridge.Bot):
         else:
             view_state.logger.print(f"[light cyan]Running branch [dark white](Main)[reset]")
         super().run(t)
+
+    def dev_only(self, func):
+        @wraps(func)
+        async def wrapper(*args, **kwargs):
+            ctx = args[0]
+        
+            if ctx.author.id not in Developers:
+                return
+        
+            return await func(*args, **kwargs)
+        
+        return wrapper
