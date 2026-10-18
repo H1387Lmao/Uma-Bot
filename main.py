@@ -1,13 +1,16 @@
-from src import Uma, views, card, utils, shell, dev, debug
+from src import Uma, views, view_profile, utils, shell, dev, debug
 import sys, atexit, signal
 from uicord import *
 import discord
 import os, asyncio
-import io
+import io, time
 import textwrap
 import traceback
 from contextlib import redirect_stdout
 from dotenv import load_dotenv
+import psutil
+from src.views.trade import start_trade
+from src.trading import Trade
 
 load_dotenv()
 
@@ -21,12 +24,98 @@ async def main():
 
     @uma.cmd(
         name="carats_add",
-        forced_prefixcmd=True
+        force_prefixcmd=True
     )
     @uma.dev_only
     async def add_c(ctx, target: discord.Member, amount: int=500):
         uma.database[str(target.id)]["stats"]["carats"]+=amount
+        await ctx.respond(
+            f"successfully given " 
+             "{target.display_name}"
+             "{amount} carats", 
+        ephemeral=True)
 
+    @uma.cmd(
+        no_exclude=True,
+        no_delete=True,
+        name="trade",
+        description="Trade items with another player"
+    )
+    async def trade(ctx, target: discord.Member):
+        if str(target.id) not in uma.database:
+            return await ctx.respond(
+                "Target has no profile!",
+                ephemeral=True
+            )
+        elif str(ctx.author.id) not in uma.database:
+            return await ctx.respond(
+                "You haven't made a profile yet!",
+                ephemeral=True
+            )
+        prof = uma.database[str(ctx.author.id)]
+        tprof = uma.database[str(target.id)]
+        trade = Trade(ctx.author, target, prof, tprof)
+        await ctx.respond(
+            view=start_trade(trade)
+        )
+
+    @uma.cmd(
+        no_exclude=True,
+        no_delete=True,
+        name="info",
+        description="View System Info"
+    )
+    async def bot_info(ctx):
+        await ctx.defer()
+        proc = psutil.Process(os.getpid())
+    
+        active_count = uma.activity_tracker.count
+        guild_count = len(uma.guilds)
+        ping = uma.latency
+        users = len([i for i in uma.database.keys() if i.isdigit()])
+
+        database_size = uma.get_file_size(uma.db_path)
+        memory_usage = proc.memory_info().rss
+        
+        await ctx.respond(
+            view=View(
+                Container(
+                    Section(
+                    Grid(
+                        texts=[
+                            GridItem(
+                                str(active_count),
+                                "Active Users"
+                            ),
+                            GridItem(
+                                str(guild_count),
+                                "Server Count"
+                            ),
+                            GridItem(
+                                str(users),
+                                "Users"
+                            ),
+                            GridItem(
+                                f"{ping:2f}s",
+                                "Latency"
+                            ),
+                            GridItem(
+                                database_size,
+                                "Database File"
+                            ),
+                            GridItem(
+                                f"{memory_usage/ (1024 * 1024):.2f} MB",
+                                "RAM Usage"
+                            )
+                        ]
+                    ),
+                        accessory=Thumbnail(
+                            url=uma.user.avatar.url
+                        )
+                    )
+                )
+            )
+        )
     @uma.cmd(
         name="start",
         description="Start Your Career as a Trainer!",
@@ -37,6 +126,8 @@ async def main():
 
     @uma.cmd(
         name="profile",
+        no_exclude=True,
+        no_delete=True,
         description="Shows a member or your trainer card",
     )
     async def prof(ctx, member: discord.Member|None=None):
@@ -47,44 +138,21 @@ async def main():
                 Container(
                     Text("Couldn't find that user's profile!")
                 )
-            ))
+            ), ephemeral=True)
         else:
             await ctx.defer()
             prof = uma.database[str(target.id)]
-            _u_c = prof["career"]
-    
-            em = uma.get_uma("Haru Urara")
-            _fields = {
-                "Fans": prof["stats"]["fans"],
-                "Carats": prof["stats"]["carats"],
-                "Level": prof["stats"]["exp"]//1000
-            }
-            if _u_c:
-                em = uma.get_uma(_u_c.name)
-            if prof["club"]:
-                _fields["Club"]=prof["club"].name
-            if not os.path.exists("./bin"):
-                os.mkdir("./bin")
-            _out = card(
-                target.avatar.url,
-                em.url,
-                target.name,
-                _fields,
-                "...",
-                output_path=f"./bin/{target.id}.png"
-            )
             await ctx.respond(
-                view=View(Container(
-                    MediaGallery(
-                        MediaGalleryItem(f"attachment://{target.id}.png")
-                    )
-                )), files=[discord.File(f"bin/{target.id}.png")]
+                view=view_profile(
+                    target, prof, target.id==ctx.author.id
+                )
             )
-            _out.unlink()
         
     @uma.cmd(
         name="reset",
         dev=True,
+        no_exclude=True,
+        no_delete=True,
         description="Restart the bot"
     )
     async def reset(ctx: utils.CleanerContext):

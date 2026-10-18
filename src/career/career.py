@@ -37,7 +37,8 @@ class Career:
         seed: int = None,
         max_energy: int = 100,
         over: bool=False,
-        has_bad: bool= False
+        has_bad: bool= False,
+        grade_counter: int = -999
     ):
         self.owner: int = owner
         self.name: str = name
@@ -54,6 +55,7 @@ class Career:
 
         self.skill_points: int = skill_points
         self.skills: list[int] = skills
+        self.grade_counter = grade_counter
 
         self.max_energy = max_energy
 
@@ -86,7 +88,8 @@ class Career:
             self.seed,
             self.max_energy,
             self.over,
-            self.has_bad
+            self.has_bad,
+            self.grade_counter
         ))
     def __repr__(self):
         return f"Career ({self.name})"
@@ -194,6 +197,9 @@ class Career:
         self.month = (self.turn//2)%12
         self.half = (self.turn)%2
         self.year = self.turn//24
+
+        if self.year==3:
+            self.over=True
         
         self.update_current_goal()
 
@@ -204,20 +210,26 @@ class Career:
     def get_needed_goal(self):
         for goal in self.goals[self.goals_done:]:
             if goal.deadline >= self.turn:
+                if goal.goal_type!="grade":
+                    return goal
+                self.grade_counter = goal.count if self.grade_counter==-999 else self.grade_counter
                 return goal
 
         self.over=True
     def get_avg(self):
         return sum(self.stats)//len(self.stats)
+    def check_race_result(self, race_res):
+        if self.current_goal and self.current_goal.goal_type=="grade":
+            if goal_res["grade"]==self.current_goal.race_grade:
+                if goal_res["placement"]>=self.current_goal.placement:
+                    self.grade_counter-=1
+
     def check_goal(self, goal_res):
         if self.current_goal is not None:
             gtype=goal_res["goal_type"]
             if gtype=="race":
-                if self.current_goal.goal_type="grade":
-                    if goal_res["grade"]==self.current_goal.race_grade:
-                        if goal_res["placement"]>=self.current_goal.placement:
-                            self.grade_counter-=1
-                    self.over=self.grade_counter==0
+                if self.current_goal.goal_type=="grade":
+                    self.over=self.grade_counter!=0
                 else:
                     self.over=goal_res["placement"]>self.current_goal.placement
             elif gtype=="fans":

@@ -97,9 +97,12 @@ async def show_results(prof, uid, race: Race, ctx, back_function) -> None:
         _push_daily_result(race, lang)
     else:
         _push_career_result(race, lang)
-    prof["career"].check_goal(
-        {"goal_type": "race", "placement": race.career_placement, "grade": race.race_data.grade}
+    res = {"goal_type": "race", "placement": race.career_placement, "grade": race.race_data.grade}
+    prof["career"].check_race_result(
+        res
     )
+    if race.is_goal_race:
+        prof["career"].check_goal(res)
 
     await ctx.edit_original_response(view=build_race_view(prof, uid, race, back=back_function))
 
@@ -116,13 +119,15 @@ def _push_career_result(race: Race, lang) -> None:
     detail=""
     for item, am in rewards.get("items", ()):
         detail+=f"-# {race.bot.get_item_em(item)} × {am}\n"
+    detail += tr("race.result.reward.career",  0, lang,
+        rewards.get("fans", 0), rewards.get("sp", 0), rewards.get("carats", 0))
+
     if won:
-        title  = tr("race.result.won",           0, lang)
-        detail += tr("race.result.reward.career",  0, lang,
-                    rewards.get("fans", 0), rewards.get("sp", 0), rewards.get("carats", 0))
+        title  = tr("race.result.won", 0, lang)
     else:
         title  = tr("race.result.lost", 0, lang)
         detail += str(race.bot.em["Tazuna"])
+
     race.push_event(f"{title} {place_line}\n{detail}")
 
 

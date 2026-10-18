@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bot Control Center</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="dashboard-container">
+        <header>
+            <div>
+                <h1>Bot Control Center</h1>
+                <p style="color: var(--text-muted); margin: 5px 0 0 0; font-size: 14px;">Local Dev Environment</p>
+            </div>
+            <form action="/logout" method="POST">
+                <button type="submit" class="btn-danger">Disconnect</button>
+            </form>
+        </header>
+
+        <div class="grid">
+            <div class="card">
+                <h3>System Status</h3>
+                <p class="value" style="font-size: 20px; margin-top: 8px;">
+                    <span class="badge success">Online</span>
+                </p>
+            </div>
+            <div class="card">
+                <h3>Bot Instance</h3>
+                <p class="value" style="font-size: 22px; color: var(--accent-blue); margin-top: 5px;">Umabot</p>
+            </div>
+            <div class="card">
+                <h3>Connected Guilds</h3>
+                <p class="value">??</p>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

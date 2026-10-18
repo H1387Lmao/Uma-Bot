@@ -4,25 +4,31 @@ import traceback
 
 def give_career_rewards(race, bot, career, owner, winners: list) -> tuple[bool, dict]:
     won = bool(winners) and winners[0].is_player
+    fans   = race.race_data.fan_rewards[race.career_placement]
+    f_bonus = 1
+    r_bonus = 1
+
+    for sc in career.support_cards:
+        f_bonus*=(1+sc.f_bonus)
+        r_bonus*=(1+sc.r_bonus)
+
+    fans = int(fans*f_bonus)
+
     if not won:
-        return False, {}
+        return False, {
+            "fans": fans,
+            "carats": random.randrange(10, 50),
+            "sp": random.randrange(5,  30)
+        }
     try:
-        fans   = random.randrange(50,  1000)
         sp     = random.randrange(30,  70)
-        carats = random.randrange(50,  100)
-
-        f_bonus = 1
-        r_bonus = 1
-
-        for sc in career.support_cards:
-            f_bonus*=(1+sc.f_bonus)
-            r_bonus*=(1+sc.r_bonus)
+        carats = random.randrange(350,  500)
 
         shoe_count = random.randrange(2,8)
 
         shoe_id = f"{race.race_data.distance}_shoe"
-        
-        career.fans        += int(fans*f_bonus)
+
+        career.fans         += fans
         career.skill_points += sp
 
         race_bonus=5 if not won else 15

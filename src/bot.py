@@ -2,15 +2,14 @@ from discord.ext import bridge, commands, tasks
 import discord
 from uicord import *
 from pathlib import Path
-import json, sys
+import json, sys, time, os
 import asyncio
 from .views.state import view_state
 from .views.translations import tr, SUPPORTED_LANGS
 from .utils import CleanerContext, safe_get_user
-from .db import Database
 from .data import ITEMS_BY_ID
 from functools import wraps
-
+from .db import Database
 import traceback
 
 MAIN_PRF = [
@@ -25,6 +24,43 @@ Developers = [
     1252175358741057586
 ]
 
+class ActivityTracker:
+    def __init__(self, timeout=30):
+        self.timeout = timeout
+        self.users = {}
+
+    def mark(self, user):
+        self.users[user.id] = time.monotonic() + self.timeout
+
+    def active(self, user):
+        expiry = self.users.get(user.id)
+
+        if expiry is None:
+            return False
+
+        if expiry <= time.monotonic():
+            self.users.pop(user.id, None)
+            return False
+
+        return True
+
+    def cleanup(self):
+        now = time.monotonic()
+
+        for user_id, expiry in list(self.users.items()):
+            if expiry <= now:
+                del self.users[user_id]
+
+    @property
+    def count(self):
+        self.cleanup()
+        return len(self.users)
+
+    @property
+    def active_users(self):
+        self.cleanup()
+        return set(self.users)
+
 class Uma(bridge.Bot):
     def __init__(self, dev=False):
         intents = discord.Intents.default()
@@ -32,6 +68,8 @@ class Uma(bridge.Bot):
         intents.members = True
         self.playing_status = discord.Game(name="Umamusume: Pretty Derby")
         self.dev = dev
+
+        self.activity_tracker = ActivityTracker()
         PREFIXES = DEV_PRF if self.dev else MAIN_PRF
             
         super().__init__(
@@ -55,6 +93,15 @@ class Uma(bridge.Bot):
         self.database.temp_load(self.db_path)
 
         self._save.start()
+    def get_file_size(self, path):
+        try:
+            bytes_size = os.path.getsize(path)
+            for unit in ['B', 'KB', 'MB', 'GB', 'TB']:
+                if bytes_size < 1024.0:
+                    return f"{bytes_size:.2f} {unit}"
+                bytes_size /= 1024.0
+        except FileNotFoundError:
+            return "File not found."
     @tasks.loop(seconds=30)
     async def _save(self):
         self.save()
@@ -92,9 +139,19 @@ class Uma(bridge.Bot):
         view_state.logger.print(f"[light purple]Fetched Emojis | Count: {len(self.em)}[reset]")
 
         view_state.emojis = self.em
+
+        view_state.logger.print(f"Servers: "+", ".join(map(lambda a: a.name, self.guilds)))
+
+        @self.before_invoke
+        async def track_prefix(ctx):
+            if ctx.author.bot:
+                    return
+            
+            self.activity_tracker.mark(ctx.author)
     async def on_error(self, event_name, *args, **kwargs):
         print(f"Error in {event_name}: {args[0]}")
     async def on_interaction(self, interaction):
+        self.activity_tracker.mark(interaction.user)
         if interaction.type == discord.InteractionType.component:
             cid = interaction.data.get("custom_id")
             if cid.startswith("request_item:"):
@@ -173,7 +230,7 @@ class Uma(bridge.Bot):
                 if dev and ctx.author.id not in Developers:
                     return
                 if no_delete:
-                    return await func(*args, **kwargs)
+                    return await func(ctx, *args, **kwargs)
                 return await func(CleanerContext(ctx), *args, **kwargs)
             _name = kwargs.get("name") or func.__name__
             if dev and not self.dev and not no_remove:

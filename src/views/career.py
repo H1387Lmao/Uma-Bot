@@ -11,8 +11,6 @@ from ..utils import get_stat_graph, get_bar_tiles
 import discord
 import random
 
-print(GOAL_DB)
-
 MOOD_LEVELS = ['awful', 'bad', 'normal', 'good', 'great']
 
 def _lang(prof): return prof["settings"]["lang"]
@@ -65,7 +63,7 @@ def get_goal_header(prof, uid):
         placement=None
         match goal_info.race_grade:
             case 1:
-                grade="PRE_OP"
+                grade="Pre-OP"
             case 2:
                 grade="OP"
             case 3:
@@ -74,17 +72,19 @@ def get_goal_header(prof, uid):
                 grade="G2"
             case 5:
                 grade="G1"
+            case _:
+                grade="Pre-OP"
         match goal_info.placement:
             case 1:
-                placement=goal_info.placement+"st"
+                placement=str(goal_info.placement)+"st"
             case 2:
-                placement=goal_info.placement+"nd"
+                placement=str(goal_info.placement)+"nd"
             case 3:
-                placement=goal_info.placement+"rd"
+                placement=str(goal_info.placement)+"rd"
             case 5:
-                placement=goal_info.placement+"th"
+                placement=str(goal_info.placement)+"th"
 
-        args += [placement, grade, goal_info.count]
+        args += [placement, grade, career.grade_counter]
     elif goal_info is None:
         return tr("career.goal.completed", 0, prof)
     title = tr(tr_identif, 0, prof, *args)
@@ -361,7 +361,7 @@ def get_statline(stats_displayed, compact=False):
     stat_line = "\n".join(rows)
     return stat_line
 
-def create_race_button(prof, uid, race, page, d_ev, g_ev):
+def create_race_button(prof, uid, race, page, d_ev, g_ev, for_goal):
     reccomended = "⭐" if d_ev and g_ev else ""
 
     btn = Button(f"{race.name}{reccomended}", emoji=race.get_emoji(view_state))
@@ -373,12 +373,12 @@ def create_race_button(prof, uid, race, page, d_ev, g_ev):
                 view=view_race_info(prof, uid, race, page)
             )
         else:
-            r = Race(prof["career"], race, i.user)
+            r = Race(prof["career"], race, i.user, FOR_GOAL=for_goal)
             fn = show_race if not prof["settings"]["skip_race"] else show_skipped
             await fn(prof, uid, r, i, lambda: career(prof, uid))
     return btn
 
-def race_schedule(prof, uid, page=0):
+def race_schedule(prof, uid, page=0, for_goal=False):
     _career: Career = prof['career']
     if _career.over or not _career.get_needed_goal():
         return career_failure(prof, uid)
@@ -410,14 +410,14 @@ def race_schedule(prof, uid, page=0):
         g_ev = race.evaluate_ground(_career.apts)
         current_row.append(
             create_race_button(
-                prof, uid, race, page, d_ev, g_ev
+                prof, uid, race, page, d_ev, g_ev, for_goal
             )
         )
     if races_in_turn:
         for race in races_in_turn:
             d_ev = race.evaluate_distance(_career.apts)
             g_ev = race.evaluate_ground(_career.apts)
-            btn = create_race_button(prof, uid, race, page, d_ev, g_ev)
+            btn = create_race_button(prof, uid, race, page, d_ev, g_ev, for_goal)
 
             if _career.current_goal is not None:
                 if _career.current_goal.race_data != race:
@@ -443,7 +443,7 @@ def race_schedule(prof, uid, page=0):
             ),
             *elements,
             *pagination_buttons(
-                lambda p: race_schedule(prof, uid, p),
+                lambda p: race_schedule(prof, uid, p, for_goal),
                 max_pages=len(SCHEDULES)-_career.turn,
                 lang=prof,
                 current_page=page,
@@ -706,7 +706,7 @@ def career(prof, uid, goal_only=False):
         await i.response.edit_message(view=skill_shop(prof, uid, total=0))
     @interaction(race)
     async def _race(i):
-        await i.response.edit_message(view=race_schedule(prof, uid))
+        await i.response.edit_message(view=race_schedule(prof, uid, for_goal=goal_only))
     @interaction(sleep)
     async def _sleep(i):
         _career.energy+=random.choice([30,50,70])

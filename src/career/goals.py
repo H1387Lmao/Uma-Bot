@@ -21,7 +21,7 @@ class RaceGoal:
         return f"Get atleast place {self.placement} in {self.race_data.name} before turn {_turn(self.deadline)}"
 
 class GradeGoal:
-    def __init__(self, race_grade=1, placement=99, count=1, by_turn):
+    def __init__(self, race_grade=1, placement=99, count=1, by_turn=[0,0]):
         self.placement  = placement
         self.count      = count
         self.race_grade = race_grade
@@ -90,7 +90,7 @@ GOAL_DB = {
 	]
 }
 
-GOAL_DB.update(parse_goals(RaceGoal,FanGoal))
+GOAL_DB.update(parse_goals(RaceGoal,FanGoal,GradeGoal))
 
 def make_debut(uma, data):
     Race = RaceData(None, "Junior Make Debut", data.best_dist, 0, data.get_turf_apt()>=6)

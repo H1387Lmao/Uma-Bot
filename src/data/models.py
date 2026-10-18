@@ -192,7 +192,7 @@ def GRADE_ICON(grade):
 
 
 class RaceData:
-    def __init__(self, race_name, name, distance=2000, grade=0, turf=True):
+    def __init__(self, race_name, name, distance=2000, grade=0, turf=True, fan_rewards=[], banner_id=0):
         self.distance_meters = distance
 
         for dist, threshold in distances:
@@ -209,6 +209,8 @@ class RaceData:
         self.turf = turf
 
         self.turn = 0
+        self.fan_rewards = fan_rewards
+        self.banner_id = banner_id
 
     def get_emoji(self, view_state):
         return view_state.bot.get_em(GRADE_ICON(self.grade))

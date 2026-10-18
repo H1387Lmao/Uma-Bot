@@ -152,6 +152,7 @@ class Race:
         club_race:  bool = False,
         racers:     list = [],
         IS_DAILY:   bool = False,
+        FOR_GOAL:   bool = False
     ):
         self.bot       = view_state.bot
         self.career    = career
@@ -164,6 +165,7 @@ class Race:
         self.runners:  list[RaceUma] = []
         self.winners:  list[RaceUma] = []
         self.event_queue             = deque(maxlen=10)
+        self.is_goal_race = FOR_GOAL
 
         self.weather = random.choice(WEATHER_OPTIONS)
         self.season  = random.choice(SEASON_OPTIONS)

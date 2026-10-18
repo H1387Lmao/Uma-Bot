@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dev Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="login-wrapper">
+        <div class="login-card">
+            <h2 style="margin-top: 0; margin-bottom: 24px;">Developer Portal</h2>
+            {% if error %}<div class="error-msg">Uh oh! {{ error }}</div>{% endif %}
+            <form method="POST">
+                <div style="margin-bottom: 20px;">
+                    <input type="password" name="password" placeholder="Enter Developer Password" required autocomplete="current-password">
+                </div>
+                <button type="submit" class="btn-primary">Authenticate</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

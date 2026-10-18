@@ -1,0 +1,15 @@
+Mejiro McQueen,F3000=22/R03Kobe Shimbun Hai=41/R03Kikuka Sho=43/R01Tenno Sho (Spring)=55/R02Takarazuka Kinen=59/R01Tenno Sho (Autumn)=67
+Curren Chan,F3000=22/R05Fillies' Revue=28/R05Aoi Stakes=33/R03Hakodate Sprint Stakes=35/R03Sprinters Stakes=41/R03Ocean Stakes=52/R01Takamatsunomiya Kinen=53/R01Sprinters Stakes=65
+Sakura Bakushin O,R05Keio Hai Junior Stakes=20/R99Spring Stakes=29/R05Aoi Stakes=33/R03Sprinters Stakes=41/R03Takamatsunomiya Kinen=53/R01Hakodate Sprint Stakes=59/R01CBC Sho=60/R01Centaur Stakes=64/R01Sprinters Stakes=65/R01Mile Championship=69
+King Halo,R05Hopeful Stakes=23/R05Satsuki Sho=30/R05Tokyo Yushun=33/R99Kikuka Sho=43/R01Takamatsunomiya Kinen=53/R03Yasuda Kinen=58/R01Sprinters Stakes=65/R01Tenno Sho (Autumn)=67
+Grass Wonder,R05Asahi Hai Futurity Stakes=22/R05Tokyo Yushun=33/R05Japan Cup=45/R03Arima Kinen=47/R03Takarazuka Kinen=59/R01Mainichi Okan=66/R01Arima Kinen=71
+TM Opera O,F5000=27/R05Satsuki Sho=30/R05Tokyo Yushun=33/R03Arima Kinen=47/R03Tenno Sho (Spring)=55/R03Takarazuka Kinen=59/R02Japan Cup=69/R01Arima Kinen=71
+Rice Shower,R05Spring Stakes=29/R05Tokyo Yushun=33/R03Kikuka Sho=43/R03Nikkei Sho=53/R01Tenno Sho (Spring)=55/R03Takarazuka Kinen=59/R01Arima Kinen=71
+Winning Ticket,R05Hopeful Stakes=23/R05Yayoi Sho=28/R05Satsuki Sho=30/R05Tokyo Yushun=33/R03Kikuka Sho=43/R03Osaka Hai=53/R03Takarazuka Kinen=59/R01Arima Kinen=71
+Manhattan Cafe,F4000=25/R05Yayoi Sho=28/R03St. Lite Kinen=41/R03Kikuka Sho=43/R03Arima Kinen=47/R03Tenno Sho (Spring)=55/R03Takarazuka Kinen=59/R03Japan Cup=69/R01Arima Kinen=71
+Agnes Digital,R03Hyacinth Stakes=27/R05NHK Mile Cup=32/R05Japan Dirt Derby=36/R03Mile Championship=45/G50303=59/R01Tenno Sho (Autumn)=67
+Smart Falcon,G50102=24/R99Satsuki Sho=30/R05Japan Dirt Derby=36/R03JBC Classic=44/R03Tokyo Daishoten=47/R01February Stakes=51/R01Teio Sho=59/R01JBC Classic=68/R01Champions Cup=70/R01Tokyo Daishoten=71
+Nice Nature,R03Wakagoma Stakes=25/R03Kokura Kinen=38/R03Kikuka Sho=43/R03Arima Kinen=47/R03Takarazuka Kinen=59/R03Tenno Sho (Autumn)=67/R01Chunichi Shimbun Hai=70/R01Arima Kinen=71
+Matikane Tannhauser,G50501=23/R05Satsuki Sho=30/R05Tokyo Yushun=33/R03Kikuka Sho=43/R03Diamond Stakes=51/R03Tenno Sho (Spring)=55/R03Takarazuka Kinen=59/R03Japan Cup=69/R01Arima Kinen=71
+Matikane Fukukitaru,R05Yayoi Sho=28/R05Tokyo Yushun=33/R03Kikuka Sho=43/R03Kinko Sho=52/R03Takarazuka Kinen=59/R02Hakodate Kinen=60/R01Arima Kinen=71
+Daiwa Scarlet,R05Tulip Sho=28/R05Oka Sho=30/R05Japanese Oaks=33/R03Shuka Sho=43/R03Queen Elizabeth II Cup=44/R03Osaka Hai=53/R01Tenno Sho (Autumn)=67/R01Arima Kinen=71

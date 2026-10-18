@@ -12,6 +12,8 @@ dependencies = [
     "textual<0.86.0",
     "textual-terminal>=0.3.0",
     "python-dotenv>=1.2.2",
+    "psutil>=7.2.2",
+    "quart>=0.22.0",
 ]
 
 [tool.uv.sources]

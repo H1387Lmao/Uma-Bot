@@ -279,7 +279,7 @@ TRANSLATIONS = {
         {"English": "Accumulate <0> fans", "Español": "Acumula <0> fans"},
     ],
     "goal.grade": [
-        {"English": "Place <0> at <1> races <2> times."}
+        {"English": "Place <0> at <1> races atleast <2> times"}
     ],
     "goal.req.participate": [{"English": "Participate <0>", "Español": "Participa en <0>"}],
     "goal.req.top5": [{"English": "Finish top 5 <0>", "Español": "Termina entre los 5 primeros en <0>"}],
