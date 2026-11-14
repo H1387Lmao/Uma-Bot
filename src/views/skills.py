@@ -61,6 +61,7 @@ def create_skill_container(
 
 def skill_shop(prof, uid, page=0, skills_buying={}, **kwargs):
     per_page = 2
+    career = prof["career"]
 
     skills_displayed = MOST_EXPENSIVE_SKILLS[
         page*per_page:
@@ -70,6 +71,7 @@ def skill_shop(prof, uid, page=0, skills_buying={}, **kwargs):
     containers=[]
 
     for skill in skills_displayed:
+        if skill.id in career.skills: continue
         skill = create_skill_container(prof, uid, page, skill, skills_buying, **kwargs)
         containers.append(skill)
         

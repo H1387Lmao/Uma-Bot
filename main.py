@@ -177,12 +177,9 @@ async def main():
 
     def exit_handler(*args):
         uma.save()
-        try:
-            asyncio.run(
-                uma.close()
-            )
-        except:
-            exit()
+        print("saving data")
+        time.sleep(1)
+        sys.exit()
         
     signal.signal(signal.SIGINT, exit_handler)
     if os.name!="nt":

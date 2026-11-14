@@ -93,7 +93,7 @@ GOAL_DB = {
 GOAL_DB.update(parse_goals(RaceGoal,FanGoal,GradeGoal))
 
 def make_debut(uma, data):
-    Race = RaceData(None, "Junior Make Debut", data.best_dist, 0, data.get_turf_apt()>=6)
+    Race = RaceData(None, "Junior Make Debut", data.best_dist, 0, data.get_turf_apt()>=6, fan_rewards=[500, 200, 125, 75, 50, 25, 25, 25, 25, 25], banner_id=9002)
     return RaceGoal(99, Race, 4)
 
 def get_goals(uma, data):

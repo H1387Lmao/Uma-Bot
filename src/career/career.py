@@ -122,14 +122,44 @@ class Career:
         else:
             return self.cache[id]
 
-    def failed(self, deduct):
-        new = self.energy+deduct
-        r = new / self.max_energy
+    def failed(self, stat, deduct):
+        r = self.energy / self.max_energy * 100
 
-        if r >= 0.5: # base case
-            return 0
-        failure = -0.5 * (r**2) -1.5 * r + 1 # based on the wiki https://umamusu.me/failure_function.html
-        return max(0, min(1, failure)) # clamp from 0-1
+        if stat == "wit":
+            if r >= 30:
+                base_rate = 0
+            else:
+                base_rate = (30 - r) * 1.5
+        else:
+            if r >= 70:
+                base_rate = 0
+            elif r >= 30:
+                base_rate = (70 - r) * 0.5
+            else:
+                base_rate = 20.0 + ((30 - r) * 2.5)
+
+        match self.mood:
+            case 0: # awful
+                mood_multiplier = 1.5
+            case 1:
+                mood_multiplier = 1.2
+            case 2:
+                mood_multiplier = 1
+            case 3:
+                mood_multiplier = 0.9
+            case 4: # great
+                mood_multiplier = 0.8
+
+        modified_rate = base_rate * mood_multiplier
+
+        for condition in self.conditions:
+            if condition == 0: # practice poor
+                modified_rate += 2.0
+
+        if modified_rate < 0.0:
+            modified_rate = 0.0
+
+        return max(0, min(1, round(modified_rate)/100)) # clamp from 0-1
 
     def train(self, stat, is_preview=False):
         if stat is None:
@@ -170,7 +200,7 @@ class Career:
 
         if is_preview:
             if "energy" in result:
-                result["failure_rate"]  = self.failed(result["energy"])
+                result["failure_rate"]  = self.failed(stat, result["energy"])
                 result["failure_rate"] -= acc_teff
             return result
 

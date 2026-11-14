@@ -14,11 +14,18 @@ dependencies = [
     "python-dotenv>=1.2.2",
     "psutil>=7.2.2",
     "quart>=0.22.0",
+    "hlog",
 ]
 
 [tool.uv.sources]
 py-cord = { git = "https://github.com/Pycord-Development/pycord.git" }
 uicord = { path = "../UICord" }
+hlog = { workspace = true }
+
+[tool.uv.workspace]
+members = [
+    "hlog",
+]
 
 [dependency-groups]
 dev = [

@@ -7,7 +7,7 @@ from ..data import grade_map, grade_stat, SCHEDULES, SC_BY_STAT, SUPPORT_IDS, Su
 from ..race import *
 from .race import *
 from .skills import skill_shop
-from ..utils import get_stat_graph, get_bar_tiles
+from ..utils import get_stat_graph, get_bar_tiles, get_gauge_tiles
 import discord
 import random
 
@@ -92,6 +92,12 @@ def get_goal_header(prof, uid):
     index = 0 if needed_turn != 1 else 1
     turn = tr("career.turns", index, prof, needed_turn) if needed_turn>0 else ""
     return tr("career.goal.header", 0, prof, title, turn)
+
+def get_gauge_emojis(bot, percentage):
+    e = ""
+    for i, em in enumerate(get_gauge_tiles(percentage)):
+        e+=str(bot.em[f"gauge_{em}_{i}"])
+    return e
 
 def support_card_select(
     prof,
@@ -228,7 +234,7 @@ def support_card_select(
         *selection_menu
     )
 
-def view_race_info(prof, uid, race, page):
+def view_race_info(prof, uid, race, page, has_schedule=False):
     c: Career = prof['career']
     d_ev = race.evaluate_distance(c.apts)
     g_ev = race.evaluate_ground(c.apts)
@@ -240,18 +246,23 @@ def view_race_info(prof, uid, race, page):
     @interaction(schedule)
     async def _schedule(i):
         c.races_scheduled[race.turn] = race
-        await i.response.edit_message(view=race_schedule(prof, uid, page))
+        await i.response.edit_message(view=race_schedule(prof, uid, page, has_schedule=has_schedule))
 
     return View(
         Container(
-            Text(f"# {race.name} {d_stars}{g_stars}"),
+            Section(
+                Text(f"# {race.name} {d_stars}{g_stars}"),
+                accessory=Thumbnail(
+                    url=f"https://media.gametora.com/umamusume/races/banners/en/{race.banner_id}.png"
+                )            
+            ),
             ActionRow(
                 schedule
             )
         ),
         Container(
             ActionRow(
-                _back_button(prof, lambda: race_schedule(prof, uid, page))
+                _back_button(prof, lambda: race_schedule(prof, uid, page, has_schedule=has_schedule))
             )
         ), owner=uid
     )
@@ -361,7 +372,7 @@ def get_statline(stats_displayed, compact=False):
     stat_line = "\n".join(rows)
     return stat_line
 
-def create_race_button(prof, uid, race, page, d_ev, g_ev, for_goal):
+def create_race_button(prof, uid, race, page, d_ev, g_ev, for_goal, has_schedule=False):
     reccomended = "⭐" if d_ev and g_ev else ""
 
     btn = Button(f"{race.name}{reccomended}", emoji=race.get_emoji(view_state))
@@ -370,15 +381,15 @@ def create_race_button(prof, uid, race, page, d_ev, g_ev, for_goal):
     async def _show_info(i, race=race):
         if page!=0:
             await i.response.edit_message(
-                view=view_race_info(prof, uid, race, page)
+                view=view_race_info(prof, uid, race, page, has_schedule)
             )
         else:
             r = Race(prof["career"], race, i.user, FOR_GOAL=for_goal)
             fn = show_race if not prof["settings"]["skip_race"] else show_skipped
-            await fn(prof, uid, r, i, lambda: career(prof, uid))
+            await fn(prof, uid, r, i, lambda: career(prof, uid, advance_turn=True, has_schedule=has_schedule))
     return btn
 
-def race_schedule(prof, uid, page=0, for_goal=False):
+def race_schedule(prof, uid, page=0, for_goal=False, has_schedule=False):
     _career: Career = prof['career']
     if _career.over or not _career.get_needed_goal():
         return career_failure(prof, uid)
@@ -410,14 +421,14 @@ def race_schedule(prof, uid, page=0, for_goal=False):
         g_ev = race.evaluate_ground(_career.apts)
         current_row.append(
             create_race_button(
-                prof, uid, race, page, d_ev, g_ev, for_goal
+                prof, uid, race, page, d_ev, g_ev, for_goal, has_schedule
             )
         )
     if races_in_turn:
         for race in races_in_turn:
             d_ev = race.evaluate_distance(_career.apts)
             g_ev = race.evaluate_ground(_career.apts)
-            btn = create_race_button(prof, uid, race, page, d_ev, g_ev, for_goal)
+            btn = create_race_button(prof, uid, race, page, d_ev, g_ev, for_goal, has_schedule)
 
             if _career.current_goal is not None:
                 if _career.current_goal.race_data != race:
@@ -443,12 +454,12 @@ def race_schedule(prof, uid, page=0, for_goal=False):
             ),
             *elements,
             *pagination_buttons(
-                lambda p: race_schedule(prof, uid, p, for_goal),
+                lambda p: race_schedule(prof, uid, p, for_goal, has_schedule),
                 max_pages=len(SCHEDULES)-_career.turn,
                 lang=prof,
                 current_page=page,
                 far_buttons=True,
-                back_factory=lambda: career(prof, uid)
+                back_factory=lambda: career(prof, uid, has_schedule=has_schedule)
             )
         ),
         owner = uid
@@ -480,8 +491,12 @@ def failed_training(prof, uid, stat):
         ), owner = uid
     )
 
-def training(prof, uid, confirm_stat=None):
+def training(prof, uid, confirm_stat=None, from_home=False):
     _career = prof['career']
+
+    if not from_home and _career.turn in _career.races_scheduled:
+        return career(prof, uid, has_schedule=True)
+        
     if _career.over or not _career.get_needed_goal():
         return career_failure(prof, uid)
 
@@ -490,7 +505,7 @@ def training(prof, uid, confirm_stat=None):
         if isinstance(goal, RaceGoal):
             return career(prof, uid)
     em = _uma_em(_career.name)
-    
+    bot = view_state.bot    
     mood = _mood_em(_career)
 
     stats_displayed = []
@@ -511,7 +526,7 @@ def training(prof, uid, confirm_stat=None):
         else:
             t = ""
         if confirm_stat and sc._current_stat == confirm_stat:
-            scs+=str(sc.data.get_emoji(view_state.bot))+f" {min(100,sc.gauge)}{t}\n"
+            scs+=str(sc.data.get_emoji(view_state.bot))+f" {get_gauge_emojis(bot, max(0,min(1, sc.gauge/100)))}{t}\n"
 
     energy_display = f"{_career.energy}/{_career.max_energy}"
     if preview:
@@ -535,7 +550,7 @@ def training(prof, uid, confirm_stat=None):
         @interaction(btn)
         async def _train(i, stat=stat):
             if confirm_stat == stat:
-                res = lambda: training(prof, uid, None)
+                res = lambda: training(prof, uid, None, from_home)
                 if preview['failure_rate']>random.random():
                     res = lambda: failed_training(prof, uid, confirm_stat)
                 else:
@@ -544,7 +559,7 @@ def training(prof, uid, confirm_stat=None):
                         sc.gauge+=5
                 return await i.response.edit_message(view=res())
             else:
-                return await i.response.edit_message(view=training(prof, uid, stat))
+                return await i.response.edit_message(view=training(prof, uid, stat, from_home))
     if confirm_stat and 'sp' in preview:
         sp_val = (_career.skill_points, preview["sp"])
     else:
@@ -667,10 +682,12 @@ def career_heal(prof, uid):
             )
         )
     )
-def career(prof, uid, goal_only=False):
+def career(prof, uid, goal_only=False, has_schedule=False, advance_turn=False):
     _career = prof['career']
     if not _career:
         return career_select(prof, uid)
+    if advance_turn:
+        _career.advance()
     if _career.over:
         return career_failure(prof, uid)
     if _career.current_goal is not None and not goal_only:
@@ -691,22 +708,24 @@ def career(prof, uid, goal_only=False):
     year = tr(f'career.year', _career.year, prof)
     mood = _mood_em(_career)
 
+    race_btn_color = Colors.Blue if has_schedule else Colors.Grey
+
     train = Button(tr('career.btn.train', 0, prof), emoji=view_state.bot.get_em("ui_career"))
-    race = Button(tr('career.btn.race', 0, prof), emoji=view_state.bot.get_em("ui_race"))
+    race = Button(tr('career.btn.race', 0, prof), emoji=view_state.bot.get_em("ui_race"), color=race_btn_color)
     sleep = Button(tr('career.btn.rest', 0, prof), emoji=view_state.bot.get_em("ui_rest"))
     recreation = Button(tr('career.btn.recreate', 0, prof), emoji=view_state.bot.get_em("ui_recreate"))
     infirmary = Button(tr('career.btn.infirmary', 0, prof), emoji=view_state.bot.get_em("ui_infirmary"), disabled=not _career.has_bad)
     restcreation = Button(tr('career.btn.restcreate', 0, prof), emoji=view_state.bot.get_em("ui_restcreate"))
     @interaction(train)
     async def _train(i):
-        await i.response.edit_message(view=training(prof, uid))
+        await i.response.edit_message(view=training(prof, uid, from_home=True))
     skills = Button(tr('career.btn.skills', 0, prof), emoji=view_state.bot.get_em("ui_skills"))
     @interaction(skills)
     async def _skills(i):
-        await i.response.edit_message(view=skill_shop(prof, uid, total=0))
+        await i.response.edit_message(view=skill_shop(prof, uid, total=0, skills_buying={}))
     @interaction(race)
     async def _race(i):
-        await i.response.edit_message(view=race_schedule(prof, uid, for_goal=goal_only))
+        await i.response.edit_message(view=race_schedule(prof, uid, for_goal=goal_only, has_schedule=has_schedule))
     @interaction(sleep)
     async def _sleep(i):
         _career.energy+=random.choice([30,50,70])

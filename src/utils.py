@@ -187,6 +187,12 @@ def get_stat_graph(stats):
 
     return f"https://quickchart.io/chart?bkg=%23121212&c={encoded_chart}"
 
+def get_gauge_tiles(percentage):
+	tile = "blue" if percentage < 0.8 else "orange"
+	filled = round(percentage*5)
+
+	return [tile]*filled+["empty"]*(5-filled)
+
 def get_bar_tiles(percentage, precision=7, total_tiles=7, remainder_tiles=[6]):
     percentage = max(0.0, min(1.0, percentage))
     filled_tiles = percentage * total_tiles

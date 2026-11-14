@@ -1,46 +1,46 @@
 from .models import RaceData, PRE_OP, OP, G1, G2, G3
 
 SCHEDULES: dict[int, list[RaceData]] = {
-    40: [
+    13: [
         RaceData('Hakodate', 'Hakodate Junior Stakes', distance=1200, grade=G3, turf=True, fan_rewards=[3300, 1320, 825, 495, 330, 297, 264, 231, 198, 165, 132, 99, 83, 66, 50, 33, 33, 33], banner_id=3041),
         RaceData('Chukyo', 'Chukyo Junior Stakes', distance=1600, grade=OP, turf=True, fan_rewards=[1800, 720, 450, 270, 180, 162, 144, 126, 108, 90, 72, 54, 45, 36, 27, 18, 18, 18], banner_id=4068),
     ],
-    41: [
+    14: [
         RaceData('Niigata', 'Dahlia Sho', distance=1400, grade=OP, turf=True, fan_rewards=[1800, 720, 450, 270, 180, 162, 144, 126, 108, 90, 72, 54, 45, 36, 27, 18, 18, 18], banner_id=4070),
         RaceData('Kokura', 'Phoenix Sho', distance=1200, grade=OP, turf=True, fan_rewards=[1800, 720, 450, 270, 180, 162, 144, 126, 108, 90, 72, 54, 45, 36, 27, 18, 18, 18], banner_id=4074),
         RaceData('Sapporo', 'Cosmos Sho', distance=1800, grade=OP, turf=True, fan_rewards=[1800, 720, 450, 270, 180, 162, 144, 126, 108, 90, 72, 54, 45, 36, 27, 18, 18, 18], banner_id=4075),
     ],
-    42: [
+    15: [
         RaceData('Niigata', 'Niigata Junior Stakes', distance=1600, grade=G3, turf=True, fan_rewards=[3300, 1320, 825, 495, 330, 297, 264, 231, 198, 165, 132, 99, 83, 66, 50, 33, 33, 33], banner_id=3049),
         RaceData('Sapporo', 'Clover Sho', distance=1500, grade=OP, turf=True, fan_rewards=[1800, 720, 450, 270, 180, 162, 144, 126, 108, 90, 72, 54, 45, 36, 27, 18, 18, 18], banner_id=4077),
     ],
-    43: [
+    16: [
         RaceData('Sapporo', 'Sapporo Junior Stakes', distance=1800, grade=G3, turf=True, fan_rewards=[3300, 1320, 825, 495, 330, 297, 264, 231, 198, 165, 132, 99, 83, 66, 50, 33, 33, 33], banner_id=3051),
         RaceData('Kokura', 'Kokura Junior Stakes', distance=1200, grade=G3, turf=True, fan_rewards=[3300, 1320, 825, 495, 330, 297, 264, 231, 198, 165, 132, 99, 83, 66, 50, 33, 33, 33], banner_id=3052),
         RaceData('Sapporo', 'Suzuran Sho', distance=1200, grade=OP, turf=True, fan_rewards=[1800, 720, 450, 270, 180, 162, 144, 126, 108, 90, 72, 54, 45, 36, 27, 18, 18, 18], banner_id=4083),
         RaceData('Hanshin', 'Nojigiku Stakes', distance=1800, grade=OP, turf=True, fan_rewards=[1800, 720, 450, 270, 180, 162, 144, 126, 108, 90, 72, 54, 45, 36, 27, 18, 18, 18], banner_id=4085),
         RaceData('Nakayama', 'Aster Sho', distance=1600, grade=PRE_OP, turf=True, fan_rewards=[1700, 680, 425, 255, 170, 153, 136, 119, 102, 85, 68, 51, 43, 34, 26, 17, 17, 17], banner_id=4501),
     ],
-    44: [
+    17: [
         RaceData('Hanshin', 'Kikyo Stakes', distance=1400, grade=OP, turf=True, fan_rewards=[1800, 720, 450, 270, 180, 162, 144, 126, 108, 90, 72, 54, 45, 36, 27, 18, 18, 18], banner_id=4087),
         RaceData('Nakayama', 'Fuyo Stakes', distance=2000, grade=OP, turf=True, fan_rewards=[1800, 720, 450, 270, 180, 162, 144, 126, 108, 90, 72, 54, 45, 36, 27, 18, 18, 18], banner_id=4088),
         RaceData('Nakayama', 'Canna Stakes', distance=1200, grade=OP, turf=True, fan_rewards=[1800, 720, 450, 270, 180, 162, 144, 126, 108, 90, 72, 54, 45, 36, 27, 18, 18, 18], banner_id=4089),
         RaceData('Nakayama', 'Saffron Sho', distance=1600, grade=PRE_OP, turf=True, fan_rewards=[1700, 680, 425, 255, 170, 153, 136, 119, 102, 85, 68, 51, 43, 34, 26, 17, 17, 17], banner_id=4502),
     ],
-    45: [
+    18: [
         RaceData('Tokyo', 'Saudi Arabia Royal Cup', distance=1600, grade=G3, turf=True, fan_rewards=[3500, 1400, 875, 525, 350, 315, 280, 245, 210, 175, 140, 105, 88, 70, 53, 35, 35, 35], banner_id=3057),
         RaceData('Kyoto', 'Momiji Stakes', distance=1400, grade=OP, turf=True, fan_rewards=[1800, 720, 450, 270, 180, 162, 144, 126, 108, 90, 72, 54, 45, 36, 27, 18, 18, 18], banner_id=4093),
         RaceData('Kyoto', 'Rindo Sho', distance=1400, grade=PRE_OP, turf=True, fan_rewards=[1700, 680, 425, 255, 170, 153, 136, 119, 102, 85, 68, 51, 43, 34, 26, 17, 17, 17], banner_id=4503),
         RaceData('Kyoto', 'Shigiku Sho', distance=2000, grade=PRE_OP, turf=True, fan_rewards=[1700, 680, 425, 255, 170, 153, 136, 119, 102, 85, 68, 51, 43, 34, 26, 17, 17, 17], banner_id=4504),
         RaceData('Tokyo', 'Platanus Sho', distance=1600, grade=PRE_OP, turf=False, fan_rewards=[1700, 680, 425, 255, 170, 153, 136, 119, 102, 85, 68, 51, 43, 34, 26, 17, 17, 17], banner_id=4505),
     ],
-    46: [
+    19: [
         RaceData('Tokyo', 'Artemis Stakes', distance=1600, grade=G3, turf=True, fan_rewards=[3100, 1240, 775, 465, 310, 279, 248, 217, 186, 155, 124, 93, 78, 62, 47, 31, 31, 31], banner_id=3059),
         RaceData('Tokyo', 'Ivy Stakes', distance=1800, grade=OP, turf=True, fan_rewards=[13000, 5200, 3250, 1950, 1300, 1170, 1040, 910, 780, 650, 520, 390, 325, 260, 195, 130, 130, 130], banner_id=4096),
         RaceData('Kyoto', 'Hagi Stakes', distance=1800, grade=OP, turf=True, fan_rewards=[13000, 5200, 3250, 1950, 1300, 1170, 1040, 910, 780, 650, 520, 390, 325, 260, 195, 130, 130, 130], banner_id=4099),
         RaceData('Kyoto', 'Nadeshiko Sho', distance=1400, grade=PRE_OP, turf=False, fan_rewards=[1700, 680, 425, 255, 170, 153, 136, 119, 102, 85, 68, 51, 43, 34, 26, 17, 17, 17], banner_id=4506),
     ],
-    47: [
+    20: [
         RaceData('Tokyo', 'Keio Hai Junior Stakes', distance=1400, grade=G2, turf=True, fan_rewards=[3900, 1560, 975, 585, 390, 351, 312, 273, 234, 195, 156, 117, 98, 78, 59, 39, 39, 39], banner_id=2030),
         RaceData('Kyoto', 'Daily Hai Junior Stakes', distance=1600, grade=G2, turf=True, fan_rewards=[3900, 1560, 975, 585, 390, 351, 312, 273, 234, 195, 156, 117, 98, 78, 59, 39, 39, 39], banner_id=2032),
         RaceData('Kyoto', 'Fantasy Stakes', distance=1400, grade=G3, turf=True, fan_rewards=[3100, 1240, 775, 465, 310, 279, 248, 217, 186, 155, 124, 93, 78, 62, 47, 31, 31, 31], banner_id=3060),
@@ -50,7 +50,7 @@ SCHEDULES: dict[int, list[RaceData]] = {
         RaceData('Tokyo', 'Oxalis Sho', distance=1400, grade=PRE_OP, turf=False, fan_rewards=[1700, 680, 425, 255, 170, 153, 136, 119, 102, 85, 68, 51, 43, 34, 26, 17, 17, 17], banner_id=4509),
         RaceData('Kyoto', 'Kigiku Sho', distance=2000, grade=PRE_OP, turf=True, fan_rewards=[1700, 680, 425, 255, 170, 153, 136, 119, 102, 85, 68, 51, 43, 34, 26, 17, 17, 17], banner_id=4510),
     ],
-    48: [
+    21: [
         RaceData('Tokyo', 'Tokyo Sports Hai Junior Stakes', distance=1800, grade=G3, turf=True, fan_rewards=[3500, 1400, 875, 525, 350, 315, 280, 245, 210, 175, 140, 105, 88, 70, 53, 35, 35, 35], banner_id=3064),
         RaceData('Kyoto', 'Kyoto Junior Stakes', distance=2000, grade=G3, turf=True, fan_rewards=[3500, 1400, 875, 525, 350, 315, 280, 245, 210, 175, 140, 105, 88, 70, 53, 35, 35, 35], banner_id=3065),
         RaceData('Kyoto', 'Mochinoki Sho', distance=1800, grade=PRE_OP, turf=False, fan_rewards=[1700, 680, 425, 255, 170, 153, 136, 119, 102, 85, 68, 51, 43, 34, 26, 17, 17, 17], banner_id=4511),
@@ -62,7 +62,7 @@ SCHEDULES: dict[int, list[RaceData]] = {
         RaceData('Nakayama', 'Habotan Sho', distance=2000, grade=PRE_OP, turf=True, fan_rewards=[1700, 680, 425, 255, 170, 153, 136, 119, 102, 85, 68, 51, 43, 34, 26, 17, 17, 17], banner_id=4517),
         RaceData('Chukyo', 'Koyamaki Sho', distance=1600, grade=PRE_OP, turf=True, fan_rewards=[1700, 680, 425, 255, 170, 153, 136, 119, 102, 85, 68, 51, 43, 34, 26, 17, 17, 17], banner_id=4518),
     ],
-    49: [
+    22: [
         RaceData('Hanshin', 'Hanshin Juvenile Fillies', distance=1600, grade=G1, turf=True, fan_rewards=[6700, 2680, 1675, 1005, 670, 603, 536, 469, 402, 335, 268, 201, 168, 134, 101, 67, 67, 67], banner_id=1021),
         RaceData('Hanshin', 'Asahi Hai Futurity Stakes', distance=1600, grade=G1, turf=True, fan_rewards=[10000, 4000, 2500, 1500, 1000, 900, 800, 700, 600, 500, 400, 300, 250, 200, 150, 100, 100, 100], banner_id=1022),
         RaceData('Hanshin', 'Manryo Sho', distance=1400, grade=PRE_OP, turf=True, fan_rewards=[1700, 680, 425, 255, 170, 153, 136, 119, 102, 85, 68, 51, 43, 34, 26, 17, 17, 17], banner_id=4519),
@@ -73,49 +73,49 @@ SCHEDULES: dict[int, list[RaceData]] = {
         RaceData('Hanshin', 'Sazanka Sho', distance=1200, grade=PRE_OP, turf=True, fan_rewards=[1700, 680, 425, 255, 170, 153, 136, 119, 102, 85, 68, 51, 43, 34, 26, 17, 17, 17], banner_id=4524),
         RaceData('Chukyo', 'Kantsubaki Sho', distance=1400, grade=PRE_OP, turf=False, fan_rewards=[1700, 680, 425, 255, 170, 153, 136, 119, 102, 85, 68, 51, 43, 34, 26, 17, 17, 17], banner_id=4525),
     ],
-    50: [
+    23: [
         RaceData('Nakayama', 'Hopeful Stakes', distance=2000, grade=G1, turf=True, fan_rewards=[10000, 4000, 2500, 1500, 1000, 900, 800, 700, 600, 500, 400, 300, 250, 200, 150, 100, 100, 100], banner_id=1024),
         RaceData('Kawasaki', 'Zen-Nippon Junior Yushun', distance=1600, grade=G1, turf=False, fan_rewards=[44000, 17600, 11000, 6600, 4400, 3960, 3520, 3080, 2640, 2200, 1760, 1320, 1100, 880, 660, 440, 440, 440, 440, 440], banner_id=1108),
         RaceData('Nakayama', 'Christmas Rose Stakes', distance=1200, grade=OP, turf=True, fan_rewards=[1800, 720, 450, 270, 180, 162, 144, 126, 108, 90, 72, 54, 45, 36, 27, 18, 18, 18], banner_id=4114),
         RaceData('Hanshin', 'Senryo Sho', distance=1600, grade=PRE_OP, turf=True, fan_rewards=[1700, 680, 425, 255, 170, 153, 136, 119, 102, 85, 68, 51, 43, 34, 26, 17, 17, 17], banner_id=4526),
     ],
-    51: [
+    24: [
         RaceData('Kyoto', 'Shinzan Kinen', distance=1600, grade=G3, turf=True, fan_rewards=[3900, 1560, 975, 585, 390, 351, 312, 273, 234, 195, 156, 117, 98, 78, 59, 39, 39, 39], banner_id=3003),
         RaceData('Nakayama', 'Fairy Stakes', distance=1600, grade=G3, turf=True, fan_rewards=[3600, 1440, 900, 540, 360, 324, 288, 252, 216, 180, 144, 108, 90, 72, 54, 36, 36, 36], banner_id=3004),
         RaceData('Nakayama', 'Keisei Hai', distance=2000, grade=G3, turf=True, fan_rewards=[3900, 1560, 975, 585, 390, 351, 312, 273, 234, 195, 156, 117, 98, 78, 59, 39, 39, 39], banner_id=3006),
         RaceData('Nakayama', 'Junior Cup', distance=1600, grade=OP, turf=True, fan_rewards=[2500, 1000, 625, 375, 250, 225, 200, 175, 150, 125, 100, 75, 63, 50, 38, 25, 25, 25], banner_id=4002),
         RaceData('Kyoto', 'Kobai Stakes', distance=1400, grade=OP, turf=True, fan_rewards=[2500, 1000, 625, 375, 250, 225, 200, 175, 150, 125, 100, 75, 63, 50, 38, 25, 25, 25], banner_id=4007),
     ],
-    52: [
+    25: [
         RaceData('Kyoto', 'Wakagoma Stakes', distance=2000, grade=OP, turf=True, fan_rewards=[2500, 1000, 625, 375, 250, 225, 200, 175, 150, 125, 100, 75, 63, 50, 38, 25, 25, 25], banner_id=4009),
         RaceData('Tokyo', 'Crocus Stakes', distance=1400, grade=OP, turf=True, fan_rewards=[2500, 1000, 625, 375, 250, 225, 200, 175, 150, 125, 100, 75, 63, 50, 38, 25, 25, 25], banner_id=4012),
     ],
-    53: [
+    26: [
         RaceData('Kyoto', 'Kisaragi Sho', distance=1800, grade=G3, turf=True, fan_rewards=[3900, 1560, 975, 585, 390, 351, 312, 273, 234, 195, 156, 117, 98, 78, 59, 39, 39, 39], banner_id=3009),
         RaceData('Tokyo', 'Queen Cup', distance=1600, grade=G3, turf=True, fan_rewards=[3600, 1440, 900, 540, 360, 324, 288, 252, 216, 180, 144, 108, 90, 72, 54, 36, 36, 36], banner_id=3011),
         RaceData('Tokyo', 'Kyodo News Hai', distance=1800, grade=G3, turf=True, fan_rewards=[3900, 1560, 975, 585, 390, 351, 312, 273, 234, 195, 156, 117, 98, 78, 59, 39, 39, 39], banner_id=3012),
         RaceData('Kyoto', 'Elfin Stakes', distance=1600, grade=OP, turf=True, fan_rewards=[2500, 1000, 625, 375, 250, 225, 200, 175, 150, 125, 100, 75, 63, 50, 38, 25, 25, 25], banner_id=4014),
     ],
-    54: [
+    27: [
         RaceData('Tokyo', 'Hyacinth Stakes', distance=1600, grade=OP, turf=False, fan_rewards=[2200, 880, 550, 330, 220, 198, 176, 154, 132, 110, 88, 66, 55, 44, 33, 22, 22, 22], banner_id=4018),
         RaceData('Hanshin', 'Sumire Stakes', distance=2200, grade=OP, turf=True, fan_rewards=[2500, 1000, 625, 375, 250, 225, 200, 175, 150, 125, 100, 75, 63, 50, 38, 25, 25, 25], banner_id=4020),
         RaceData('Hanshin', 'Marguerite Stakes', distance=1200, grade=OP, turf=True, fan_rewards=[2500, 1000, 625, 375, 250, 225, 200, 175, 150, 125, 100, 75, 63, 50, 38, 25, 25, 25], banner_id=4032),
     ],
-    55: [
+    28: [
         RaceData('Nakayama', 'Yayoi Sho', distance=2000, grade=G2, turf=True, fan_rewards=[5500, 2200, 1375, 825, 550, 495, 440, 385, 330, 275, 220, 165, 138, 110, 83, 55, 55, 55], banner_id=2006),
         RaceData('Hanshin', "Fillies' Revue", distance=1400, grade=G2, turf=True, fan_rewards=[5400, 2160, 1350, 810, 540, 486, 432, 378, 324, 270, 216, 162, 135, 108, 81, 54, 54, 54], banner_id=2008),
         RaceData('Hanshin', 'Tulip Sho', distance=1600, grade=G2, turf=True, fan_rewards=[5400, 2160, 1350, 810, 540, 486, 432, 378, 324, 270, 216, 162, 135, 108, 81, 54, 54, 54], banner_id=3018),
         RaceData('Nakayama', 'Anemone Stakes', distance=1600, grade=OP, turf=True, fan_rewards=[2500, 1000, 625, 375, 250, 225, 200, 175, 150, 125, 100, 75, 63, 50, 38, 25, 25, 25], banner_id=4024),
         RaceData('Chukyo', 'Shoryu Stakes', distance=1400, grade=OP, turf=False, fan_rewards=[1820, 728, 455, 273, 182, 164, 146, 127, 109, 91, 73, 55, 46, 36, 27, 18, 18, 18], banner_id=4025),
     ],
-    56: [
+    29: [
         RaceData('Nakayama', 'Spring Stakes', distance=1800, grade=G2, turf=True, fan_rewards=[5500, 2200, 1375, 825, 550, 495, 440, 385, 330, 275, 220, 165, 138, 110, 83, 55, 55, 55], banner_id=2010),
         RaceData('Chukyo', 'Falcon Stakes', distance=1400, grade=G3, turf=True, fan_rewards=[3900, 1560, 975, 585, 390, 351, 312, 273, 234, 195, 156, 117, 98, 78, 59, 39, 39, 39], banner_id=3021),
         RaceData('Nakayama', 'Flower Cup', distance=1800, grade=G3, turf=True, fan_rewards=[3600, 1440, 900, 540, 360, 324, 288, 252, 216, 180, 144, 108, 90, 72, 54, 36, 36, 36], banner_id=3022),
         RaceData('Hanshin', 'Mainichi Hai', distance=1800, grade=G3, turf=True, fan_rewards=[3900, 1560, 975, 585, 390, 351, 312, 273, 234, 195, 156, 117, 98, 78, 59, 39, 39, 39], banner_id=3023),
         RaceData('Hanshin', 'Wakaba Stakes', distance=2000, grade=OP, turf=True, fan_rewards=[2500, 1000, 625, 375, 250, 225, 200, 175, 150, 125, 100, 75, 63, 50, 38, 25, 25, 25], banner_id=4027),
     ],
-    57: [
+    30: [
         RaceData('Hanshin', 'Oka Sho', distance=1600, grade=G1, turf=True, fan_rewards=[11000, 4400, 2750, 1650, 1100, 990, 880, 770, 660, 550, 440, 330, 275, 220, 165, 110, 110, 110], banner_id=1004),
         RaceData('Nakayama', 'Satsuki Sho', distance=2000, grade=G1, turf=True, fan_rewards=[12000, 4800, 3000, 1800, 1200, 1080, 960, 840, 720, 600, 480, 360, 300, 240, 180, 120, 120, 120], banner_id=1005),
         RaceData('Nakayama', 'New Zealand Trophy', distance=1600, grade=G2, turf=True, fan_rewards=[5500, 2200, 1375, 825, 550, 495, 440, 385, 330, 275, 220, 165, 138, 110, 83, 55, 55, 55], banner_id=2013),
@@ -124,27 +124,27 @@ SCHEDULES: dict[int, list[RaceData]] = {
         RaceData('Nakayama', 'Fukuryu Stakes', distance=1800, grade=OP, turf=False, fan_rewards=[1820, 728, 455, 273, 182, 164, 146, 127, 109, 91, 73, 55, 46, 36, 27, 18, 18, 18], banner_id=4033),
         RaceData('Hanshin', 'Wasurenagusa Sho', distance=2000, grade=OP, turf=True, fan_rewards=[2500, 1000, 625, 375, 250, 225, 200, 175, 150, 125, 100, 75, 63, 50, 38, 25, 25, 25], banner_id=4035),
     ],
-    58: [
+    31: [
         RaceData('Tokyo', 'Flora Stakes', distance=2000, grade=G2, turf=True, fan_rewards=[5400, 2160, 1350, 810, 540, 486, 432, 378, 324, 270, 216, 162, 135, 108, 81, 54, 54, 54], banner_id=2015),
         RaceData('Tokyo', 'Aoba Sho', distance=2400, grade=G2, turf=True, fan_rewards=[5500, 2200, 1375, 825, 550, 495, 440, 385, 330, 275, 220, 165, 138, 110, 83, 55, 55, 55], banner_id=2016),
         RaceData('Kyoto', 'Tachibana Stakes', distance=1400, grade=OP, turf=True, fan_rewards=[2500, 1000, 625, 375, 250, 225, 200, 175, 150, 125, 100, 75, 63, 50, 38, 25, 25, 25], banner_id=4039),
         RaceData('Kyoto', 'Tango Stakes', distance=1400, grade=OP, turf=False, fan_rewards=[1820, 728, 455, 273, 182, 164, 146, 127, 109, 91, 73, 55, 46, 36, 27, 18, 18, 18], banner_id=4042),
         RaceData('Tokyo', 'Sweetpea Stakes', distance=1800, grade=OP, turf=True, fan_rewards=[2500, 1000, 625, 375, 250, 225, 200, 175, 150, 125, 100, 75, 63, 50, 38, 25, 25, 25], banner_id=4043),
     ],
-    59: [
+    32: [
         RaceData('Tokyo', 'NHK Mile Cup', distance=1600, grade=G1, turf=True, fan_rewards=[11000, 4400, 2750, 1650, 1100, 990, 880, 770, 660, 550, 440, 330, 275, 220, 165, 110, 110, 110], banner_id=1007),
         RaceData('Kyoto', 'Kyoto Shimbun Hai', distance=2200, grade=G2, turf=True, fan_rewards=[5500, 2200, 1375, 825, 550, 495, 440, 385, 330, 275, 220, 165, 138, 110, 83, 55, 55, 55], banner_id=2017),
         RaceData('Tokyo', 'Principal Stakes', distance=2000, grade=OP, turf=True, fan_rewards=[2500, 1000, 625, 375, 250, 225, 200, 175, 150, 125, 100, 75, 63, 50, 38, 25, 25, 25], banner_id=4045),
         RaceData('Tokyo', 'Seiryu Stakes', distance=1600, grade=OP, turf=False, fan_rewards=[1820, 728, 455, 273, 182, 164, 146, 127, 109, 91, 73, 55, 46, 36, 27, 18, 18, 18], banner_id=4052),
     ],
-    60: [
+    33: [
         RaceData('Tokyo', 'Japanese Oaks', distance=2400, grade=G1, turf=True, fan_rewards=[12000, 4800, 3000, 1800, 1200, 1080, 960, 840, 720, 600, 480, 360, 300, 240, 180, 120, 120, 120], banner_id=1009),
-        RaceData('Tokyo', 'Tokyo Yushun (Japanese Derby)', distance=2400, grade=G1, turf=True, fan_rewards=[30000, 12000, 7500, 4500, 3000, 2700, 2400, 2100, 1800, 1500, 1200, 900, 750, 600, 450, 300, 300, 300], banner_id=1010),
+        RaceData('Tokyo', 'Tokyo Yushun', distance=2400, grade=G1, turf=True, fan_rewards=[30000, 12000, 7500, 4500, 3000, 2700, 2400, 2100, 1800, 1500, 1200, 900, 750, 600, 450, 300, 300, 300], banner_id=1010),
         RaceData('Kyoto', 'Aoi Stakes', distance=1200, grade=G3, turf=True, fan_rewards=[3900, 1560, 975, 585, 390, 351, 312, 273, 234, 195, 156, 117, 98, 78, 59, 39, 39, 39], banner_id=4050),
         RaceData('Kyoto', 'Hosu Stakes', distance=1800, grade=OP, turf=False, fan_rewards=[2200, 880, 550, 330, 220, 198, 176, 154, 132, 110, 88, 66, 55, 44, 33, 22, 22, 22], banner_id=4054),
         RaceData('Kyoto', 'Shirayuri Stakes', distance=1800, grade=OP, turf=True, fan_rewards=[2500, 1000, 625, 375, 250, 225, 200, 175, 150, 125, 100, 75, 63, 50, 38, 25, 25, 25], banner_id=4056),
     ],
-    61: [
+    34: [
         RaceData('Tokyo', 'Yasuda Kinen', distance=1600, grade=G1, turf=True, fan_rewards=[13500, 5400, 3375, 2025, 1350, 1215, 1080, 945, 810, 675, 540, 405, 338, 270, 203, 135, 135, 135], banner_id=1011),
         RaceData('Kawasaki', 'Kanto Oaks', distance=2100, grade=G2, turf=False, fan_rewards=[3600, 1440, 900, 540, 360, 324, 288, 252, 216, 180, 144, 108, 90, 72, 54, 36, 36, 36], banner_id=2039),
         RaceData('Hanshin', 'Naruo Kinen', distance=2000, grade=G3, turf=True, fan_rewards=[5200, 2080, 1300, 780, 520, 468, 416, 364, 312, 260, 208, 156, 130, 104, 78, 52, 52, 52], banner_id=3030),
@@ -153,7 +153,7 @@ SCHEDULES: dict[int, list[RaceData]] = {
         RaceData('Hanshin', 'Tempozan Stakes', distance=1400, grade=OP, turf=False, fan_rewards=[2300, 920, 575, 345, 230, 207, 184, 161, 138, 115, 92, 69, 58, 46, 35, 23, 23, 23], banner_id=4060),
         RaceData('Tokyo', 'Sleipnir Stakes', distance=2100, grade=OP, turf=False, fan_rewards=[2300, 920, 575, 345, 230, 207, 184, 161, 138, 115, 92, 69, 58, 46, 35, 23, 23, 23], banner_id=4119),
     ],
-    62: [
+    35: [
         RaceData('Hanshin', 'Takarazuka Kinen', distance=2200, grade=G1, turf=True, fan_rewards=[20000, 8000, 5000, 3000, 2000, 1800, 1600, 1400, 1200, 1000, 800, 600, 500, 400, 300, 200, 200, 200], banner_id=1012),
         RaceData('Tokyo', 'Unicorn Stakes', distance=1600, grade=G3, turf=False, fan_rewards=[3600, 1440, 900, 540, 360, 324, 288, 252, 216, 180, 144, 108, 90, 72, 54, 36, 36, 36], banner_id=3033),
         RaceData('Hakodate', 'Hakodate Sprint Stakes', distance=1200, grade=G3, turf=True, fan_rewards=[4000, 1600, 1000, 600, 400, 360, 320, 280, 240, 200, 160, 120, 100, 80, 60, 40, 40, 40], banner_id=3034),
@@ -163,7 +163,7 @@ SCHEDULES: dict[int, list[RaceData]] = {
         RaceData('Tokyo', 'Paradise Stakes', distance=1400, grade=OP, turf=True, fan_rewards=[2600, 1040, 650, 390, 260, 234, 208, 182, 156, 130, 104, 78, 65, 52, 39, 26, 26, 26], banner_id=4063),
         RaceData('Hanshin', 'Sannomiya Stakes', distance=1800, grade=OP, turf=False, fan_rewards=[2300, 920, 575, 345, 230, 207, 184, 161, 138, 115, 92, 69, 58, 46, 35, 23, 23, 23], banner_id=4120),
     ],
-    63: [
+    36: [
         RaceData('Ooi', 'Japan Dirt Derby', distance=2000, grade=G1, turf=False, fan_rewards=[8000, 3200, 2000, 1200, 800, 720, 640, 560, 480, 400, 320, 240, 200, 160, 120, 80, 80, 80], banner_id=1102),
         RaceData('Chukyo', 'CBC Sho', distance=1200, grade=G3, turf=True, fan_rewards=[4000, 1600, 1000, 600, 400, 360, 320, 280, 240, 200, 160, 120, 100, 80, 60, 40, 40, 40], banner_id=3035),
         RaceData('Fukushima', 'Radio Nikkei Sho', distance=1800, grade=G3, turf=True, fan_rewards=[3900, 1560, 975, 585, 390, 351, 312, 273, 234, 195, 156, 117, 98, 78, 59, 39, 39, 39], banner_id=3036),
@@ -175,14 +175,14 @@ SCHEDULES: dict[int, list[RaceData]] = {
         RaceData('Hakodate', 'Marine Stakes', distance=1700, grade=OP, turf=False, fan_rewards=[2300, 920, 575, 345, 230, 207, 184, 161, 138, 115, 92, 69, 58, 46, 35, 23, 23, 23], banner_id=4065),
         RaceData('Chukyo', 'Meitetsu Hai', distance=1800, grade=OP, turf=False, fan_rewards=[2400, 960, 600, 360, 240, 216, 192, 168, 144, 120, 96, 72, 60, 48, 36, 24, 24, 24], banner_id=4066),
     ],
-    64: [
+    37: [
         RaceData('Chukyo', 'Chukyo Kinen', distance=1600, grade=G3, turf=True, fan_rewards=[4000, 1600, 1000, 600, 400, 360, 320, 280, 240, 200, 160, 120, 100, 80, 60, 40, 40, 40], banner_id=3040),
         RaceData('Niigata', 'Ibis Summer Dash', distance=1000, grade=G3, turf=True, fan_rewards=[4000, 1600, 1000, 600, 400, 360, 320, 280, 240, 200, 160, 120, 100, 80, 60, 40, 40, 40], banner_id=3042),
         RaceData('Sapporo', 'Queen Stakes', distance=1800, grade=G3, turf=True, fan_rewards=[3800, 1520, 950, 570, 380, 342, 304, 266, 228, 190, 152, 114, 95, 76, 57, 38, 38, 38], banner_id=3043),
         RaceData('Morioka', 'Mercury Cup', distance=2000, grade=G3, turf=False, fan_rewards=[2400, 960, 600, 360, 240, 216, 192, 168, 144, 120, 96, 72, 60, 48, 36, 24, 24, 24], banner_id=3076),
         RaceData('Fukushima', 'Fukushima TV Open', distance=1200, grade=OP, turf=True, fan_rewards=[2400, 960, 600, 360, 240, 216, 192, 168, 144, 120, 96, 72, 60, 48, 36, 24, 24, 24], banner_id=4069),
     ],
-    65: [
+    38: [
         RaceData('Kokura', 'Kokura Kinen', distance=2000, grade=G3, turf=True, fan_rewards=[5200, 2080, 1300, 780, 520, 468, 416, 364, 312, 260, 208, 156, 130, 104, 78, 52, 52, 52], banner_id=3044),
         RaceData('Niigata', 'Leopard Stakes', distance=1800, grade=G3, turf=False, fan_rewards=[4100, 1640, 1025, 615, 410, 369, 328, 287, 246, 205, 164, 123, 103, 82, 62, 41, 41, 41], banner_id=3045),
         RaceData('Niigata', 'Sekiya Kinen', distance=1600, grade=G3, turf=True, fan_rewards=[4000, 1600, 1000, 600, 400, 360, 320, 280, 240, 200, 160, 120, 100, 80, 60, 40, 40, 40], banner_id=3046),
@@ -192,7 +192,7 @@ SCHEDULES: dict[int, list[RaceData]] = {
         RaceData('Kokura', 'Aso Stakes', distance=1700, grade=OP, turf=False, fan_rewards=[2300, 920, 575, 345, 230, 207, 184, 161, 138, 115, 92, 69, 58, 46, 35, 23, 23, 23], banner_id=4073),
         RaceData('Niigata', 'Kanetsu Stakes', distance=1800, grade=OP, turf=True, fan_rewards=[2900, 1160, 725, 435, 290, 261, 232, 203, 174, 145, 116, 87, 73, 58, 44, 29, 29, 29], banner_id=4121),
     ],
-    66: [
+    39: [
         RaceData('Sapporo', 'Sapporo Kinen', distance=2000, grade=G2, turf=True, fan_rewards=[5200, 2080, 1300, 780, 520, 468, 416, 364, 312, 260, 208, 156, 130, 104, 78, 52, 26, 5], banner_id=2020),
         RaceData('Kokura', 'Kitakyushu Kinen', distance=1200, grade=G3, turf=True, fan_rewards=[4000, 1600, 1000, 600, 400, 360, 320, 280, 240, 200, 160, 120, 100, 80, 60, 40, 40, 40], banner_id=3048),
         RaceData('Sapporo', 'Keeneland Cup', distance=1200, grade=G3, turf=True, fan_rewards=[5200, 2080, 1300, 780, 520, 468, 416, 364, 312, 260, 208, 156, 130, 104, 78, 52, 52, 52], banner_id=3050),
@@ -202,7 +202,7 @@ SCHEDULES: dict[int, list[RaceData]] = {
         RaceData('Kokura', 'Kokura Nikkei Open', distance=1800, grade=OP, turf=True, fan_rewards=[2900, 1160, 725, 435, 290, 261, 232, 203, 174, 145, 116, 87, 73, 58, 44, 29, 29, 29], banner_id=4080),
         RaceData('Niigata', 'Toki Stakes', distance=1400, grade=OP, turf=True, fan_rewards=[2600, 1040, 650, 390, 260, 234, 208, 182, 156, 130, 104, 78, 65, 52, 39, 26, 26, 26], banner_id=4081),
     ],
-    67: [
+    40: [
         RaceData('Hanshin', 'Centaur Stakes', distance=1200, grade=G2, turf=True, fan_rewards=[6200, 2480, 1550, 930, 620, 558, 496, 434, 372, 310, 248, 186, 155, 124, 93, 62, 62, 62], banner_id=2021),
         RaceData('Hanshin', 'Rose Stakes', distance=1800, grade=G2, turf=True, fan_rewards=[5400, 2160, 1350, 810, 540, 486, 432, 378, 324, 270, 216, 162, 135, 108, 81, 54, 54, 54], banner_id=2022),
         RaceData('Niigata', 'Niigata Kinen', distance=2000, grade=G3, turf=True, fan_rewards=[5200, 2080, 1300, 780, 520, 468, 416, 364, 312, 260, 208, 156, 130, 104, 78, 52, 52, 52], banner_id=3053),
@@ -213,7 +213,7 @@ SCHEDULES: dict[int, list[RaceData]] = {
         RaceData('Nakayama', 'Radio Nippon Sho', distance=1800, grade=OP, turf=False, fan_rewards=[2300, 920, 575, 345, 230, 207, 184, 161, 138, 115, 92, 69, 58, 46, 35, 23, 23, 23], banner_id=4086),
         RaceData('Longchamp', 'Prix Niel', distance=2400, grade=G2, turf=True, fan_rewards=[3000, 1200, 750, 450, 300, 270, 240, 210, 180, 150, 120, 90, 75, 60, 45, 30, 30, 30], banner_id=17201),
     ],
-    68: [
+    41: [
         RaceData('Nakayama', 'Sprinters Stakes', distance=1200, grade=G1, turf=True, fan_rewards=[13500, 5400, 3375, 2025, 1350, 1215, 1080, 945, 810, 675, 540, 405, 338, 270, 203, 135, 135, 135], banner_id=1013),
         RaceData('Nakayama', 'St. Lite Kinen', distance=2200, grade=G2, turf=True, fan_rewards=[5500, 2200, 1375, 825, 550, 495, 440, 385, 330, 275, 220, 165, 138, 110, 83, 55, 55, 55], banner_id=2023),
         RaceData('Hanshin', 'Kobe Shimbun Hai', distance=2400, grade=G2, turf=True, fan_rewards=[5500, 2200, 1375, 825, 550, 495, 440, 385, 330, 275, 220, 165, 138, 110, 83, 55, 55, 55], banner_id=2024),
@@ -223,7 +223,7 @@ SCHEDULES: dict[int, list[RaceData]] = {
         RaceData('Hanshin', 'Port Island Stakes', distance=1600, grade=OP, turf=True, fan_rewards=[2600, 1040, 650, 390, 260, 234, 208, 182, 156, 130, 104, 78, 65, 52, 39, 26, 26, 26], banner_id=4090),
         RaceData('Nakayama', 'Nagatsuki Stakes', distance=1200, grade=OP, turf=False, fan_rewards=[2300, 920, 575, 345, 230, 207, 184, 161, 138, 115, 92, 69, 58, 46, 35, 23, 23, 23], banner_id=4122),
     ],
-    69: [
+    42: [
         RaceData('Morioka', 'M.C. Nambu Hai', distance=1600, grade=G1, turf=False, fan_rewards=[4500, 1800, 1125, 675, 450, 405, 360, 315, 270, 225, 180, 135, 113, 90, 68, 45, 45, 45], banner_id=1110),
         RaceData('Tokyo', 'Mainichi Okan', distance=1800, grade=G2, turf=True, fan_rewards=[7000, 2800, 1750, 1050, 700, 630, 560, 490, 420, 350, 280, 210, 175, 140, 105, 70, 70, 70], banner_id=2026),
         RaceData('Kyoto', 'Kyoto Daishoten', distance=2400, grade=G2, turf=True, fan_rewards=[7000, 2800, 1750, 1050, 700, 630, 560, 490, 420, 350, 280, 210, 175, 140, 105, 70, 70, 70], banner_id=2027),
@@ -236,7 +236,7 @@ SCHEDULES: dict[int, list[RaceData]] = {
         RaceData('Niigata', 'Shinetsu Stakes', distance=1400, grade=OP, turf=True, fan_rewards=[2600, 1040, 650, 390, 260, 234, 208, 182, 156, 130, 104, 78, 65, 52, 39, 26, 26, 26], banner_id=4095),
         RaceData('Kyoto', 'Uzumasa Stakes', distance=1800, grade=OP, turf=False, fan_rewards=[2300, 920, 575, 345, 230, 207, 184, 161, 138, 115, 92, 69, 58, 46, 35, 23, 23, 23], banner_id=4123),
     ],
-    70: [
+    43: [
         RaceData('Kyoto', 'Shuka Sho', distance=2000, grade=G1, turf=True, fan_rewards=[10500, 4200, 2625, 1575, 1050, 945, 840, 735, 630, 525, 420, 315, 263, 210, 158, 105, 105, 105], banner_id=1014),
         RaceData('Kyoto', 'Kikuka Sho', distance=3000, grade=G1, turf=True, fan_rewards=[15000, 6000, 3750, 2250, 1500, 1350, 1200, 1050, 900, 750, 600, 450, 375, 300, 225, 150, 150, 150], banner_id=1015),
         RaceData('Tokyo', 'Tenno Sho (Autumn)', distance=2000, grade=G1, turf=True, fan_rewards=[20000, 8000, 5000, 3000, 2000, 1800, 1600, 1400, 1200, 1000, 800, 600, 500, 400, 300, 200, 200, 200], banner_id=1016),
@@ -247,7 +247,7 @@ SCHEDULES: dict[int, list[RaceData]] = {
         RaceData('Kyoto', 'Cassiopeia Stakes', distance=1800, grade=OP, turf=True, fan_rewards=[3200, 1280, 800, 480, 320, 288, 256, 224, 192, 160, 128, 96, 80, 64, 48, 32, 32, 32], banner_id=4100),
         RaceData('Niigata', 'Lumiere Autumn Dash', distance=1000, grade=OP, turf=True, fan_rewards=[2600, 1040, 650, 390, 260, 234, 208, 182, 156, 130, 104, 78, 65, 52, 39, 26, 26, 26], banner_id=4101),
     ],
-    71: [
+    44: [
         RaceData('Kyoto', 'Queen Elizabeth II Cup', distance=2200, grade=G1, turf=True, fan_rewards=[11000, 4400, 2750, 1650, 1100, 990, 880, 770, 660, 550, 440, 330, 275, 220, 165, 110, 110, 110], banner_id=1017),
         RaceData('Ooi', 'JBC Ladies’ Classic', distance=1800, grade=G1, turf=False, fan_rewards=[5200, 2080, 1300, 780, 520, 468, 416, 364, 312, 260, 208, 156, 130, 104, 78, 52, 52, 52], banner_id=1103),
         RaceData('Ooi', 'JBC Sprint', distance=1200, grade=G1, turf=False, fan_rewards=[4500, 1800, 1125, 675, 450, 405, 360, 315, 270, 225, 180, 135, 113, 90, 68, 45, 45, 45], banner_id=1104),
@@ -258,7 +258,7 @@ SCHEDULES: dict[int, list[RaceData]] = {
         RaceData('Fukushima', 'Fukushima Kinen', distance=2000, grade=G3, turf=True, fan_rewards=[5200, 2080, 1300, 780, 520, 468, 416, 364, 312, 260, 208, 156, 130, 104, 78, 52, 52, 52], banner_id=3063),
         RaceData('Tokyo', 'Oro Cup', distance=1400, grade=OP, turf=True, fan_rewards=[2600, 1040, 650, 390, 260, 234, 208, 182, 156, 130, 104, 78, 65, 52, 39, 26, 26, 26], banner_id=4102),
     ],
-    72: [
+    45: [
         RaceData('Kyoto', 'Mile Championship', distance=1600, grade=G1, turf=True, fan_rewards=[12000, 4800, 3000, 1800, 1200, 1080, 960, 840, 720, 600, 480, 360, 300, 240, 180, 120, 120, 120], banner_id=1018),
         RaceData('Tokyo', 'Japan Cup', distance=2400, grade=G1, turf=True, fan_rewards=[7000, 2800, 1750, 1050, 700, 630, 560, 490, 420, 350, 280, 210, 175, 140, 105, 70, 70, 70], banner_id=1019),
         RaceData('Kyoto', 'Keihan Hai', distance=1200, grade=G3, turf=True, fan_rewards=[4000, 1600, 1000, 600, 400, 360, 320, 280, 240, 200, 160, 120, 100, 80, 60, 40, 40, 40], banner_id=3066),
@@ -268,7 +268,7 @@ SCHEDULES: dict[int, list[RaceData]] = {
         RaceData('Tokyo', 'Capital Stakes', distance=1600, grade=OP, turf=True, fan_rewards=[2600, 1040, 650, 390, 260, 234, 208, 182, 156, 130, 104, 78, 65, 52, 39, 26, 26, 26], banner_id=4107),
         RaceData('Kyoto', 'Autumn Leaf Stakes', distance=1200, grade=OP, turf=False, fan_rewards=[2300, 920, 575, 345, 230, 207, 184, 161, 138, 115, 92, 69, 58, 46, 35, 23, 23, 23], banner_id=4108),
     ],
-    73: [
+    46: [
         RaceData('Chukyo', 'Champions Cup', distance=1800, grade=G1, turf=False, fan_rewards=[10500, 4200, 2625, 1575, 1050, 945, 840, 735, 630, 525, 420, 315, 263, 210, 158, 105, 105, 105], banner_id=1020),
         RaceData('Nakayama', 'Stayers Stakes', distance=3600, grade=G2, turf=True, fan_rewards=[6500, 2600, 1625, 975, 650, 585, 520, 455, 390, 325, 260, 195, 163, 130, 98, 65, 65, 65], banner_id=2033),
         RaceData('Hanshin', 'Challenge Cup', distance=2000, grade=G3, turf=True, fan_rewards=[5200, 2080, 1300, 780, 520, 468, 416, 364, 312, 260, 208, 156, 130, 104, 78, 52, 52, 52], banner_id=3067),
@@ -282,14 +282,14 @@ SCHEDULES: dict[int, list[RaceData]] = {
         RaceData('Hanshin', 'Tanzanite Stakes', distance=1200, grade=OP, turf=True, fan_rewards=[2400, 960, 600, 360, 240, 216, 192, 168, 144, 120, 96, 72, 60, 48, 36, 24, 24, 24], banner_id=4112),
         RaceData('Nakayama', 'December Stakes', distance=1800, grade=OP, turf=True, fan_rewards=[3200, 1280, 800, 480, 320, 288, 256, 224, 192, 160, 128, 96, 80, 64, 48, 32, 32, 32], banner_id=4113),
     ],
-    74: [
+    47: [
         RaceData('Nakayama', 'Arima Kinen', distance=2500, grade=G1, turf=True, fan_rewards=[7000, 2800, 1750, 1050, 700, 630, 560, 490, 420, 350, 280, 210, 175, 140, 105, 70, 70, 70], banner_id=1023),
         RaceData('Ooi', 'Tokyo Daishoten', distance=2000, grade=G1, turf=False, fan_rewards=[1000, 400, 250, 150, 100, 90, 80, 70, 60, 50, 40, 30, 25, 20, 15, 7, 7, 7], banner_id=1106),
         RaceData('Hanshin', 'Hanshin Cup', distance=1400, grade=G2, turf=True, fan_rewards=[7000, 2800, 1750, 1050, 700, 630, 560, 490, 420, 350, 280, 210, 175, 140, 105, 70, 70, 70], banner_id=2034),
         RaceData('Hanshin', 'Galaxy Stakes', distance=1400, grade=OP, turf=False, fan_rewards=[2300, 920, 575, 345, 230, 207, 184, 161, 138, 115, 92, 69, 58, 46, 35, 23, 23, 23], banner_id=4115),
         RaceData('Hanshin', 'Betelgeuse Stakes', distance=1800, grade=OP, turf=False, fan_rewards=[2300, 920, 575, 345, 230, 207, 184, 161, 138, 115, 92, 69, 58, 46, 35, 23, 23, 23], banner_id=4116),
     ],
-    75: [
+    48: [
         RaceData('Kyoto', 'Nikkei Shinshun Hai', distance=2400, grade=G2, turf=True, fan_rewards=[5900, 2360, 1475, 885, 590, 531, 472, 413, 354, 295, 236, 177, 148, 118, 89, 59, 59, 59], banner_id=2001),
         RaceData('Kyoto', 'Kyoto Kimpai', distance=1600, grade=G3, turf=True, fan_rewards=[5200, 2080, 1300, 780, 520, 468, 416, 364, 312, 260, 208, 156, 130, 104, 78, 52, 52, 52], banner_id=3001),
         RaceData('Nakayama', 'Nakayama Kimpai', distance=2000, grade=G3, turf=True, fan_rewards=[5200, 2080, 1300, 780, 520, 468, 416, 364, 312, 260, 208, 156, 130, 104, 78, 52, 52, 52], banner_id=3002),
@@ -301,7 +301,7 @@ SCHEDULES: dict[int, list[RaceData]] = {
         RaceData('Nakayama', 'New Year Stakes', distance=1600, grade=OP, turf=True, fan_rewards=[2600, 1040, 650, 390, 260, 234, 208, 182, 156, 130, 104, 78, 65, 52, 39, 26, 26, 26], banner_id=4006),
         RaceData('Nakayama', 'Carbuncle Stakes', distance=1200, grade=OP, turf=True, fan_rewards=[2400, 960, 600, 360, 240, 216, 192, 168, 144, 120, 96, 72, 60, 48, 36, 24, 24, 24], banner_id=4010),
     ],
-    76: [
+    49: [
         RaceData('Chukyo', 'Tokai Stakes', distance=1800, grade=G2, turf=False, fan_rewards=[5700, 2280, 1425, 855, 570, 513, 456, 399, 342, 285, 228, 171, 143, 114, 86, 57, 57, 57], banner_id=2002),
         RaceData('Nakayama', 'American JCC', distance=2200, grade=G2, turf=True, fan_rewards=[6500, 2600, 1625, 975, 650, 585, 520, 455, 390, 325, 260, 195, 163, 130, 98, 65, 65, 65], banner_id=2003),
         RaceData('Kyoto', 'Silk Road Stakes', distance=1200, grade=G3, turf=True, fan_rewards=[4000, 1600, 1000, 600, 400, 360, 320, 280, 240, 200, 160, 120, 100, 80, 60, 40, 40, 40], banner_id=3007),
@@ -310,7 +310,7 @@ SCHEDULES: dict[int, list[RaceData]] = {
         RaceData('Kyoto', 'Subaru Stakes', distance=1400, grade=OP, turf=False, fan_rewards=[2400, 960, 600, 360, 240, 216, 192, 168, 144, 120, 96, 72, 60, 48, 36, 24, 24, 24], banner_id=4008),
         RaceData('Tokyo', 'Shirafuji Stakes', distance=2000, grade=OP, turf=True, fan_rewards=[3200, 1280, 800, 480, 320, 288, 256, 224, 192, 160, 128, 96, 80, 64, 48, 32, 32, 32], banner_id=4011),
     ],
-    77: [
+    50: [
         RaceData('Kawasaki', 'Kawasaki Kinen', distance=2100, grade=G1, turf=False, fan_rewards=[4500, 1800, 1125, 675, 450, 405, 360, 315, 270, 225, 180, 135, 113, 90, 68, 45, 45, 45], banner_id=1107),
         RaceData('Kyoto', 'Kyoto Kinen', distance=2200, grade=G2, turf=True, fan_rewards=[6500, 2600, 1625, 975, 650, 585, 520, 455, 390, 325, 260, 195, 163, 130, 98, 65, 65, 65], banner_id=2004),
         RaceData('Tokyo', 'Tokyo Shimbun Hai', distance=1600, grade=G3, turf=True, fan_rewards=[4000, 1600, 1000, 600, 400, 360, 320, 280, 240, 200, 160, 120, 100, 80, 60, 40, 40, 40], banner_id=3010),
@@ -319,7 +319,7 @@ SCHEDULES: dict[int, list[RaceData]] = {
         RaceData('Kyoto', 'Aldebaran Stakes', distance=1900, grade=OP, turf=False, fan_rewards=[2300, 920, 575, 345, 230, 207, 184, 161, 138, 115, 92, 69, 58, 46, 35, 23, 23, 23], banner_id=4016),
         RaceData('Tokyo', 'Valentine Stakes', distance=1400, grade=OP, turf=False, fan_rewards=[2300, 920, 575, 345, 230, 207, 184, 161, 138, 115, 92, 69, 58, 46, 35, 23, 23, 23], banner_id=4017),
     ],
-    78: [
+    51: [
         RaceData('Tokyo', 'February Stakes', distance=1600, grade=G1, turf=False, fan_rewards=[10500, 4200, 2625, 1575, 1050, 945, 840, 735, 630, 525, 420, 315, 263, 210, 158, 105, 105, 105], banner_id=1001),
         RaceData('Nakayama', 'Nakayama Kinen', distance=1800, grade=G2, turf=True, fan_rewards=[7000, 2800, 1750, 1050, 700, 630, 560, 490, 420, 350, 280, 210, 175, 140, 105, 70, 70, 70], banner_id=2005),
         RaceData('Kyoto', 'Kyoto Umamusume Stakes', distance=1400, grade=G3, turf=True, fan_rewards=[3800, 1520, 950, 570, 380, 342, 304, 266, 228, 190, 152, 114, 95, 76, 57, 38, 38, 38], banner_id=3013),
@@ -329,7 +329,7 @@ SCHEDULES: dict[int, list[RaceData]] = {
         RaceData('Nakayama', 'Sobu Stakes', distance=1800, grade=OP, turf=False, fan_rewards=[2300, 920, 575, 345, 230, 207, 184, 161, 138, 115, 92, 69, 58, 46, 35, 23, 23, 23], banner_id=4019),
         RaceData('Kokura', 'Kitakyushu Tankyori Stakes', distance=1200, grade=OP, turf=True, fan_rewards=[2400, 960, 600, 360, 240, 216, 192, 168, 144, 120, 96, 72, 60, 48, 36, 24, 24, 24], banner_id=4117),
     ],
-    79: [
+    52: [
         RaceData('Chukyo', 'Kinko Sho', distance=2000, grade=G2, turf=True, fan_rewards=[7000, 2800, 1750, 1050, 700, 630, 560, 490, 420, 350, 280, 210, 175, 140, 105, 70, 70, 70], banner_id=2007),
         RaceData('Kawasaki', 'Empress Hai', distance=2100, grade=G2, turf=False, fan_rewards=[3600, 1440, 900, 540, 360, 324, 288, 252, 216, 180, 144, 108, 90, 72, 54, 36, 36, 36], banner_id=2038),
         RaceData('Nakayama', 'Ocean Stakes', distance=1200, grade=G3, turf=True, fan_rewards=[5200, 2080, 1300, 780, 520, 468, 416, 364, 312, 260, 208, 156, 130, 104, 78, 52, 52, 52], banner_id=3019),
@@ -339,7 +339,7 @@ SCHEDULES: dict[int, list[RaceData]] = {
         RaceData('Hanshin', 'Nigawa Stakes', distance=2000, grade=OP, turf=False, fan_rewards=[2400, 960, 600, 360, 240, 216, 192, 168, 144, 120, 96, 72, 60, 48, 36, 24, 24, 24], banner_id=4023),
         RaceData('Nakayama', 'Kochi Stakes', distance=1600, grade=OP, turf=True, fan_rewards=[2600, 1040, 650, 390, 260, 234, 208, 182, 156, 130, 104, 78, 65, 52, 39, 26, 26, 26], banner_id=4026),
     ],
-    80: [
+    53: [
         RaceData('Chukyo', 'Takamatsunomiya Kinen', distance=1200, grade=G1, turf=True, fan_rewards=[13500, 5400, 3375, 2025, 1350, 1215, 1080, 945, 810, 675, 540, 405, 338, 270, 203, 135, 135, 135], banner_id=1002),
         RaceData('Hanshin', 'Osaka Hai', distance=2000, grade=G1, turf=True, fan_rewards=[2000, 800, 500, 300, 200, 180, 160, 140, 120, 100, 80, 60, 50, 40, 30, 20, 20, 20], banner_id=1003),
         RaceData('Hanshin', 'Hanshin Daishoten', distance=3000, grade=G2, turf=True, fan_rewards=[7000, 2800, 1750, 1050, 700, 630, 560, 490, 420, 350, 280, 210, 175, 140, 105, 70, 70, 70], banner_id=2009),
@@ -349,7 +349,7 @@ SCHEDULES: dict[int, list[RaceData]] = {
         RaceData('Nakayama', 'Chiba Stakes', distance=1200, grade=OP, turf=False, fan_rewards=[2300, 920, 575, 345, 230, 207, 184, 161, 138, 115, 92, 69, 58, 46, 35, 23, 23, 23], banner_id=4028),
         RaceData('Hanshin', 'Rokko Stakes', distance=1600, grade=OP, turf=True, fan_rewards=[2600, 1040, 650, 390, 260, 234, 208, 182, 156, 130, 104, 78, 65, 52, 39, 26, 26, 26], banner_id=4030),
     ],
-    81: [
+    54: [
         RaceData('Hanshin', 'Hanshin Umamusume Stakes', distance=1600, grade=G2, turf=True, fan_rewards=[5700, 2280, 1425, 855, 570, 513, 456, 399, 342, 285, 228, 171, 143, 114, 86, 57, 57, 57], banner_id=2012),
         RaceData('Nakayama', 'Lord Derby Challenge Trophy', distance=1600, grade=G3, turf=True, fan_rewards=[4000, 1600, 1000, 600, 400, 360, 320, 280, 240, 200, 160, 120, 100, 80, 60, 40, 40, 40], banner_id=3025),
         RaceData('Hanshin', 'Antares Stakes', distance=1800, grade=G3, turf=False, fan_rewards=[3800, 1520, 950, 570, 380, 342, 304, 266, 228, 190, 152, 114, 95, 76, 57, 38, 38, 38], banner_id=3026),
@@ -360,7 +360,7 @@ SCHEDULES: dict[int, list[RaceData]] = {
         RaceData('Fukushima', 'Fukushima Mimpo Hai', distance=2000, grade=OP, turf=True, fan_rewards=[3200, 1280, 800, 480, 320, 288, 256, 224, 192, 160, 128, 96, 80, 64, 48, 32, 32, 32], banner_id=4038),
         RaceData('Fukushima', 'Azumakofuji Stakes', distance=1700, grade=OP, turf=False, fan_rewards=[2300, 920, 575, 345, 230, 207, 184, 161, 138, 115, 92, 69, 58, 46, 35, 23, 23, 23], banner_id=4118),
     ],
-    82: [
+    55: [
         RaceData('Kyoto', 'Tenno Sho (Spring)', distance=3200, grade=G1, turf=True, fan_rewards=[20000, 8000, 5000, 3000, 2000, 1800, 1600, 1400, 1200, 1000, 800, 600, 500, 400, 300, 200, 200, 200], banner_id=1006),
         RaceData('Kyoto', 'Milers Cup', distance=1600, grade=G2, turf=True, fan_rewards=[6200, 2480, 1550, 930, 620, 558, 496, 434, 372, 310, 248, 186, 155, 124, 93, 62, 62, 62], banner_id=2014),
         RaceData('Fukushima', 'Fukushima Umamusume Stakes', distance=1800, grade=G3, turf=True, fan_rewards=[3900, 1560, 975, 585, 390, 351, 312, 273, 234, 195, 156, 117, 98, 78, 59, 39, 39, 39], banner_id=3027),
@@ -368,7 +368,7 @@ SCHEDULES: dict[int, list[RaceData]] = {
         RaceData('Tokyo', 'Oasis Stakes', distance=1600, grade=OP, turf=False, fan_rewards=[2400, 960, 600, 360, 240, 216, 192, 168, 144, 120, 96, 72, 60, 48, 36, 24, 24, 24], banner_id=4040),
         RaceData('Kyoto', 'Tennozan Stakes', distance=1200, grade=OP, turf=False, fan_rewards=[2300, 920, 575, 345, 230, 207, 184, 161, 138, 115, 92, 69, 58, 46, 35, 23, 23, 23], banner_id=4041),
     ],
-    83: [
+    56: [
         RaceData('Tokyo', 'Victoria Mile', distance=1600, grade=G1, turf=True, fan_rewards=[11000, 4400, 2750, 1650, 1100, 990, 880, 770, 660, 550, 440, 330, 275, 220, 165, 110, 110, 110], banner_id=1008),
         RaceData('Funabashi', 'Kashiwa Kinen', distance=1600, grade=G1, turf=False, fan_rewards=[1000, 400, 250, 150, 100, 90, 80, 70, 60, 50, 40, 30, 25, 20, 15, 7, 7, 7], banner_id=1109),
         RaceData('Tokyo', 'Keio Hai Spring Cup', distance=1400, grade=G2, turf=True, fan_rewards=[6200, 2480, 1550, 930, 620, 558, 496, 434, 372, 310, 248, 186, 155, 124, 93, 62, 62, 62], banner_id=2018),
@@ -380,7 +380,7 @@ SCHEDULES: dict[int, list[RaceData]] = {
         RaceData('Kyoto', 'Miyakooji Stakes', distance=1800, grade=OP, turf=True, fan_rewards=[3200, 1280, 800, 480, 320, 288, 256, 224, 192, 160, 128, 96, 80, 64, 48, 32, 32, 32], banner_id=4049),
         RaceData('Kyoto', 'Ritto Stakes', distance=1400, grade=OP, turf=False, fan_rewards=[2400, 960, 600, 360, 240, 216, 192, 168, 144, 120, 96, 72, 60, 48, 36, 24, 24, 24], banner_id=4051),
     ],
-    84: [
+    57: [
         RaceData('Tokyo', 'Meguro Kinen', distance=2500, grade=G2, turf=True, fan_rewards=[5900, 2360, 1475, 885, 590, 531, 472, 413, 354, 295, 236, 177, 148, 118, 89, 59, 59, 59], banner_id=2019),
         RaceData('Kyoto', 'Heian Stakes', distance=1900, grade=G3, turf=False, fan_rewards=[3800, 1520, 950, 570, 380, 342, 304, 266, 228, 190, 152, 114, 95, 76, 57, 38, 38, 38], banner_id=3029),
         RaceData('Tokyo', 'May Stakes', distance=1800, grade=OP, turf=True, fan_rewards=[2900, 1160, 725, 435, 290, 261, 232, 203, 174, 145, 116, 87, 73, 58, 44, 29, 29, 29], banner_id=4053),
@@ -388,7 +388,7 @@ SCHEDULES: dict[int, list[RaceData]] = {
         RaceData('Tokyo', 'Keyaki Stakes', distance=1400, grade=OP, turf=False, fan_rewards=[2300, 920, 575, 345, 230, 207, 184, 161, 138, 115, 92, 69, 58, 46, 35, 23, 23, 23], banner_id=4057),
         RaceData('Kyoto', 'Azuchijo Stakes', distance=1400, grade=OP, turf=True, fan_rewards=[2600, 1040, 650, 390, 260, 234, 208, 182, 156, 130, 104, 78, 65, 52, 39, 26, 26, 26], banner_id=4058),
     ],
-    85: [
+    58: [
         RaceData('Tokyo', 'Yasuda Kinen', distance=1600, grade=G1, turf=True, fan_rewards=[13500, 5400, 3375, 2025, 1350, 1215, 1080, 945, 810, 675, 540, 405, 338, 270, 203, 135, 135, 135], banner_id=1011),
         RaceData('Hanshin', 'Naruo Kinen', distance=2000, grade=G3, turf=True, fan_rewards=[5200, 2080, 1300, 780, 520, 468, 416, 364, 312, 260, 208, 156, 130, 104, 78, 52, 52, 52], banner_id=3030),
         RaceData('Hanshin', 'Mermaid Stakes', distance=2000, grade=G3, turf=True, fan_rewards=[3800, 1520, 950, 570, 380, 342, 304, 266, 228, 190, 152, 114, 95, 76, 57, 38, 38, 38], banner_id=3031),
@@ -396,7 +396,7 @@ SCHEDULES: dict[int, list[RaceData]] = {
         RaceData('Hanshin', 'Tempozan Stakes', distance=1400, grade=OP, turf=False, fan_rewards=[2300, 920, 575, 345, 230, 207, 184, 161, 138, 115, 92, 69, 58, 46, 35, 23, 23, 23], banner_id=4060),
         RaceData('Tokyo', 'Sleipnir Stakes', distance=2100, grade=OP, turf=False, fan_rewards=[2300, 920, 575, 345, 230, 207, 184, 161, 138, 115, 92, 69, 58, 46, 35, 23, 23, 23], banner_id=4119),
     ],
-    86: [
+    59: [
         RaceData('Hanshin', 'Takarazuka Kinen', distance=2200, grade=G1, turf=True, fan_rewards=[20000, 8000, 5000, 3000, 2000, 1800, 1600, 1400, 1200, 1000, 800, 600, 500, 400, 300, 200, 200, 200], banner_id=1012),
         RaceData('Ooi', 'Teio Sho', distance=2000, grade=G1, turf=False, fan_rewards=[4500, 1800, 1125, 675, 450, 405, 360, 315, 270, 225, 180, 135, 113, 90, 68, 45, 45, 45], banner_id=1101),
         RaceData('Hakodate', 'Hakodate Sprint Stakes', distance=1200, grade=G3, turf=True, fan_rewards=[4000, 1600, 1000, 600, 400, 360, 320, 280, 240, 200, 160, 120, 100, 80, 60, 40, 40, 40], banner_id=3034),
@@ -406,7 +406,7 @@ SCHEDULES: dict[int, list[RaceData]] = {
         RaceData('Tokyo', 'Paradise Stakes', distance=1400, grade=OP, turf=True, fan_rewards=[2600, 1040, 650, 390, 260, 234, 208, 182, 156, 130, 104, 78, 65, 52, 39, 26, 26, 26], banner_id=4063),
         RaceData('Hanshin', 'Sannomiya Stakes', distance=1800, grade=OP, turf=False, fan_rewards=[2300, 920, 575, 345, 230, 207, 184, 161, 138, 115, 92, 69, 58, 46, 35, 23, 23, 23], banner_id=4120),
     ],
-    87: [
+    60: [
         RaceData('Chukyo', 'CBC Sho', distance=1200, grade=G3, turf=True, fan_rewards=[4000, 1600, 1000, 600, 400, 360, 320, 280, 240, 200, 160, 120, 100, 80, 60, 40, 40, 40], banner_id=3035),
         RaceData('Chukyo', 'Procyon Stakes', distance=1400, grade=G3, turf=False, fan_rewards=[3800, 1520, 950, 570, 380, 342, 304, 266, 228, 190, 152, 114, 95, 76, 57, 38, 38, 38], banner_id=3037),
         RaceData('Fukushima', 'Tanabata Sho', distance=2000, grade=G3, turf=True, fan_rewards=[5200, 2080, 1300, 780, 520, 468, 416, 364, 312, 260, 208, 156, 130, 104, 78, 52, 52, 52], banner_id=3038),
@@ -416,14 +416,14 @@ SCHEDULES: dict[int, list[RaceData]] = {
         RaceData('Hakodate', 'Marine Stakes', distance=1700, grade=OP, turf=False, fan_rewards=[2300, 920, 575, 345, 230, 207, 184, 161, 138, 115, 92, 69, 58, 46, 35, 23, 23, 23], banner_id=4065),
         RaceData('Chukyo', 'Meitetsu Hai', distance=1800, grade=OP, turf=False, fan_rewards=[2400, 960, 600, 360, 240, 216, 192, 168, 144, 120, 96, 72, 60, 48, 36, 24, 24, 24], banner_id=4066),
     ],
-    88: [
+    61: [
         RaceData('Chukyo', 'Chukyo Kinen', distance=1600, grade=G3, turf=True, fan_rewards=[4000, 1600, 1000, 600, 400, 360, 320, 280, 240, 200, 160, 120, 100, 80, 60, 40, 40, 40], banner_id=3040),
         RaceData('Niigata', 'Ibis Summer Dash', distance=1000, grade=G3, turf=True, fan_rewards=[4000, 1600, 1000, 600, 400, 360, 320, 280, 240, 200, 160, 120, 100, 80, 60, 40, 40, 40], banner_id=3042),
         RaceData('Sapporo', 'Queen Stakes', distance=1800, grade=G3, turf=True, fan_rewards=[3800, 1520, 950, 570, 380, 342, 304, 266, 228, 190, 152, 114, 95, 76, 57, 38, 38, 38], banner_id=3043),
         RaceData('Morioka', 'Mercury Cup', distance=2000, grade=G3, turf=False, fan_rewards=[2400, 960, 600, 360, 240, 216, 192, 168, 144, 120, 96, 72, 60, 48, 36, 24, 24, 24], banner_id=3076),
         RaceData('Fukushima', 'Fukushima TV Open', distance=1200, grade=OP, turf=True, fan_rewards=[2400, 960, 600, 360, 240, 216, 192, 168, 144, 120, 96, 72, 60, 48, 36, 24, 24, 24], banner_id=4069),
     ],
-    89: [
+    62: [
         RaceData('Kokura', 'Kokura Kinen', distance=2000, grade=G3, turf=True, fan_rewards=[5200, 2080, 1300, 780, 520, 468, 416, 364, 312, 260, 208, 156, 130, 104, 78, 52, 52, 52], banner_id=3044),
         RaceData('Niigata', 'Sekiya Kinen', distance=1600, grade=G3, turf=True, fan_rewards=[4000, 1600, 1000, 600, 400, 360, 320, 280, 240, 200, 160, 120, 100, 80, 60, 40, 40, 40], banner_id=3046),
         RaceData('Sapporo', 'Elm Stakes', distance=1700, grade=G3, turf=False, fan_rewards=[3800, 1520, 950, 570, 380, 342, 304, 266, 228, 190, 152, 114, 95, 76, 57, 38, 38, 38], banner_id=3047),
@@ -432,7 +432,7 @@ SCHEDULES: dict[int, list[RaceData]] = {
         RaceData('Kokura', 'Aso Stakes', distance=1700, grade=OP, turf=False, fan_rewards=[2300, 920, 575, 345, 230, 207, 184, 161, 138, 115, 92, 69, 58, 46, 35, 23, 23, 23], banner_id=4073),
         RaceData('Niigata', 'Kanetsu Stakes', distance=1800, grade=OP, turf=True, fan_rewards=[2900, 1160, 725, 435, 290, 261, 232, 203, 174, 145, 116, 87, 73, 58, 44, 29, 29, 29], banner_id=4121),
     ],
-    90: [
+    63: [
         RaceData('Sapporo', 'Sapporo Kinen', distance=2000, grade=G2, turf=True, fan_rewards=[5200, 2080, 1300, 780, 520, 468, 416, 364, 312, 260, 208, 156, 130, 104, 78, 52, 26, 5], banner_id=2020),
         RaceData('Kokura', 'Kitakyushu Kinen', distance=1200, grade=G3, turf=True, fan_rewards=[4000, 1600, 1000, 600, 400, 360, 320, 280, 240, 200, 160, 120, 100, 80, 60, 40, 40, 40], banner_id=3048),
         RaceData('Sapporo', 'Keeneland Cup', distance=1200, grade=G3, turf=True, fan_rewards=[5200, 2080, 1300, 780, 520, 468, 416, 364, 312, 260, 208, 156, 130, 104, 78, 52, 52, 52], banner_id=3050),
@@ -442,7 +442,7 @@ SCHEDULES: dict[int, list[RaceData]] = {
         RaceData('Kokura', 'Kokura Nikkei Open', distance=1800, grade=OP, turf=True, fan_rewards=[2900, 1160, 725, 435, 290, 261, 232, 203, 174, 145, 116, 87, 73, 58, 44, 29, 29, 29], banner_id=4080),
         RaceData('Niigata', 'Toki Stakes', distance=1400, grade=OP, turf=True, fan_rewards=[2600, 1040, 650, 390, 260, 234, 208, 182, 156, 130, 104, 78, 65, 52, 39, 26, 26, 26], banner_id=4081),
     ],
-    91: [
+    64: [
         RaceData('Hanshin', 'Centaur Stakes', distance=1200, grade=G2, turf=True, fan_rewards=[6200, 2480, 1550, 930, 620, 558, 496, 434, 372, 310, 248, 186, 155, 124, 93, 62, 62, 62], banner_id=2021),
         RaceData('Niigata', 'Niigata Kinen', distance=2000, grade=G3, turf=True, fan_rewards=[5200, 2080, 1300, 780, 520, 468, 416, 364, 312, 260, 208, 156, 130, 104, 78, 52, 52, 52], banner_id=3053),
         RaceData('Nakayama', 'Keisei Hai Autumn Handicap', distance=1600, grade=G3, turf=True, fan_rewards=[4000, 1600, 1000, 600, 400, 360, 320, 280, 240, 200, 160, 120, 100, 80, 60, 40, 40, 40], banner_id=3055),
@@ -451,7 +451,7 @@ SCHEDULES: dict[int, list[RaceData]] = {
         RaceData('Nakayama', 'Radio Nippon Sho', distance=1800, grade=OP, turf=False, fan_rewards=[2300, 920, 575, 345, 230, 207, 184, 161, 138, 115, 92, 69, 58, 46, 35, 23, 23, 23], banner_id=4086),
         RaceData('Longchamp', 'Prix Foy', distance=2400, grade=G2, turf=True, fan_rewards=[3000, 1200, 750, 450, 300, 270, 240, 210, 180, 150, 120, 90, 75, 60, 45, 30, 30, 30], banner_id=17202),
     ],
-    92: [
+    65: [
         RaceData('Nakayama', 'Sprinters Stakes', distance=1200, grade=G1, turf=True, fan_rewards=[13500, 5400, 3375, 2025, 1350, 1215, 1080, 945, 810, 675, 540, 405, 338, 270, 203, 135, 135, 135], banner_id=1013),
         RaceData('Nakayama', 'All Comers', distance=2200, grade=G2, turf=True, fan_rewards=[7000, 2800, 1750, 1050, 700, 630, 560, 490, 420, 350, 280, 210, 175, 140, 105, 70, 70, 70], banner_id=2025),
         RaceData('Funabashi', 'Sazanka TV Hai', distance=1800, grade=G2, turf=False, fan_rewards=[2700, 1080, 675, 405, 270, 243, 216, 189, 162, 135, 108, 81, 68, 54, 41, 27, 27, 27], banner_id=2041),
@@ -459,7 +459,7 @@ SCHEDULES: dict[int, list[RaceData]] = {
         RaceData('Hanshin', 'Port Island Stakes', distance=1600, grade=OP, turf=True, fan_rewards=[2600, 1040, 650, 390, 260, 234, 208, 182, 156, 130, 104, 78, 65, 52, 39, 26, 26, 26], banner_id=4090),
         RaceData('Nakayama', 'Nagatsuki Stakes', distance=1200, grade=OP, turf=False, fan_rewards=[2300, 920, 575, 345, 230, 207, 184, 161, 138, 115, 92, 69, 58, 46, 35, 23, 23, 23], banner_id=4122),
     ],
-    93: [
+    66: [
         RaceData('Morioka', 'M.C. Nambu Hai', distance=1600, grade=G1, turf=False, fan_rewards=[4500, 1800, 1125, 675, 450, 405, 360, 315, 270, 225, 180, 135, 113, 90, 68, 45, 45, 45], banner_id=1110),
         RaceData('Tokyo', 'Mainichi Okan', distance=1800, grade=G2, turf=True, fan_rewards=[7000, 2800, 1750, 1050, 700, 630, 560, 490, 420, 350, 280, 210, 175, 140, 105, 70, 70, 70], banner_id=2026),
         RaceData('Kyoto', 'Kyoto Daishoten', distance=2400, grade=G2, turf=True, fan_rewards=[7000, 2800, 1750, 1050, 700, 630, 560, 490, 420, 350, 280, 210, 175, 140, 105, 70, 70, 70], banner_id=2027),
@@ -472,7 +472,7 @@ SCHEDULES: dict[int, list[RaceData]] = {
         RaceData('Niigata', 'Shinetsu Stakes', distance=1400, grade=OP, turf=True, fan_rewards=[2600, 1040, 650, 390, 260, 234, 208, 182, 156, 130, 104, 78, 65, 52, 39, 26, 26, 26], banner_id=4095),
         RaceData('Kyoto', 'Uzumasa Stakes', distance=1800, grade=OP, turf=False, fan_rewards=[2300, 920, 575, 345, 230, 207, 184, 161, 138, 115, 92, 69, 58, 46, 35, 23, 23, 23], banner_id=4123),
     ],
-    94: [
+    67: [
         RaceData('Tokyo', 'Tenno Sho (Autumn)', distance=2000, grade=G1, turf=True, fan_rewards=[20000, 8000, 5000, 3000, 2000, 1800, 1600, 1400, 1200, 1000, 800, 600, 500, 400, 300, 200, 200, 200], banner_id=1016),
         RaceData('Kyoto', 'Swan Stakes', distance=1400, grade=G2, turf=True, fan_rewards=[6200, 2480, 1550, 930, 620, 558, 496, 434, 372, 310, 248, 186, 155, 124, 93, 62, 62, 62], banner_id=2029),
         RaceData('Tokyo', 'Fuji Stakes', distance=1600, grade=G2, turf=True, fan_rewards=[6200, 2480, 1550, 930, 620, 558, 496, 434, 372, 310, 248, 186, 155, 124, 93, 62, 62, 62], banner_id=3058),
@@ -481,7 +481,7 @@ SCHEDULES: dict[int, list[RaceData]] = {
         RaceData('Kyoto', 'Cassiopeia Stakes', distance=1800, grade=OP, turf=True, fan_rewards=[3200, 1280, 800, 480, 320, 288, 256, 224, 192, 160, 128, 96, 80, 64, 48, 32, 32, 32], banner_id=4100),
         RaceData('Niigata', 'Lumiere Autumn Dash', distance=1000, grade=OP, turf=True, fan_rewards=[2600, 1040, 650, 390, 260, 234, 208, 182, 156, 130, 104, 78, 65, 52, 39, 26, 26, 26], banner_id=4101),
     ],
-    95: [
+    68: [
         RaceData('Kyoto', 'Queen Elizabeth II Cup', distance=2200, grade=G1, turf=True, fan_rewards=[11000, 4400, 2750, 1650, 1100, 990, 880, 770, 660, 550, 440, 330, 275, 220, 165, 110, 110, 110], banner_id=1017),
         RaceData('Ooi', 'JBC Ladies’ Classic', distance=1800, grade=G1, turf=False, fan_rewards=[5200, 2080, 1300, 780, 520, 468, 416, 364, 312, 260, 208, 156, 130, 104, 78, 52, 52, 52], banner_id=1103),
         RaceData('Ooi', 'JBC Sprint', distance=1200, grade=G1, turf=False, fan_rewards=[4500, 1800, 1125, 675, 450, 405, 360, 315, 270, 225, 180, 135, 113, 90, 68, 45, 45, 45], banner_id=1104),
@@ -492,7 +492,7 @@ SCHEDULES: dict[int, list[RaceData]] = {
         RaceData('Fukushima', 'Fukushima Kinen', distance=2000, grade=G3, turf=True, fan_rewards=[5200, 2080, 1300, 780, 520, 468, 416, 364, 312, 260, 208, 156, 130, 104, 78, 52, 52, 52], banner_id=3063),
         RaceData('Tokyo', 'Oro Cup', distance=1400, grade=OP, turf=True, fan_rewards=[2600, 1040, 650, 390, 260, 234, 208, 182, 156, 130, 104, 78, 65, 52, 39, 26, 26, 26], banner_id=4102),
     ],
-    96: [
+    69: [
         RaceData('Kyoto', 'Mile Championship', distance=1600, grade=G1, turf=True, fan_rewards=[12000, 4800, 3000, 1800, 1200, 1080, 960, 840, 720, 600, 480, 360, 300, 240, 180, 120, 120, 120], banner_id=1018),
         RaceData('Tokyo', 'Japan Cup', distance=2400, grade=G1, turf=True, fan_rewards=[7000, 2800, 1750, 1050, 700, 630, 560, 490, 420, 350, 280, 210, 175, 140, 105, 70, 70, 70], banner_id=1019),
         RaceData('Kyoto', 'Keihan Hai', distance=1200, grade=G3, turf=True, fan_rewards=[4000, 1600, 1000, 600, 400, 360, 320, 280, 240, 200, 160, 120, 100, 80, 60, 40, 40, 40], banner_id=3066),
@@ -502,7 +502,7 @@ SCHEDULES: dict[int, list[RaceData]] = {
         RaceData('Tokyo', 'Capital Stakes', distance=1600, grade=OP, turf=True, fan_rewards=[2600, 1040, 650, 390, 260, 234, 208, 182, 156, 130, 104, 78, 65, 52, 39, 26, 26, 26], banner_id=4107),
         RaceData('Kyoto', 'Autumn Leaf Stakes', distance=1200, grade=OP, turf=False, fan_rewards=[2300, 920, 575, 345, 230, 207, 184, 161, 138, 115, 92, 69, 58, 46, 35, 23, 23, 23], banner_id=4108),
     ],
-    97: [
+    70: [
         RaceData('Chukyo', 'Champions Cup', distance=1800, grade=G1, turf=False, fan_rewards=[10500, 4200, 2625, 1575, 1050, 945, 840, 735, 630, 525, 420, 315, 263, 210, 158, 105, 105, 105], banner_id=1020),
         RaceData('Nakayama', 'Stayers Stakes', distance=3600, grade=G2, turf=True, fan_rewards=[6500, 2600, 1625, 975, 650, 585, 520, 455, 390, 325, 260, 195, 163, 130, 98, 65, 65, 65], banner_id=2033),
         RaceData('Hanshin', 'Challenge Cup', distance=2000, grade=G3, turf=True, fan_rewards=[5200, 2080, 1300, 780, 520, 468, 416, 364, 312, 260, 208, 156, 130, 104, 78, 52, 52, 52], banner_id=3067),
@@ -516,7 +516,7 @@ SCHEDULES: dict[int, list[RaceData]] = {
         RaceData('Hanshin', 'Tanzanite Stakes', distance=1200, grade=OP, turf=True, fan_rewards=[2400, 960, 600, 360, 240, 216, 192, 168, 144, 120, 96, 72, 60, 48, 36, 24, 24, 24], banner_id=4112),
         RaceData('Nakayama', 'December Stakes', distance=1800, grade=OP, turf=True, fan_rewards=[3200, 1280, 800, 480, 320, 288, 256, 224, 192, 160, 128, 96, 80, 64, 48, 32, 32, 32], banner_id=4113),
     ],
-    98: [
+    71: [
         RaceData('Nakayama', 'Arima Kinen', distance=2500, grade=G1, turf=True, fan_rewards=[7000, 2800, 1750, 1050, 700, 630, 560, 490, 420, 350, 280, 210, 175, 140, 105, 70, 70, 70], banner_id=1023),
         RaceData('Ooi', 'Tokyo Daishoten', distance=2000, grade=G1, turf=False, fan_rewards=[1000, 400, 250, 150, 100, 90, 80, 70, 60, 50, 40, 30, 25, 20, 15, 7, 7, 7], banner_id=1106),
         RaceData('Hanshin', 'Hanshin Cup', distance=1400, grade=G2, turf=True, fan_rewards=[7000, 2800, 1750, 1050, 700, 630, 560, 490, 420, 350, 280, 210, 175, 140, 105, 70, 70, 70], banner_id=2034),

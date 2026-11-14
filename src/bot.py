@@ -199,7 +199,7 @@ class Uma(bridge.Bot):
 
         await self.process_application_commands(interaction)
     def get_em(self, emoji_name, default=None):
-        return view_state.emojis.get(emoji_name, default)
+        return self.em.get(emoji_name, default)
 
     def get_em_url(self, emoji_name):
         em = self.get_em(emoji_name)
